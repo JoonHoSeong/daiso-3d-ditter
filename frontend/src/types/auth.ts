@@ -4,6 +4,7 @@ export interface User {
   username: string;
   provider?: 'local' | 'google' | 'kakao';
   avatar_url?: string;
+  role?: 'admin' | 'user';
   created_at?: string;
 }
 

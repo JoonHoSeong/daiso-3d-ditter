@@ -35,7 +35,7 @@ def init_db():
     )
     """)
 
-    # Migrate columns if existing table lacks social fields
+    # Migrate columns if existing table lacks social or role fields
     cursor.execute("PRAGMA table_info(users)")
     user_cols = [r[1] for r in cursor.fetchall()]
     if "provider" not in user_cols:
@@ -44,6 +44,11 @@ def init_db():
         cursor.execute("ALTER TABLE users ADD COLUMN provider_id TEXT DEFAULT ''")
     if "avatar_url" not in user_cols:
         cursor.execute("ALTER TABLE users ADD COLUMN avatar_url TEXT DEFAULT ''")
+    if "role" not in user_cols:
+        cursor.execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'")
+
+    # Seed or sync default Administrator Account
+    ensure_admin_user(cursor)
 
     # 2. User sessions / tokens table
     cursor.execute("""
@@ -87,6 +92,42 @@ def hash_password(password: str, salt: Optional[str] = None) -> tuple[str, str]:
     ).hex()
     return pw_hash, salt
 
+def ensure_admin_user(cursor=None):
+    admin_email = "joonho1366@gmail.com"
+    admin_pw = "StrongPassword123!"
+    admin_username = "관리자 (Joonho)"
+
+    close_conn = False
+    if cursor is None:
+        conn = get_connection()
+        cursor = conn.cursor()
+        close_conn = True
+    else:
+        conn = cursor.connection
+
+    pw_hash, salt = hash_password(admin_pw)
+    now = datetime.now().isoformat()
+
+    cursor.execute("SELECT id, email FROM users WHERE email = ?", (admin_email,))
+    existing = cursor.fetchone()
+    if existing:
+        cursor.execute(
+            "UPDATE users SET password_hash = ?, salt = ?, role = 'admin', username = ? WHERE email = ?",
+            (pw_hash, salt, admin_username, admin_email)
+        )
+    else:
+        admin_id = str(uuid.uuid4())
+        cursor.execute(
+            """
+            INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, role, created_at)
+            VALUES (?, ?, ?, ?, ?, 'local', '', '', 'admin', ?)
+            """,
+            (admin_id, admin_email, admin_username, pw_hash, salt, now)
+        )
+    conn.commit()
+    if close_conn:
+        conn.close()
+
 def create_user(email: str, username: str, password: str) -> Dict[str, Any]:
     email = email.strip().lower()
     username = username.strip()
@@ -101,11 +142,11 @@ def create_user(email: str, username: str, password: str) -> Dict[str, Any]:
     try:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, created_at) VALUES (?, ?, ?, ?, ?, 'local', '', '', ?)",
+            "INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, role, created_at) VALUES (?, ?, ?, ?, ?, 'local', '', '', 'user', ?)",
             (user_id, email, username, pw_hash, salt, now)
         )
         conn.commit()
-        return {"id": user_id, "email": email, "username": username, "provider": "local", "avatar_url": "", "created_at": now}
+        return {"id": user_id, "email": email, "username": username, "provider": "local", "avatar_url": "", "role": "user", "created_at": now}
     except sqlite3.IntegrityError:
         raise ValueError("이미 가입된 이메일 주소입니다.")
     finally:
@@ -115,7 +156,7 @@ def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
     email = email.strip().lower()
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, email, username, password_hash, salt, provider, avatar_url FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT id, email, username, password_hash, salt, provider, avatar_url, role FROM users WHERE email = ?", (email,))
     row = cursor.fetchone()
     conn.close()
 
@@ -129,10 +170,11 @@ def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
     salt = row['salt']
     provider = row['provider'] if 'provider' in row.keys() else 'local'
     avatar_url = row['avatar_url'] if 'avatar_url' in row.keys() else ''
+    role = row['role'] if 'role' in row.keys() else 'user'
 
     calc_hash, _ = hash_password(password, salt)
     if calc_hash == stored_hash:
-        return {"id": user_id, "email": db_email, "username": username, "provider": provider, "avatar_url": avatar_url}
+        return {"id": user_id, "email": db_email, "username": username, "provider": provider, "avatar_url": avatar_url, "role": role}
     return None
 
 def find_or_create_social_user(
@@ -156,7 +198,7 @@ def find_or_create_social_user(
     # 1. Check by (provider, provider_id) if provider_id is provided
     if provider_id:
         cursor.execute(
-            "SELECT id, email, username, provider, avatar_url, created_at FROM users WHERE provider = ? AND provider_id = ?",
+            "SELECT id, email, username, provider, avatar_url, role, created_at FROM users WHERE provider = ? AND provider_id = ?",
             (provider, provider_id)
         )
         row = cursor.fetchone()
@@ -172,12 +214,13 @@ def find_or_create_social_user(
                 "username": row['username'],
                 "provider": row['provider'],
                 "avatar_url": avatar_url or row['avatar_url'],
+                "role": row['role'] if 'role' in row.keys() else 'user',
                 "created_at": row['created_at']
             }
 
     # 2. Check by email
     cursor.execute(
-        "SELECT id, email, username, provider, provider_id, avatar_url, created_at FROM users WHERE email = ?",
+        "SELECT id, email, username, provider, provider_id, avatar_url, role, created_at FROM users WHERE email = ?",
         (email,)
     )
     row = cursor.fetchone()
@@ -208,6 +251,7 @@ def find_or_create_social_user(
             "username": row['username'],
             "provider": provider if update_fields else (row['provider'] or 'local'),
             "avatar_url": avatar_url or (row['avatar_url'] or ""),
+            "role": row['role'] if 'role' in row.keys() else 'user',
             "created_at": row['created_at']
         }
 
@@ -215,8 +259,8 @@ def find_or_create_social_user(
     user_id = str(uuid.uuid4())
     cursor.execute(
         """
-        INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, created_at)
-        VALUES (?, ?, ?, '', '', ?, ?, ?, ?)
+        INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, role, created_at)
+        VALUES (?, ?, ?, '', '', ?, ?, ?, 'user', ?)
         """,
         (user_id, email, username, provider, provider_id, avatar_url, now)
     )
@@ -228,6 +272,7 @@ def find_or_create_social_user(
         "username": username,
         "provider": provider,
         "avatar_url": avatar_url,
+        "role": "user",
         "created_at": now
     }
 
@@ -247,7 +292,7 @@ def get_user_by_token(token: str) -> Optional[Dict[str, Any]]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT u.id, u.email, u.username, u.provider, u.avatar_url, u.created_at
+        SELECT u.id, u.email, u.username, u.provider, u.avatar_url, u.role, u.created_at
         FROM users u
         JOIN user_tokens t ON u.id = t.user_id
         WHERE t.token = ?
@@ -261,6 +306,7 @@ def get_user_by_token(token: str) -> Optional[Dict[str, Any]]:
             "username": row['username'],
             "provider": row['provider'] if 'provider' in row.keys() else 'local',
             "avatar_url": row['avatar_url'] if 'avatar_url' in row.keys() else '',
+            "role": row['role'] if 'role' in row.keys() else 'user',
             "created_at": row['created_at']
         }
     return None
@@ -361,6 +407,131 @@ def delete_user_drawer(user_id: str, drawer_id: str) -> bool:
     conn.commit()
     conn.close()
     return affected > 0
+
+# ==========================================
+# Admin Management Functions
+# ==========================================
+def admin_get_all_users(search: Optional[str] = None, provider: Optional[str] = None) -> List[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    query = """
+        SELECT u.id, u.email, u.username, u.provider, u.avatar_url, u.role, u.created_at,
+               COUNT(d.id) as saved_drawers_count
+        FROM users u
+        LEFT JOIN saved_drawers d ON u.id = d.user_id
+    """
+    conditions = []
+    params = []
+
+    if search:
+        s = f"%{search.strip().lower()}%"
+        conditions.append("(LOWER(u.email) LIKE ? OR LOWER(u.username) LIKE ?)")
+        params.extend([s, s])
+
+    if provider and provider != 'all':
+        conditions.append("u.provider = ?")
+        params.append(provider.strip().lower())
+
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+
+    query += " GROUP BY u.id ORDER BY u.created_at DESC"
+
+    cursor.execute(query, tuple(params))
+    rows = cursor.fetchall()
+    conn.close()
+
+    return [
+        {
+            "id": r['id'],
+            "email": r['email'],
+            "username": r['username'],
+            "provider": r['provider'] or 'local',
+            "avatar_url": r['avatar_url'] or '',
+            "role": r['role'] or 'user',
+            "saved_drawers_count": r['saved_drawers_count'],
+            "created_at": r['created_at']
+        }
+        for r in rows
+    ]
+
+def admin_get_stats() -> Dict[str, Any]:
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM users")
+    total_users = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM users WHERE role = 'admin'")
+    admin_users = cursor.fetchone()[0]
+
+    cursor.execute("SELECT provider, COUNT(*) FROM users GROUP BY provider")
+    provider_counts = {r[0] or 'local': r[1] for r in cursor.fetchall()}
+
+    cursor.execute("SELECT COUNT(*) FROM saved_drawers")
+    total_saved_drawers = cursor.fetchone()[0]
+
+    conn.close()
+
+    return {
+        "total_users": total_users,
+        "admin_users": admin_users,
+        "total_saved_drawers": total_saved_drawers,
+        "providers": {
+            "local": provider_counts.get("local", 0),
+            "google": provider_counts.get("google", 0),
+            "kakao": provider_counts.get("kakao", 0)
+        }
+    }
+
+def admin_update_user_role(user_id: str, new_role: str) -> bool:
+    if new_role not in ('admin', 'user'):
+        raise ValueError("역할은 'admin' 또는 'user'만 가능합니다.")
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Prevent demoting the super admin
+    cursor.execute("SELECT email FROM users WHERE id = ?", (user_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return False
+    if row['email'] == 'joonho1366@gmail.com' and new_role != 'admin':
+        conn.close()
+        raise ValueError("최고 관리자(joonho1366@gmail.com)의 권한은 해제할 수 없습니다.")
+
+    cursor.execute("UPDATE users SET role = ? WHERE id = ?", (new_role, user_id))
+    affected = cursor.rowcount
+    conn.commit()
+    conn.close()
+    return affected > 0
+
+def admin_delete_user(user_id: str, current_admin_id: str) -> bool:
+    if user_id == current_admin_id:
+        raise ValueError("본인 계정은 삭제할 수 없습니다.")
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT email FROM users WHERE id = ?", (user_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return False
+    if row['email'] == 'joonho1366@gmail.com':
+        conn.close()
+        raise ValueError("최고 관리자 계정은 삭제할 수 없습니다.")
+
+    cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+    affected = cursor.rowcount
+    conn.commit()
+    conn.close()
+    return affected > 0
+
+def admin_get_user_drawers(user_id: str) -> List[Dict[str, Any]]:
+    return get_user_saved_drawers(user_id)
 
 # Initialize DB on load
 init_db()

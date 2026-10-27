@@ -7,6 +7,7 @@ import { ProductImageModal } from './components/ProductImageModal';
 import { AuthModal } from './components/AuthModal';
 import { SaveDrawerModal } from './components/SaveDrawerModal';
 import { ExportShoppingListModal } from './components/ExportShoppingListModal';
+import { AdminUsersModal } from './components/AdminUsersModal';
 import {
   DAISO_PRODUCTS,
   DrawerDimension,
@@ -84,6 +85,7 @@ export const App: React.FC = () => {
 
   // Modals state
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
   const [isSaveDrawerModalOpen, setIsSaveDrawerModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isFillGoodsModalOpen, setIsFillGoodsModalOpen] = useState<boolean>(false);
@@ -999,6 +1001,7 @@ export const App: React.FC = () => {
         user={user}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
+        onOpenAdminModal={() => setIsAdminModalOpen(true)}
         onOpenFridgeModal={() => setIsFridgeModalOpen(true)}
         onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
         onOpenPresetModal={() => setIsPresetModalOpen(true)}
@@ -1216,6 +1219,16 @@ export const App: React.FC = () => {
         onClose={() => setIsAuthModalOpen(false)}
         onSuccess={handleAuthSuccess}
       />
+
+      {/* Admin User Management Dashboard Modal */}
+      {user?.role === 'admin' && (
+        <AdminUsersModal
+          isOpen={isAdminModalOpen}
+          onClose={() => setIsAdminModalOpen(false)}
+          authToken={token || ''}
+          currentUserId={user.id}
+        />
+      )}
 
       {/* Save Custom Drawer Modal */}
       <SaveDrawerModal

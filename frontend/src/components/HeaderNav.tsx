@@ -18,7 +18,8 @@ import {
   MoreHorizontal,
   ChevronDown,
   X,
-  Layers
+  Layers,
+  Shield
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
 
@@ -46,6 +47,7 @@ interface HeaderNavProps {
   user: User | null;
   onOpenAuthModal: () => void;
   onLogout: () => void;
+  onOpenAdminModal?: () => void;
   onOpenFridgeModal?: () => void;
   onOpenPurposeModal?: () => void;
   onOpenPresetModal?: () => void;
@@ -83,6 +85,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   user,
   onOpenAuthModal,
   onLogout,
+  onOpenAdminModal,
   onOpenFridgeModal,
   onOpenPurposeModal,
   onOpenPresetModal,
@@ -627,6 +630,18 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </button>
         )}
 
+        {/* Admin Dashboard Button (Only visible for admin accounts) */}
+        {user?.role === 'admin' && onOpenAdminModal && (
+          <button
+            onClick={onOpenAdminModal}
+            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shadow-xs active:scale-95 shrink-0"
+            title="회원 관리 대시보드 열기"
+          >
+            <Shield size={13} className="text-purple-200" />
+            <span className="hidden sm:inline">회원 관리</span>
+          </button>
+        )}
+
         {/* Direct Auth / User Profile Button (Prominent & immediately visible) */}
         {user ? (
           <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs">
@@ -650,6 +665,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               </div>
             )}
             <span className="hidden sm:inline max-w-[80px] truncate">{user.username}님</span>
+            {user.role === 'admin' && (
+              <span className="hidden md:inline text-[9px] px-1 py-0.2 rounded font-extrabold bg-purple-100 text-purple-800 border border-purple-200">
+                Admin
+              </span>
+            )}
             {user.provider && user.provider !== 'local' && (
               <span className={`hidden md:inline text-[9px] px-1 py-0.2 rounded font-semibold ${
                 user.provider === 'kakao' ? 'bg-amber-100 text-amber-800' : 'bg-blue-50 text-blue-700'
@@ -803,6 +823,20 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <RotateCcw size={13} />
                 <span>서랍 전체 비우기</span>
               </button>
+
+              {/* Admin Dashboard in Menu */}
+              {user?.role === 'admin' && onOpenAdminModal && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenAdminModal();
+                  }}
+                  className="w-full px-3.5 py-2 text-left text-xs font-bold hover:bg-purple-50 text-purple-700 flex items-center space-x-2 border-t border-purple-100 bg-purple-50/40"
+                >
+                  <Shield size={13} className="text-purple-600" />
+                  <span>회원 관리 대시보드 (Admin)</span>
+                </button>
+              )}
 
               <div className="h-[1px] bg-slate-100 my-1" />
 
