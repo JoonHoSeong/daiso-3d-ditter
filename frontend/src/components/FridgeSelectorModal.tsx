@@ -48,6 +48,7 @@ export const FridgeSelectorModal: React.FC<FridgeSelectorModalProps> = ({
   const [activeQuickChip, setActiveQuickChip] = useState<QuickChipType>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<SortOption>('recommended');
+  const [selectedZoneFilter, setSelectedZoneFilter] = useState<'all' | 'shelf' | 'crisper' | 'door' | 'freezer'>('all');
 
   // Selected Model (default: Samsung Bespoke AI Hybrid 901L RM70F91R1A)
   const [selectedModelId, setSelectedModelId] = useState<string>('samsung-rm70f91r1a-901l');
@@ -85,6 +86,7 @@ export const FridgeSelectorModal: React.FC<FridgeSelectorModalProps> = ({
     setActiveQuickChip('all');
     setSearchQuery('');
     setSortBy('recommended');
+    setSelectedZoneFilter('all');
   };
 
   // Filter models based on brand, doorType, capacityTier, quick chips, and search
@@ -536,7 +538,7 @@ export const FridgeSelectorModal: React.FC<FridgeSelectorModalProps> = ({
 
           {/* Section 3: Compartment / Shelf Location Selection */}
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-1.5">
               <span className="text-xs font-bold text-slate-700 flex items-center space-x-1.5">
                 <span>2️⃣ 정리할 선반 및 서랍 위치 선택</span>
                 <span className="text-slate-400 font-normal">({selectedModel.series})</span>
@@ -546,54 +548,111 @@ export const FridgeSelectorModal: React.FC<FridgeSelectorModalProps> = ({
               </span>
             </div>
 
+            {/* Compartment Zone Filter Chips */}
+            <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 mb-2 scrollbar-none text-[11px]">
+              <span className="text-[10px] text-slate-500 font-bold shrink-0">구역 필터:</span>
+              {[
+                { id: 'all', label: `전체 구역 (${selectedModel.compartments.length})` },
+                { id: 'shelf', label: '🌟 메인 선반 (1/2/3단 와이드)' },
+                { id: 'crisper', label: '🥬 신선 야채/과일 서랍' },
+                { id: 'door', label: '🚪 도어 포켓 바스켓' },
+                { id: 'freezer', label: '🧊 냉동실 서랍/트레이' }
+              ].map(f => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setSelectedZoneFilter(f.id as any)}
+                  className={`px-2 py-0.5 rounded-lg font-bold border transition-all shrink-0 text-[10px] ${
+                    selectedZoneFilter === f.id
+                      ? 'bg-sky-600 text-white border-sky-600 shadow-2xs'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+
             {/* Compartments List Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1">
-              {selectedModel.compartments.map(comp => {
-                const isSelected = comp.id === selectedCompartment.id;
+              {selectedModel.compartments
+                .filter(comp => {
+                  if (selectedZoneFilter === 'all') return true;
+                  if (selectedZoneFilter === 'shelf') return comp.zone === 'shelf';
+                  if (selectedZoneFilter === 'crisper') return comp.zone === 'crisper';
+                  if (selectedZoneFilter === 'door') return comp.zone === 'door';
+                  if (selectedZoneFilter === 'freezer') return comp.zone === 'freezer_drawer' || comp.zone === 'freezer_tray';
+                  return true;
+                })
+                .map(comp => {
+                  const isSelected = comp.id === selectedCompartment.id;
+                  const isMainShelf = comp.zone === 'shelf';
 
-                return (
-                  <div
-                    key={comp.id}
-                    onClick={() => handleSelectCompartment(comp)}
-                    className={`p-3 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
-                      isSelected
-                        ? 'border-sky-600 bg-sky-50/90 shadow-sm ring-2 ring-sky-500/30'
-                        : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 shadow-2xs'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-900 flex items-center space-x-1.5">
-                          {isSelected && <span className="text-sky-600 font-black">▶</span>}
-                          <span>{comp.name}</span>
-                        </span>
-                        <span className="text-xs font-mono font-bold text-sky-700 bg-white px-2 py-0.5 rounded-lg border border-slate-200 shadow-2xs">
-                          {comp.dimensions.width} × {comp.dimensions.depth} × {comp.dimensions.height} cm
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 mt-1 leading-snug line-clamp-2">
-                        {comp.description}
-                      </p>
-                    </div>
-
-                    <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center space-x-1 flex-wrap gap-y-1">
-                        {comp.recommendedKeywords.slice(0, 2).map((kw, i) => (
-                          <span
-                            key={i}
-                            className="text-[10px] bg-white text-slate-600 px-1.5 py-0.2 rounded border border-slate-200/80 font-medium"
-                          >
-                            #{kw}
+                  return (
+                    <div
+                      key={comp.id}
+                      onClick={() => handleSelectCompartment(comp)}
+                      className={`p-3 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                        isSelected
+                          ? 'border-sky-600 bg-sky-50/90 shadow-sm ring-2 ring-sky-500/30'
+                          : isMainShelf
+                          ? 'border-amber-300 bg-amber-50/30 hover:bg-amber-50/60 shadow-2xs'
+                          : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 shadow-2xs'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center space-x-1">
+                            {isMainShelf ? (
+                              <span className="text-[9.5px] bg-amber-100 text-amber-900 border border-amber-300 font-black px-1.5 py-0.2 rounded">
+                                🌟 메인 선반
+                              </span>
+                            ) : comp.zone === 'crisper' ? (
+                              <span className="text-[9.5px] bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold px-1.5 py-0.2 rounded">
+                                🥬 신선 서랍
+                              </span>
+                            ) : comp.zone === 'door' ? (
+                              <span className="text-[9.5px] bg-sky-100 text-sky-800 border border-sky-200 font-bold px-1.5 py-0.2 rounded">
+                                🚪 도어 포켓
+                              </span>
+                            ) : (
+                              <span className="text-[9.5px] bg-blue-100 text-blue-800 border border-blue-200 font-bold px-1.5 py-0.2 rounded">
+                                🧊 냉동실
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-xs font-mono font-bold text-sky-700 bg-white px-2 py-0.5 rounded-lg border border-slate-200 shadow-2xs">
+                            {comp.dimensions.width} × {comp.dimensions.depth} × {comp.dimensions.height} cm
                           </span>
-                        ))}
+                        </div>
+
+                        <div className="flex items-center space-x-1.5">
+                          {isSelected && <span className="text-sky-600 font-black">▶</span>}
+                          <span className="text-xs font-bold text-slate-900">{comp.name}</span>
+                        </div>
+                        <p className="text-[11px] text-slate-600 mt-1 leading-snug line-clamp-2">
+                          {comp.description}
+                        </p>
                       </div>
-                      <span className="text-[10px] text-slate-400 shrink-0 font-medium ml-1">
-                        {comp.categoryLabel}
-                      </span>
+
+                      <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between">
+                        <div className="flex items-center space-x-1 flex-wrap gap-y-1">
+                          {comp.recommendedKeywords.slice(0, 2).map((kw, i) => (
+                            <span
+                              key={i}
+                              className="text-[10px] bg-white text-slate-600 px-1.5 py-0.2 rounded border border-slate-200/80 font-medium"
+                            >
+                              #{kw}
+                            </span>
+                          ))}
+                        </div>
+                        <span className="text-[10px] text-slate-400 shrink-0 font-medium ml-1">
+                          {comp.categoryLabel}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
 

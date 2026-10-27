@@ -38,8 +38,10 @@ import { CheckCircle2, Layers, Printer } from 'lucide-react';
 import { FillGoodsModal } from './components/FillGoodsModal';
 import { AiPurposeModal } from './components/AiPurposeModal';
 import { FridgeSelectorModal } from './components/FridgeSelectorModal';
+import { SpacePresetModal } from './components/SpacePresetModal';
 import { DrawerPurposeModal } from './components/DrawerPurposeModal';
 import { PurposePreset } from './data/purposePresets';
+import { SpacePreset } from './data/spacePresets';
 import { FridgeModel, FridgeCompartment } from './data/fridgeModels';
 import { normalizeProduct } from './utils/normalizeProduct';
 
@@ -86,6 +88,7 @@ export const App: React.FC = () => {
   const [isFillGoodsModalOpen, setIsFillGoodsModalOpen] = useState<boolean>(false);
   const [isAiPurposeModalOpen, setIsAiPurposeModalOpen] = useState<boolean>(false);
   const [isFridgeModalOpen, setIsFridgeModalOpen] = useState<boolean>(false);
+  const [isPresetModalOpen, setIsPresetModalOpen] = useState<boolean>(false);
   const [isPurposeModalOpen, setIsPurposeModalOpen] = useState<boolean>(false);
   const [activePurpose, setActivePurpose] = useState<PurposePreset | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -403,6 +406,19 @@ export const App: React.FC = () => {
         `❄️ [${model.brand} ${model.capacityLiters}L] "${compartment.name}" 규격(${finalDim.width}×${finalDim.depth}×${finalDim.height}cm)을 적용했습니다.`
       );
     }
+  };
+
+  const handleSelectSpacePreset = (preset: SpacePreset, customDim?: DrawerDimension) => {
+    const finalDim: DrawerDimension = customDim || preset.dimensions;
+    setDrawer(finalDim);
+    setSelectedItemInstanceId(null);
+    setItems(prev =>
+      prev.filter(i => {
+        const { width: w, depth: d } = getItemDimensions(i);
+        return i.x + w <= finalDim.width + 0.1 && i.z + d <= finalDim.depth + 0.1;
+      })
+    );
+    showToast(`📐 [${preset.name}] 공간 규격(${finalDim.width}×${finalDim.depth}×${finalDim.height}cm)이 적용되었습니다.`);
   };
 
   const handleFillCategory = (category: string) => {
@@ -955,6 +971,7 @@ export const App: React.FC = () => {
         onLogout={handleLogout}
         onOpenFridgeModal={() => setIsFridgeModalOpen(true)}
         onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
+        onOpenPresetModal={() => setIsPresetModalOpen(true)}
         activePurposeName={activePurpose?.name}
         onToggleCatalog={() => setIsCatalogOpen(prev => !prev)}
         onToggleInspector={() => setIsInspectorOpen(prev => !prev)}
@@ -1185,6 +1202,14 @@ export const App: React.FC = () => {
         isOpen={isFridgeModalOpen}
         onClose={() => setIsFridgeModalOpen(false)}
         onSelectCompartment={handleSelectFridgeCompartment}
+        currentDrawer={drawer}
+      />
+
+      {/* Rich Space Preset Explorer Modal (Refrigerators, Kitchen, Desks, Vanity, Bathroom, Camping) */}
+      <SpacePresetModal
+        isOpen={isPresetModalOpen}
+        onClose={() => setIsPresetModalOpen(false)}
+        onSelectPreset={handleSelectSpacePreset}
         currentDrawer={drawer}
       />
 

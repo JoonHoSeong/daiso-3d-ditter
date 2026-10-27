@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { DrawerDimension, DRAWER_PRESETS } from '../data/daisoProducts';
+import { SPACE_PRESETS } from '../data/spacePresets';
 import {
   RotateCcw,
   RotateCw,
@@ -47,6 +48,7 @@ interface HeaderNavProps {
   onLogout: () => void;
   onOpenFridgeModal?: () => void;
   onOpenPurposeModal?: () => void;
+  onOpenPresetModal?: () => void;
   activePurposeName?: string | null;
   // Responsive sidebar toggles for compact viewports
   onToggleCatalog?: () => void;
@@ -81,6 +83,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onLogout,
   onOpenFridgeModal,
   onOpenPurposeModal,
+  onOpenPresetModal,
   activePurposeName,
   onToggleCatalog,
   onToggleInspector,
@@ -284,6 +287,21 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               </button>
             )}
 
+            {/* Dedicated Space Preset Explorer Modal Button */}
+            {onOpenPresetModal && (
+              <button
+                type="button"
+                onClick={onOpenPresetModal}
+                className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-all shadow-2xs active:scale-95"
+                title="냉장고 메인 선반, 싱크대, 책상, 화장대 등 30여 개 이상의 맞춤 공간 검색 및 탐색기 열기"
+              >
+                <span>📐 공간 프리셋</span>
+                <span className="text-[10px] bg-emerald-600 text-white px-1.5 py-0.2 rounded font-bold">
+                  {SPACE_PRESETS.length}개
+                </span>
+              </button>
+            )}
+
             <select
               onChange={(e) => {
                 const val = e.target.value;
@@ -291,6 +309,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                   const sId = val.replace('saved-', '');
                   const found = savedDrawers.find(sd => sd.id === sId);
                   if (found) onSelectSavedDrawer(found);
+                } else if (val.startsWith('sp-')) {
+                  const spId = val.replace('sp-', '');
+                  const sp = SPACE_PRESETS.find(p => p.id === spId);
+                  if (sp) onChangeDrawer(sp.dimensions);
                 } else if (val.startsWith('preset-')) {
                   const pName = val.replace('preset-', '');
                   const preset = DRAWER_PRESETS.find(p => p.name === pName);
@@ -301,7 +323,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               defaultValue=""
               className="text-xs bg-transparent text-slate-700 font-medium focus:outline-none cursor-pointer max-w-[110px] xl:max-w-[140px] truncate"
             >
-              <option value="" disabled>📐 공간 프리셋...</option>
+              <option value="" disabled>📐 빠른 공간 선택...</option>
 
               {savedDrawers.length > 0 && (
                 <optgroup label="⭐ 내 저장된 서랍">
@@ -313,42 +335,58 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 </optgroup>
               )}
 
-              <optgroup label="⭐ 삼성 비스포크 901L 초특대형 플래그십">
-                {DRAWER_PRESETS.filter(p => p.category === '삼성 비스포크 901L').map((p) => (
-                  <option key={p.name} value={`preset-${p.name}`}>
-                    ⭐ {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+              <optgroup label="🌟 냉장고 메인 선반 (RM70F91R1A / 비스포크 / 오브제)">
+                {SPACE_PRESETS.filter(p => p.category === 'refrigerator' && p.zone === 'main_shelf').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    🌟 {p.name.split(' (')[0]} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
                   </option>
                 ))}
               </optgroup>
 
-              <optgroup label="❄️ 냉장고 (시중 4도어/양문형/원룸 규격)">
-                {DRAWER_PRESETS.filter(p => p.category === '냉장고').map((p) => (
-                  <option key={p.name} value={`preset-${p.name}`}>
-                    ❄️ {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+              <optgroup label="🥬 냉장고 신선 야채실 / 도어 / 냉동실">
+                {SPACE_PRESETS.filter(p => p.category === 'refrigerator' && p.zone !== 'main_shelf').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    {p.icon} {p.name.split(' (')[0]} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
                   </option>
                 ))}
               </optgroup>
 
-              <optgroup label="🧊 냉동고 (슬라이딩 서랍/급속냉동칸 규격)">
-                {DRAWER_PRESETS.filter(p => p.category === '냉동고').map((p) => (
-                  <option key={p.name} value={`preset-${p.name}`}>
-                    🧊 {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+              <optgroup label="🍳 주방 싱크대 & 팬트리">
+                {SPACE_PRESETS.filter(p => p.category === 'kitchen').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    {p.icon} {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
                   </option>
                 ))}
               </optgroup>
 
-              <optgroup label="🥬 김치냉장고 (딤채/비스포크/오브제컬렉션)">
-                {DRAWER_PRESETS.filter(p => p.category === '김치냉장고').map((p) => (
-                  <option key={p.name} value={`preset-${p.name}`}>
-                    🥬 {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+              <optgroup label="🖥️ 책상 & 서재 & 사무실">
+                {SPACE_PRESETS.filter(p => p.category === 'desk').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    {p.icon} {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
                   </option>
                 ))}
               </optgroup>
 
-              <optgroup label="📐 표준 가구 & 데스크 서랍">
-                {DRAWER_PRESETS.filter(p => !['냉장고', '냉동고', '김치냉장고'].includes(p.category)).map((p) => (
-                  <option key={p.name} value={`preset-${p.name}`}>
-                    {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+              <optgroup label="💄 화장대 & 드레스룸">
+                {SPACE_PRESETS.filter(p => p.category === 'dressing').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    {p.icon} {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="🚿 욕실 & 세탁 & 다용도">
+                {SPACE_PRESETS.filter(p => p.category === 'bathroom').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    {p.icon} {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="🏕️ 캠핑 & 수납박스 & 차량">
+                {SPACE_PRESETS.filter(p => p.category === 'outdoor').map((p) => (
+                  <option key={p.id} value={`sp-${p.id}`}>
+                    {p.icon} {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
                   </option>
                 ))}
               </optgroup>
