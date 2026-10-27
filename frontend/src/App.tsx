@@ -201,12 +201,18 @@ export const App: React.FC = () => {
             name: item.name,
             category: item.category,
             categoryLabel: item.category_label || item.categoryLabel,
+            largeCategory: item.large_category || item.largeCategory,
+            middleCategory: item.middle_category || item.middleCategory,
+            smallCategory: item.small_category || item.smallCategory,
+            categoryHierarchy: item.category_hierarchy || item.categoryHierarchy,
             width: item.width,
             depth: item.depth,
             height: item.height,
+            dimSource: item.dim_source || item.dimSource,
             price: item.price,
             color: item.color,
             imageUrl: item.image_url || item.imageUrl || '',
+            isSoldOut: item.is_sold_out ?? item.isSoldOut,
             description: item.description,
             mallUrl: item.mall_url || item.mallUrl
           }));

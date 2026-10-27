@@ -73,38 +73,85 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   const [sortBy, setSortBy] = useState<'default' | 'price_asc' | 'price_desc' | 'volume_asc' | 'volume_desc' | 'name'>('default');
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const [visibleLimit, setVisibleLimit] = useState<number>(60);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all');
 
   const categories = [
     { key: 'all', label: '전체' },
     { key: 'storage', label: '수납/정리함' },
-    { key: 'bath_cleaning', label: '욕실/청소용품' },
-    { key: 'bath_body', label: '욕실/세면용품' },
+    { key: 'kitchen', label: '주방용품' },
+    { key: 'food', label: '식품/식음료' },
     { key: 'beauty', label: '뷰티/화장품' },
+    { key: 'bath_body', label: '욕실/세면용품' },
+    { key: 'bath_cleaning', label: '청소/세제용품' },
     { key: 'stationery', label: '문구/사무용품' },
-    { key: 'digital_tools', label: '디지털/공구' },
-    { key: 'kitchen_food', label: '주방/식품용품' },
-    { key: 'living_fashion', label: '생활/패션잡화' },
-    { key: 'pet_hobby', label: '반려동물/취미' },
+    { key: 'digital', label: '디지털/모바일' },
+    { key: 'tools', label: '공구/철물' },
+    { key: 'fashion', label: '패션/의류잡화' },
+    { key: 'interior', label: '인테리어/원예' },
+    { key: 'pet', label: '반려동물' },
+    { key: 'hobby', label: '취미/캠핑/레저' },
   ];
 
-  const matchesCategory = (prodCategory: string, selected: string) => {
-    if (selected === 'all') return true;
-    if (selected === 'storage') {
-      return ['storage', 'tray', 'basket', 'divider', 'storage_box', 'stackable'].includes(prodCategory);
+  const matchesCategory = (p: DaisoProduct, selected: string, selectedSub: string) => {
+    if (selected !== 'all') {
+      if (selected === 'storage') {
+        const isStorage = ['storage', 'tray', 'basket', 'divider', 'storage_box', 'stackable'].includes(p.category) || p.largeCategory === '수납/정리';
+        if (!isStorage) return false;
+      } else if (selected === 'kitchen') {
+        const isKitchen = p.category === 'kitchen' || p.largeCategory === '주방용품';
+        if (!isKitchen) return false;
+      } else if (selected === 'food') {
+        const isFood = p.category === 'food' || p.largeCategory === '식품';
+        if (!isFood) return false;
+      } else if (selected === 'beauty') {
+        const isBeauty = p.category === 'beauty' || p.largeCategory === '뷰티/위생';
+        if (!isBeauty) return false;
+      } else if (selected === 'bath') {
+        const isBath = p.category === 'bath_body' || (p.largeCategory === '욕실/청소' && (p.middleCategory?.includes('욕실') || p.categoryLabel.includes('욕실')));
+        if (!isBath) return false;
+      } else if (selected === 'cleaning') {
+        const isCleaning = p.category === 'bath_cleaning' || (p.largeCategory === '욕실/청소' && !p.middleCategory?.includes('욕실'));
+        if (!isCleaning) return false;
+      } else if (selected === 'stationery') {
+        const isStationery = p.category === 'stationery' || p.largeCategory === '문구/팬시';
+        if (!isStationery) return false;
+      } else if (selected === 'digital') {
+        const isDigital = p.category === 'digital' || (p.largeCategory === '공구/디지털' && p.middleCategory !== '공구용품');
+        if (!isDigital) return false;
+      } else if (selected === 'tools') {
+        const isTools = p.category === 'tools' || (p.largeCategory === '공구/디지털' && p.middleCategory === '공구용품');
+        if (!isTools) return false;
+      } else if (selected === 'pet') {
+        const isPet = p.category === 'pet' || p.largeCategory === '반려동물';
+        if (!isPet) return false;
+      } else if (selected === 'hobby') {
+        const isHobby = p.category === 'hobby' || p.largeCategory === '스포츠/레저/취미';
+        if (!isHobby) return false;
+      } else if (selected === 'interior') {
+        const isInterior = p.category === 'interior' || p.largeCategory === '인테리어/원예';
+        if (!isInterior) return false;
+      } else if (selected === 'fashion') {
+        const isFashion = p.category === 'fashion' || p.largeCategory === '패션/잡화';
+        if (!isFashion) return false;
+      } else {
+        if (p.category !== selected && p.largeCategory !== selected) return false;
+      }
     }
-    if (selected === 'kitchen_food') {
-      return ['kitchen_food', 'kitchen', 'kitchen_consumable'].includes(prodCategory);
+
+    if (selectedSub !== 'all') {
+      if (p.middleCategory !== selectedSub) {
+        return false;
+      }
     }
-    if (selected === 'pet_hobby') {
-      return ['pet_hobby', 'camping'].includes(prodCategory);
-    }
-    return prodCategory === selected;
+
+    return true;
   };
 
   const isFiltered =
     Boolean(activePurpose) ||
     search.trim() !== '' ||
     selectedCategory !== 'all' ||
+    selectedSubCategory !== 'all' ||
     fitOnly ||
     excludeSoldOut ||
     !verifiedOnly ||
@@ -116,6 +163,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     if (onClearPurpose) onClearPurpose();
     setSearch('');
     setSelectedCategory('all');
+    setSelectedSubCategory('all');
     setFitOnly(false);
     setExcludeSoldOut(false);
     setVerifiedOnly(true);
@@ -124,6 +172,18 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     setSortBy('default');
     setVisibleLimit(60);
   };
+
+  // Dynamically extract middle categories for the selected department
+  const availableSubCategories = useMemo(() => {
+    if (selectedCategory === 'all') return [];
+    const subs = new Set<string>();
+    products.forEach(p => {
+      if (matchesCategory(p, selectedCategory, 'all') && p.middleCategory) {
+        subs.add(p.middleCategory);
+      }
+    });
+    return Array.from(subs).filter(s => s && s !== '기타').slice(0, 16);
+  }, [products, selectedCategory]);
 
   const filtered = useMemo(() => {
     const list = products.filter(p => {
@@ -172,8 +232,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         if (!matchesAll) return false;
       }
 
-      // 2. Category match
-      if (!matchesCategory(p.category, selectedCategory)) {
+      // 2. Category & SubCategory match
+      if (!matchesCategory(p, selectedCategory, selectedSubCategory)) {
         return false;
       }
 
@@ -210,7 +270,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       }
       return 0;
     });
-  }, [products, search, selectedCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height, activePurpose]);
+  }, [products, search, selectedCategory, selectedSubCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height, activePurpose]);
 
   // Count active advanced filters
   const activeAdvancedFilterCount =
@@ -378,10 +438,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           {categories.map((cat) => (
             <button
               key={cat.key}
-              onClick={() => setSelectedCategory(cat.key)}
+              onClick={() => {
+                setSelectedCategory(cat.key);
+                setSelectedSubCategory('all');
+              }}
               className={`px-2.5 py-1 text-[11px] rounded-lg font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === cat.key
-                  ? 'bg-slate-900 text-white shadow-2xs'
+                  ? 'bg-slate-900 text-white shadow-2xs font-bold'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
@@ -389,6 +452,38 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             </button>
           ))}
         </div>
+
+        {/* Dynamic SubCategory Pills */}
+        {availableSubCategories.length > 0 && (
+          <div className="flex items-center space-x-1 overflow-x-auto pb-0.5 scrollbar-none text-[10px]">
+            <span className="text-[10px] text-indigo-700 font-bold flex-shrink-0">세부:</span>
+            <button
+              type="button"
+              onClick={() => setSelectedSubCategory('all')}
+              className={`px-2 py-0.5 rounded-md font-medium whitespace-nowrap transition-colors ${
+                selectedSubCategory === 'all'
+                  ? 'bg-indigo-600 text-white font-bold shadow-2xs'
+                  : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+              }`}
+            >
+              전체
+            </button>
+            {availableSubCategories.map((sub) => (
+              <button
+                key={sub}
+                type="button"
+                onClick={() => setSelectedSubCategory(selectedSubCategory === sub ? 'all' : sub)}
+                className={`px-2 py-0.5 rounded-md font-medium whitespace-nowrap transition-colors ${
+                  selectedSubCategory === sub
+                    ? 'bg-indigo-600 text-white font-bold shadow-2xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {sub}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Quick Filter Bar (Verified Spec Toggle, Fit Toggle, Exclude Sold-Out Toggle, Advanced Filter Toggle, Sort Select) */}
         <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-1.5 text-xs">
@@ -636,6 +731,17 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                           </span>
                         )}
                       </div>
+
+                      {prod.categoryHierarchy && (
+                        <div className="mt-1">
+                          <span
+                            className="inline-block text-[9.5px] font-medium text-slate-600 bg-slate-100 border border-slate-200/90 px-1.5 py-0.5 rounded max-w-full truncate"
+                            title={prod.categoryHierarchy}
+                          >
+                            🏷️ {prod.categoryHierarchy}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 

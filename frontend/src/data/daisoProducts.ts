@@ -27,6 +27,10 @@ export interface DaisoProduct {
   name: string;
   category: ProductCategory;
   categoryLabel: string;
+  largeCategory?: string; // 대분류 (예: '주방용품', '식품', '수납/정리', '뷰티/위생')
+  middleCategory?: string; // 중분류 (예: '밀폐/보관/저장용기', '양념/조미료', '클렌징')
+  smallCategory?: string; // 소분류 (예: '오일/밤', '수납바구니')
+  categoryHierarchy?: string; // 전체 계층 경로 (예: '주방용품 > 밀폐/보관/저장용기 > 소스병/양념통')
   width: number; // cm (가로)
   depth: number; // cm (세로)
   height: number; // cm (높이)
