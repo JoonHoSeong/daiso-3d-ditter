@@ -89,9 +89,25 @@ export const DrawerPurposeModal: React.FC<DrawerPurposeModalProps> = ({
     );
 
     return products.filter(p => {
-      // Must fit in the drawer height
+      // 1. Must fit in the drawer height
       if (p.height > activeDimensions.height) return false;
-      // Must match purpose keywords
+
+      // 2. Category restriction if preset defines allowedCategories
+      if (selectedPurpose.allowedCategories && selectedPurpose.allowedCategories.length > 0) {
+        if (!selectedPurpose.allowedCategories.includes(p.category)) {
+          return false;
+        }
+      }
+
+      // 3. Excluded keywords check (e.g. cleansing oil/body oil in kitchen, engine oil, etc.)
+      if (selectedPurpose.excludedKeywords && selectedPurpose.excludedKeywords.length > 0) {
+        const textLower = `${p.name} ${p.categoryLabel}`.toLowerCase();
+        if (selectedPurpose.excludedKeywords.some(ex => textLower.includes(ex.toLowerCase()))) {
+          return false;
+        }
+      }
+
+      // 4. Must match purpose keywords
       const matchName = kwRegex.test(p.name);
       const matchCat = p.category.toLowerCase().includes(selectedPurpose.shortLabel);
       return matchName || matchCat;

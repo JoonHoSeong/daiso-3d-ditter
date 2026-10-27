@@ -406,6 +406,28 @@ class DimensionParser:
             if max(w, d) >= 35.0:
                 return (20.0, 8.0, 5.5)
 
+        # 5. Upright Bottles, Sprays, Jars, Dispensers, Tubes where depth and height are swapped in Korean specs (세로 = 높이)
+        is_upright = any(k in name for k in [
+            "오일병", "스프레이", "양념통", "보틀", "텀블러", "물병", "소스병", "디스펜서",
+            "치약", "샴푸", "린스", "바디워시", "세정제", "세제", "트래펑", "락스", "섬유유연제",
+            "피죤", "탈취제", "방향제", "핸드워시", "클렌징폼", "폼클렌징", "로션", "토너",
+            "에센스", "세럼", "미스트", "헤어오일", "클렌징오일", "클렌징 오일"
+        ])
+        if is_upright and d > h * 1.4 and d >= 8.0:
+            if "치약" in name:
+                w, d, h = 4.5, 3.5, d
+            elif any(k in name for k in ["오일병", "보틀", "텀블러", "물병", "소스병"]):
+                dia = round(max(w, h), 1)
+                w, d, h = dia, dia, d
+            else:
+                w, d, h = w, h, d
+
+        # 6. Cosmetic Creams, Balms, Cushions, Pacts in small jars (밤, 크림, 팩트, 쿠션)
+        is_balm_jar = any(k in name for k in ["오일밤", "클렌징밤", "멜팅밤", "수분크림", "영양크림", "크림 50", "크림 60", "크림 70", "크림 80", "크림 100", "밤 50", "밤 60", "밤 70", "밤 80"])
+        if is_balm_jar and h > 8.0:
+            dia = round(min(max(w, d), 7.0), 1)
+            w, d, h = dia, dia, 4.0
+
         return (round(w, 1), round(d, 1), round(h, 1))
 
     @classmethod
@@ -589,6 +611,16 @@ class DimensionParser:
                 if vol >= 400: return (8.0, 8.0, 21.5)
                 if vol <= 120: return (4.5, 4.5, 12.5)
             return (7.0, 7.0, 17.5)
+
+        # 4b. Cosmetic Balms, Creams, Jars, Compacts (밤 / 크림 / 팩트 / 쿠션 / 바셀린)
+        if any(k in name for k in ['오일밤', '클렌징밤', '멜팅밤', '수분크림', '영양크림', '크림', '바셀린', '팩트', '쿠션', '립밤', '밤 60', '밤 50']):
+            return (6.5, 6.5, 4.0)
+
+        # 4c. Edible Cooking Oils & Seasoning Oil Bottles (오일병 / 참기름 / 들기름 / 식용유 / 올리브유)
+        if any(k in name for k in ['오일병', '참기름', '들기름', '식용유', '올리브유', '카놀라유', '포도씨유']):
+            if vol and vol >= 500: return (6.5, 6.5, 23.0)
+            if vol and vol >= 250: return (5.5, 5.5, 18.0)
+            return (5.0, 5.0, 14.0)
 
         if any(k in name for k in ['샴푸', '린스', '트리트먼트', '바디워시', '핸드워시', '폼클렌징', '클렌징폼', '클렌저', '클렌징']):
             if unit == 'ml' and vol and vol <= 200: return (6.0, 4.5, 15.5)

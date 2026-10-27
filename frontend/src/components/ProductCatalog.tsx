@@ -132,6 +132,22 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         if (p.height > drawer.height) {
           return false;
         }
+
+        // Category restriction
+        if (activePurpose.allowedCategories && activePurpose.allowedCategories.length > 0) {
+          if (!activePurpose.allowedCategories.includes(p.category)) {
+            return false;
+          }
+        }
+
+        // Excluded keywords check
+        if (activePurpose.excludedKeywords && activePurpose.excludedKeywords.length > 0) {
+          const textLower = `${p.name} ${p.categoryLabel}`.toLowerCase();
+          if (activePurpose.excludedKeywords.some(ex => textLower.includes(ex.toLowerCase()))) {
+            return false;
+          }
+        }
+
         const allKeywords = [...activePurpose.keywords, ...activePurpose.organizerKeywords];
         const searchTarget = `${p.name} ${p.categoryLabel} ${p.description || ''}`.toLowerCase();
         const matchesPurpose = allKeywords.some(kw => searchTarget.includes(kw.toLowerCase()));

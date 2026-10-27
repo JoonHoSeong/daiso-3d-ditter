@@ -17,6 +17,8 @@ export interface PurposePreset {
     goodsCategory: string;
   }[];
   badgeColor: string;
+  allowedCategories?: string[];
+  excludedKeywords?: string[];
 }
 
 export interface SpacePresetOption {
@@ -122,6 +124,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: '볼펜, 샤프, 가위, 자, 칼, 포스트잇, 클립 등을 칸칸이 깔끔하게 정돈',
     keywords: ['문구', '볼펜', '가위', '자', '칼', '포스트잇', '테이프', '클립', '지우개', '메모', '샤프', '스탬프'],
     organizerKeywords: ['칸막이 서랍 정리함', '서랍 정리 트레이', '섹션 케이스', '클리어 정리함', '모듈 트레이'],
+    allowedCategories: ['stationery', 'storage', 'digital_tools'],
+    excludedKeywords: ['양념', '소스', '조미료', '클렌징', '세정제', '화장품', '오일', '치약', '샴푸'],
     recommendedBundles: [
       {
         bundleName: '칸막이 4분할 데스크 세트',
@@ -148,6 +152,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: '수저, 젓가락, 포크, 티스푼, 조리용 집게, 가위를 길이별로 분리 수납',
     keywords: ['수저', '젓가락', '포크', '티스푼', '나이프', '주걱', '조리도구', '집게', '가위', '디저트', '티포크'],
     organizerKeywords: ['수저통', '슬림 트레이', '칸막이 서랍 정리함', '길이 조정 트레이', '모듈 트레이'],
+    allowedCategories: ['kitchen_food', 'kitchen', 'storage'],
+    excludedKeywords: ['클렌징', '세정제', '화장품', '공구', '볼펜', '오일', '치약', '샴푸'],
     recommendedBundles: [
       {
         bundleName: '커트러리 4열 분리 세트',
@@ -166,8 +172,17 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     defaultDrawerType: '싱크대 깊은 하부장',
     defaultDimensions: { width: 45, depth: 45, height: 22 },
     description: '소금, 설탕, 고춧가루 양념통 및 참기름, 간장, 식용유 오일병 세움 수납',
-    keywords: ['양념', '조미료', '소스', '오일', '소금', '후추', '시즈닝', '스프레이', '고춧가루', '통깨', '설탕'],
+    keywords: [
+      '양념', '조미료', '소스', '식용유', '참기름', '들기름', '올리브유', '올리브오일',
+      '카놀라유', '포도씨유', '오일병', '소금', '후추', '시즈닝', '고춧가루', '통깨',
+      '설탕', '간장', '식초', '맛술', '굴소스', '케첩', '마요네즈', '고추장', '된장', '쌈장'
+    ],
     organizerKeywords: ['핸들 트레이', '팬트리 바구니', '회전 트레이', '양념통 거치대', '수납 바스켓'],
+    allowedCategories: ['kitchen_food', 'kitchen', 'storage'],
+    excludedKeywords: [
+      '클렌징', '바디', '헤어', '세안', '화장', '청소', '락스', '곰팡이', '세정제',
+      '변기', '엔진', '바이크', '체인', '방향제', '향수', '비누', '치약', '칫솔', '샴푸', '스크럽'
+    ],
     recommendedBundles: [
       {
         bundleName: '핸들 바스켓 + 회전 트레이 세트',
@@ -186,8 +201,10 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     defaultDrawerType: '화장대 서랍',
     defaultDimensions: { width: 42, depth: 38, height: 9 },
     description: '립스틱, 틴트, 팩트, 아이섀도우, 메이크업 브러쉬, 화장솜 정돈',
-    keywords: ['화장품', '립스틱', '틴트', '브러쉬', '아이섀도우', '쿠션', '팩트', '뷰러', '향수', '마스카라', '화장솜'],
+    keywords: ['화장품', '립스틱', '틴트', '브러쉬', '아이섀도우', '쿠션', '팩트', '뷰러', '향수', '마스카라', '화장솜', '클렌징', '세럼'],
     organizerKeywords: ['아크릴 정리함', '립스틱 홀더', '칸막이 트레이', '클리어 서랍장', '브러쉬 꽂이'],
+    allowedCategories: ['beauty', 'bath_body', 'storage'],
+    excludedKeywords: ['양념', '간장', '식용유', '엔진', '공구', '반찬', '음료', '김치'],
     recommendedBundles: [
       {
         bundleName: '아크릴 뷰티 오거나이저 세트',
@@ -208,6 +225,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: '양말, 속옷, 벨트, 넥타이, 스카프를 한 칸에 하나씩 깔끔하게 롤링 수납',
     keywords: ['양말', '속옷', '팬티', '넥타이', '벨트', '스카프', '스타킹', '손수건', '드로즈'],
     organizerKeywords: ['속옷 정리함', '양말 정리함', '칸막이 수납함', '패브릭 오거나이저', '수납 박스'],
+    allowedCategories: ['living_fashion', 'storage'],
+    excludedKeywords: ['양념', '음료', '클렌징', '세정제', '화장품', '공구', '식용유'],
     recommendedBundles: [
       {
         bundleName: '속옷/양말 다분할 수납 세트',
@@ -228,6 +247,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: '타이레놀, 소화제, 대일밴드, 연고, 소독약, 종합비타민 영양제 보관',
     keywords: ['약', '영양제', '밴드', '연고', '소독', '비타민', '체온계', '마스크', '붕대', '파스', '인공눈물'],
     organizerKeywords: ['구급상자', '손잡이 정리함', '칸막이 섹션 케이스', '다용도함', '클리어 케이스'],
+    allowedCategories: ['bath_cleaning', 'bath_body', 'beauty', 'storage'],
+    excludedKeywords: ['양념', '식용유', '음료', '공구', '클렌징'],
     recommendedBundles: [
       {
         bundleName: '가정용 구급함 + 알약 트레이 세트',
@@ -248,6 +269,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: 'C타입 케이블, 고속 충전기, 보조배터리, 이어폰, USB 젠더, 외장하드 정돈',
     keywords: ['케이블', '충전기', 'C타입', '어댑터', '보조배터리', '이어폰', '젠더', '메모리', 'USB', '외장하드', '마우스'],
     organizerKeywords: ['케이블 정리함', '섹션 케이스', '투명 모듈 트레이', '칸막이 1호', '다용도함'],
+    allowedCategories: ['digital_tools', 'storage'],
+    excludedKeywords: ['화장품', '클렌징', '식용유', '양념', '음료', '반찬'],
     recommendedBundles: [
       {
         bundleName: '케이블 개별 칸막이 세트',
@@ -268,6 +291,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: '네스프레소/일리 커피캡슐, 녹차/홍차 티백, 믹스커피 스틱, 개별 간식',
     keywords: ['커피', '캡슐', '티백', '차', '스틱', '시럽', '스낵', '과자', '초콜릿', '캔디', '사탕', '콤부차'],
     organizerKeywords: ['아크릴 캡슐함', '티백 정리함', '디바이더 트레이', '투명 바스켓', '클리어 수납함'],
+    allowedCategories: ['kitchen_food', 'kitchen', 'storage'],
+    excludedKeywords: ['클렌징', '세정제', '화장품', '엔진', '바디', '오일', '치약'],
     recommendedBundles: [
       {
         bundleName: '홈카페 캡슐 & 티백 오거나이저 세트',
@@ -286,8 +311,16 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     defaultDrawerType: '냉장고 메인 선반',
     defaultDimensions: { width: 82.5, depth: 48, height: 23 },
     description: '반찬통 2단 적재, 밀폐용기, 캔음료, 소스병, 계란 보관함을 서랍형 바스켓으로 정돈',
-    keywords: ['밀폐용기', '반찬', '김치', '생수', '음료', '우유', '캔', '소스', '계란', '치즈', '버터', '샐러드'],
+    keywords: [
+      '밀폐용기', '반찬', '김치', '생수', '음료', '우유', '캔', '소스', '계란', '치즈',
+      '버터', '샐러드', '요거트', '잼', '장류', '간장', '케첩', '마요네즈', '고추장', '된장', '참기름'
+    ],
     organizerKeywords: ['냉장고 수납 바구니', '핸들 트레이', '회전형 원형 트레이', '계란 보관함', '밀폐 용기'],
+    allowedCategories: ['kitchen_food', 'kitchen', 'storage'],
+    excludedKeywords: [
+      '클렌징', '바디', '헤어', '세안', '화장', '청소', '락스', '곰팡이', '세정제',
+      '변기', '엔진', '바이크', '체인', '방향제', '치약', '칫솔', '비누', '샴푸', '스크럽', '오일 펜'
+    ],
     recommendedBundles: [
       {
         bundleName: '냉장고 깊은 선반 풀패키지 세트',
@@ -308,6 +341,8 @@ export const PURPOSE_PRESETS: PurposePreset[] = [
     description: '드라이버, 펜치, 줄자, 절연테이프, 나사못, 앙카, 렌치 등 철물 도구 보관',
     keywords: ['공구', '드라이버', '펜치', '줄자', '망치', '나사', '못', '테이프', '철물', '스패너', '니퍼', '수평기'],
     organizerKeywords: ['공구함', '다용도 섹션 케이스', '수납박스', '칸막이 박스', '폴딩 박스'],
+    allowedCategories: ['digital_tools', 'storage', 'living_fashion'],
+    excludedKeywords: ['클렌징', '화장품', '양념', '반찬', '음료', '김치', '치약', '샴푸'],
     recommendedBundles: [
       {
         bundleName: '나사/소품 섹션 + 핸드툴 바스켓 세트',

@@ -816,15 +816,21 @@ export function createRealisticItemMesh(
     return createRealisticCartonMesh(item, width, depth, height, isSelected);
   }
 
-  // 4. Bottles (Sauce, Water, Dressing, Wine)
+  // 4. Bottles (Edible Cooking Oil, Sauce, Water, Dressing, Wine)
+  const isCookingOilBottle =
+    (name.includes('오일병') || name.includes('참기름') || name.includes('들기름') || name.includes('식용유') || name.includes('올리브유') || name.includes('카놀라유')) &&
+    !name.includes('클렌징') && !name.includes('헤어') && !name.includes('바디') && !name.includes('엔진') && !name.includes('바이크');
+
   if (
     name.includes('생수') ||
     name.includes('소스') ||
     name.includes('드레싱') ||
-    name.includes('병') ||
+    name.includes('간장') ||
+    name.includes('식초') ||
     name.includes('와인') ||
-    name.includes('오일') ||
-    name.includes('보틀')
+    isCookingOilBottle ||
+    name.includes('보틀') ||
+    (name.includes('병') && !name.includes('클렌징') && !name.includes('화장품') && !name.includes('향수') && !name.includes('매니큐어'))
   ) {
     return createRealisticBottleMesh(item, width, depth, height, isSelected);
   }
