@@ -2,6 +2,8 @@ export interface User {
   id: string;
   email: string;
   username: string;
+  provider?: 'local' | 'google' | 'kakao';
+  avatar_url?: string;
   created_at?: string;
 }
 

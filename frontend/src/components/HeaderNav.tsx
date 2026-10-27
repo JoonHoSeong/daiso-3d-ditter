@@ -629,11 +629,34 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
         {/* Direct Auth / User Profile Button (Prominent & immediately visible) */}
         {user ? (
-          <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-sky-50 border border-sky-200 text-xs font-bold text-sky-800 shadow-2xs">
-            <div className="w-5 h-5 rounded-full bg-sky-600 text-white flex items-center justify-center text-[10px] font-black uppercase">
-              {user.username ? user.username.slice(0, 1) : 'U'}
-            </div>
+          <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs">
+            {user.avatar_url ? (
+              <img
+                src={user.avatar_url}
+                alt={user.username}
+                className="w-5 h-5 rounded-full object-cover border border-slate-200 shrink-0"
+              />
+            ) : user.provider === 'kakao' ? (
+              <div className="w-5 h-5 rounded-full bg-[#FEE500] text-black flex items-center justify-center text-[10px] font-black shrink-0">
+                💬
+              </div>
+            ) : user.provider === 'google' ? (
+              <div className="w-5 h-5 rounded-full bg-white border border-slate-200 text-blue-600 flex items-center justify-center text-[10px] font-black shrink-0">
+                G
+              </div>
+            ) : (
+              <div className="w-5 h-5 rounded-full bg-daiso-red text-white flex items-center justify-center text-[10px] font-black uppercase shrink-0">
+                {user.username ? user.username.slice(0, 1) : 'U'}
+              </div>
+            )}
             <span className="hidden sm:inline max-w-[80px] truncate">{user.username}님</span>
+            {user.provider && user.provider !== 'local' && (
+              <span className={`hidden md:inline text-[9px] px-1 py-0.2 rounded font-semibold ${
+                user.provider === 'kakao' ? 'bg-amber-100 text-amber-800' : 'bg-blue-50 text-blue-700'
+              }`}>
+                {user.provider === 'kakao' ? '카카오' : '구글'}
+              </span>
+            )}
             <button
               onClick={onLogout}
               className="ml-1 p-0.5 text-slate-400 hover:text-rose-600 rounded transition-colors"
@@ -646,10 +669,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           <button
             onClick={onOpenAuthModal}
             className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all shadow-2xs border border-slate-200 active:scale-95"
-            title="로그인 또는 회원가입"
+            title="로그인 또는 회원가입 (구글/카카오 연동 지원)"
           >
             <UserIcon size={13} className="text-slate-500" />
-            <span className="hidden sm:inline">로그인</span>
+            <span className="hidden sm:inline">로그인 / 연동</span>
           </button>
         )}
 

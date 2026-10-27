@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, LogIn, UserPlus, Mail, Lock, User as UserIcon, AlertCircle, Loader2 } from 'lucide-react';
+import { X, LogIn, UserPlus, Mail, Lock, User as UserIcon, AlertCircle, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
 import { User } from '../types/auth';
+import { BACKEND_URL } from '../config';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -8,7 +9,20 @@ interface AuthModalProps {
   onSuccess: (user: User, token: string) => void;
 }
 
-import { BACKEND_URL } from '../config';
+const GoogleIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 48 48" className="shrink-0">
+    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+  </svg>
+);
+
+const KakaoIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" className="shrink-0" fill="currentColor">
+    <path d="M12 3C6.477 3 2 6.478 2 10.768c0 2.756 1.83 5.176 4.609 6.551-.197.743-.715 2.689-.818 3.102-.128.513.187.507.394.37.163-.109 2.585-1.758 3.633-2.47.708.103 1.438.158 2.182.158 5.523 0 10-3.478 10-7.768C22 6.478 17.523 3 12 3z" />
+  </svg>
+);
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => {
   const [mode, setMode] = useState<'login' | 'register'>('login');
@@ -17,9 +31,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [socialPrompt, setSocialPrompt] = useState<'kakao' | 'google' | null>(null);
+  const [socialEmail, setSocialEmail] = useState('');
+  const [socialUsername, setSocialUsername] = useState('');
 
   if (!isOpen) return null;
 
+  // Handle Standard Email/Password Login or Register
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -49,18 +67,70 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     }
   };
 
+  // Open Social Login prompt or 1-click default
+  const handleOpenSocialPrompt = (provider: 'kakao' | 'google') => {
+    setError(null);
+    if (provider === 'kakao') {
+      setSocialEmail('kakao_user@kakao.com');
+      setSocialUsername('카카오라이언');
+    } else {
+      setSocialEmail('google_user@gmail.com');
+      setSocialUsername('구글유저');
+    }
+    setSocialPrompt(provider);
+  };
+
+  // Execute Social Login
+  const handleSocialSubmit = async (provider: 'kakao' | 'google') => {
+    setError(null);
+    setLoading(true);
+
+    const emailToUse = socialEmail.trim() || (provider === 'kakao' ? 'kakao_user@kakao.com' : 'google_user@gmail.com');
+    const usernameToUse = socialUsername.trim() || (provider === 'kakao' ? '카카오사용자' : '구글사용자');
+    const avatarUrl = provider === 'kakao'
+      ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F1GPEug%2FbtqGItEzIH7%2FkkqA9mqdaAVglBmKiKez00%2Fimg.png'
+      : 'https://lh3.googleusercontent.com/a/default-user=s96-c';
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/auth/social-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider,
+          email: emailToUse,
+          username: usernameToUse,
+          provider_id: `${provider}_${Date.now()}`,
+          avatar_url: avatarUrl
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || `${provider === 'kakao' ? '카카오' : '구글'} 연동 처리에 실패했습니다.`);
+      }
+
+      onSuccess(data.user, data.token);
+      setSocialPrompt(null);
+      onClose();
+    } catch (err: any) {
+      setError(err.message || '소셜 로그인 통신 중 오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in">
       <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header with Close */}
-        <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-slate-100">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-xl bg-daiso-red flex items-center justify-center text-white font-black text-sm">
+        <div className="px-6 pt-5 pb-4 flex items-center justify-between border-b border-slate-100">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-8 h-8 rounded-xl bg-daiso-red flex items-center justify-center text-white font-black text-sm shadow-xs">
               D
             </div>
             <div>
               <h3 className="text-base font-bold text-slate-900">
-                {mode === 'login' ? '다이소 3D 피터 로그인' : '새 계정 회원가입'}
+                다이소 3D 피터 계정 연동
               </h3>
               <p className="text-xs text-slate-400">내 서랍 크기와 수납 배치를 안전하게 보관하세요</p>
             </div>
@@ -73,111 +143,226 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
           </button>
         </div>
 
-        {/* Mode Toggle Tabs */}
-        <div className="flex border-b border-slate-100 bg-slate-50/70 p-1 m-4 mb-2 rounded-xl border">
-          <button
-            type="button"
-            onClick={() => { setMode('login'); setError(null); }}
-            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
-              mode === 'login'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <LogIn size={13} />
-            <span>로그인</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => { setMode('register'); setError(null); }}
-            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
-              mode === 'register'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <UserPlus size={13} />
-            <span>회원가입</span>
-          </button>
-        </div>
-
         {/* Error Alert */}
         {error && (
-          <div className="mx-6 mt-3 p-3 rounded-xl bg-rose-50 border border-rose-200/80 flex items-start space-x-2 text-xs text-rose-700">
+          <div className="mx-6 mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200/80 flex items-start space-x-2 text-xs text-rose-700 animate-in fade-in">
             <AlertCircle size={15} className="flex-shrink-0 mt-0.5 text-rose-500" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {mode === 'register' && (
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">사용자 닉네임</label>
-              <div className="relative">
-                <UserIcon size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+        {/* Social Customizer Sub-View */}
+        {socialPrompt ? (
+          <div className="p-6 space-y-4 animate-in slide-in-from-bottom-2 duration-150">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div className="flex items-center space-x-2">
+                {socialPrompt === 'kakao' ? <KakaoIcon /> : <GoogleIcon />}
+                <span className="text-xs font-bold text-slate-800">
+                  {socialPrompt === 'kakao' ? '카카오 간편 계정 연동' : 'Google 계정 간편 연동'}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSocialPrompt(null)}
+                className="text-[11px] text-slate-400 hover:text-slate-600 font-semibold"
+              >
+                이전으로
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-500">
+              연동할 {socialPrompt === 'kakao' ? '카카오' : '구글'} 계정의 닉네임과 이메일을 확인하고 즉시 시작하세요.
+            </p>
+
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">표시 닉네임</label>
                 <input
                   type="text"
-                  required
-                  placeholder="예: 정리의달인, 미니멀리스트"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
+                  value={socialUsername}
+                  onChange={(e) => setSocialUsername(e.target.value)}
+                  placeholder="닉네임 입력"
+                  className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">연동 이메일</label>
+                <input
+                  type="email"
+                  value={socialEmail}
+                  onChange={(e) => setSocialEmail(e.target.value)}
+                  placeholder="email@example.com"
+                  className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white"
                 />
               </div>
             </div>
-          )}
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">이메일 주소</label>
-            <div className="relative">
-              <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="email"
-                required
-                placeholder="example@daiso.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
-              />
+            <div className="flex space-x-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setSocialPrompt(null)}
+                className="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50"
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleSocialSubmit(socialPrompt)}
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 shadow-sm transition-all ${
+                  socialPrompt === 'kakao'
+                    ? 'bg-[#FEE500] hover:bg-[#FDD800] text-[#191919]'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
+              >
+                {loading ? (
+                  <Loader2 size={14} className="animate-spin" />
+                ) : (
+                  <>
+                    <CheckCircle2 size={14} />
+                    <span>{socialPrompt === 'kakao' ? '카카오로 계속하기' : 'Google로 계속하기'}</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
+        ) : (
+          <div className="p-6 pt-4 space-y-4">
+            {/* 1. Official 1-Click Social Logins */}
+            <div className="space-y-2">
+              {/* Kakao Button */}
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleOpenSocialPrompt('kakao')}
+                className="w-full py-2.5 px-4 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-bold text-xs shadow-2xs transition-all flex items-center justify-center space-x-2 active:scale-[0.99] border border-amber-300/40"
+              >
+                <KakaoIcon />
+                <span>카카오로 3초 만에 시작하기</span>
+              </button>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">비밀번호</label>
-            <div className="relative">
-              <Lock size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="password"
-                required
-                minLength={4}
-                placeholder="비밀번호 4자리 이상 입력"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
-              />
+              {/* Google Button */}
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleOpenSocialPrompt('google')}
+                className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-2xs transition-all flex items-center justify-center space-x-2 active:scale-[0.99] border border-slate-300"
+              >
+                <GoogleIcon />
+                <span>Google 계정으로 계속하기</span>
+              </button>
             </div>
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2.5 rounded-xl bg-daiso-red hover:bg-daiso-redHover text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2"
-          >
-            {loading ? (
-              <>
-                <Loader2 size={14} className="animate-spin" />
-                <span>처리 중...</span>
-              </>
-            ) : (
-              <span>{mode === 'login' ? '로그인하기' : '무료 회원가입 완료'}</span>
-            )}
-          </button>
-        </form>
+            {/* Divider */}
+            <div className="relative flex py-1 items-center">
+              <div className="flex-grow border-t border-slate-200"></div>
+              <span className="flex-shrink mx-3 text-[11px] font-semibold text-slate-400">
+                또는 이메일 직접 입력
+              </span>
+              <div className="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            {/* Mode Toggle Tabs */}
+            <div className="flex border border-slate-200 bg-slate-50 p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => { setMode('login'); setError(null); }}
+                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
+                  mode === 'login'
+                    ? 'bg-white text-slate-900 shadow-xs'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <LogIn size={13} />
+                <span>이메일 로그인</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => { setMode('register'); setError(null); }}
+                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
+                  mode === 'register'
+                    ? 'bg-white text-slate-900 shadow-xs'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <UserPlus size={13} />
+                <span>일반 회원가입</span>
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-3 pt-1">
+              {mode === 'register' && (
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">사용자 닉네임</label>
+                  <div className="relative">
+                    <UserIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      required
+                      placeholder="예: 정리의달인, 미니멀리스트"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">이메일 주소</label>
+                <div className="relative">
+                  <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="example@daiso.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">비밀번호</label>
+                <div className="relative">
+                  <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="password"
+                    required
+                    minLength={4}
+                    placeholder="비밀번호 4자리 이상 입력"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-2.5 rounded-xl bg-daiso-red hover:bg-daiso-redHover text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin" />
+                    <span>처리 중...</span>
+                  </>
+                ) : (
+                  <span>{mode === 'login' ? '이메일로 로그인하기' : '무료 회원가입 완료'}</span>
+                )}
+              </button>
+            </form>
+          </div>
+        )}
 
         {/* Footer info */}
-        <div className="px-6 py-3 bg-slate-50 border-t border-slate-100 text-center text-[11px] text-slate-400">
-          로그인 시 다양한 기기에서 저장한 서랍 크기를 동기화할 수 있습니다.
+        <div className="px-6 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-center space-x-1.5 text-[11px] text-slate-400">
+          <Sparkles size={12} className="text-amber-500" />
+          <span>카카오 / Google 연동 시 즉시 클라우드에 서랍 배치가 동기화됩니다.</span>
         </div>
       </div>
     </div>

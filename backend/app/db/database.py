@@ -28,9 +28,22 @@ def init_db():
         username TEXT NOT NULL,
         password_hash TEXT NOT NULL,
         salt TEXT NOT NULL,
+        provider TEXT DEFAULT 'local',
+        provider_id TEXT DEFAULT '',
+        avatar_url TEXT DEFAULT '',
         created_at TEXT NOT NULL
     )
     """)
+
+    # Migrate columns if existing table lacks social fields
+    cursor.execute("PRAGMA table_info(users)")
+    user_cols = [r[1] for r in cursor.fetchall()]
+    if "provider" not in user_cols:
+        cursor.execute("ALTER TABLE users ADD COLUMN provider TEXT DEFAULT 'local'")
+    if "provider_id" not in user_cols:
+        cursor.execute("ALTER TABLE users ADD COLUMN provider_id TEXT DEFAULT ''")
+    if "avatar_url" not in user_cols:
+        cursor.execute("ALTER TABLE users ADD COLUMN avatar_url TEXT DEFAULT ''")
 
     # 2. User sessions / tokens table
     cursor.execute("""
@@ -88,11 +101,11 @@ def create_user(email: str, username: str, password: str) -> Dict[str, Any]:
     try:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO users (id, email, username, password_hash, salt, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, created_at) VALUES (?, ?, ?, ?, ?, 'local', '', '', ?)",
             (user_id, email, username, pw_hash, salt, now)
         )
         conn.commit()
-        return {"id": user_id, "email": email, "username": username, "created_at": now}
+        return {"id": user_id, "email": email, "username": username, "provider": "local", "avatar_url": "", "created_at": now}
     except sqlite3.IntegrityError:
         raise ValueError("이미 가입된 이메일 주소입니다.")
     finally:
@@ -102,18 +115,121 @@ def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
     email = email.strip().lower()
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, email, username, password_hash, salt FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT id, email, username, password_hash, salt, provider, avatar_url FROM users WHERE email = ?", (email,))
     row = cursor.fetchone()
     conn.close()
 
     if not row:
         return None
 
-    user_id, db_email, username, stored_hash, salt = row['id'], row['email'], row['username'], row['password_hash'], row['salt']
+    user_id = row['id']
+    db_email = row['email']
+    username = row['username']
+    stored_hash = row['password_hash']
+    salt = row['salt']
+    provider = row['provider'] if 'provider' in row.keys() else 'local'
+    avatar_url = row['avatar_url'] if 'avatar_url' in row.keys() else ''
+
     calc_hash, _ = hash_password(password, salt)
     if calc_hash == stored_hash:
-        return {"id": user_id, "email": db_email, "username": username}
+        return {"id": user_id, "email": db_email, "username": username, "provider": provider, "avatar_url": avatar_url}
     return None
+
+def find_or_create_social_user(
+    provider: str,
+    provider_id: str,
+    email: str,
+    username: str,
+    avatar_url: Optional[str] = ""
+) -> Dict[str, Any]:
+    """Finds an existing user by (provider, provider_id) or email, or registers a new social user."""
+    provider = provider.strip().lower()
+    provider_id = (provider_id or "").strip()
+    email = email.strip().lower()
+    username = username.strip() or f"{provider.capitalize()} 사용자"
+    avatar_url = (avatar_url or "").strip()
+    now = datetime.now().isoformat()
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # 1. Check by (provider, provider_id) if provider_id is provided
+    if provider_id:
+        cursor.execute(
+            "SELECT id, email, username, provider, avatar_url, created_at FROM users WHERE provider = ? AND provider_id = ?",
+            (provider, provider_id)
+        )
+        row = cursor.fetchone()
+        if row:
+            # Update avatar or username if changed
+            if avatar_url and avatar_url != row['avatar_url']:
+                cursor.execute("UPDATE users SET avatar_url = ? WHERE id = ?", (avatar_url, row['id']))
+                conn.commit()
+            conn.close()
+            return {
+                "id": row['id'],
+                "email": row['email'],
+                "username": row['username'],
+                "provider": row['provider'],
+                "avatar_url": avatar_url or row['avatar_url'],
+                "created_at": row['created_at']
+            }
+
+    # 2. Check by email
+    cursor.execute(
+        "SELECT id, email, username, provider, provider_id, avatar_url, created_at FROM users WHERE email = ?",
+        (email,)
+    )
+    row = cursor.fetchone()
+    if row:
+        # Link social account if not already linked
+        user_id = row['id']
+        update_fields = []
+        params = []
+        if not row['provider'] or row['provider'] == 'local':
+            update_fields.append("provider = ?")
+            params.append(provider)
+        if provider_id and not row['provider_id']:
+            update_fields.append("provider_id = ?")
+            params.append(provider_id)
+        if avatar_url and not row['avatar_url']:
+            update_fields.append("avatar_url = ?")
+            params.append(avatar_url)
+
+        if update_fields:
+            params.append(user_id)
+            cursor.execute(f"UPDATE users SET {', '.join(update_fields)} WHERE id = ?", tuple(params))
+            conn.commit()
+
+        conn.close()
+        return {
+            "id": user_id,
+            "email": row['email'],
+            "username": row['username'],
+            "provider": provider if update_fields else (row['provider'] or 'local'),
+            "avatar_url": avatar_url or (row['avatar_url'] or ""),
+            "created_at": row['created_at']
+        }
+
+    # 3. Create brand new social user
+    user_id = str(uuid.uuid4())
+    cursor.execute(
+        """
+        INSERT INTO users (id, email, username, password_hash, salt, provider, provider_id, avatar_url, created_at)
+        VALUES (?, ?, ?, '', '', ?, ?, ?, ?)
+        """,
+        (user_id, email, username, provider, provider_id, avatar_url, now)
+    )
+    conn.commit()
+    conn.close()
+    return {
+        "id": user_id,
+        "email": email,
+        "username": username,
+        "provider": provider,
+        "avatar_url": avatar_url,
+        "created_at": now
+    }
 
 def create_user_token(user_id: str) -> str:
     token = secrets.token_urlsafe(32)
@@ -131,7 +247,7 @@ def get_user_by_token(token: str) -> Optional[Dict[str, Any]]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT u.id, u.email, u.username, u.created_at
+        SELECT u.id, u.email, u.username, u.provider, u.avatar_url, u.created_at
         FROM users u
         JOIN user_tokens t ON u.id = t.user_id
         WHERE t.token = ?
@@ -139,7 +255,14 @@ def get_user_by_token(token: str) -> Optional[Dict[str, Any]]:
     row = cursor.fetchone()
     conn.close()
     if row:
-        return {"id": row['id'], "email": row['email'], "username": row['username'], "created_at": row['created_at']}
+        return {
+            "id": row['id'],
+            "email": row['email'],
+            "username": row['username'],
+            "provider": row['provider'] if 'provider' in row.keys() else 'local',
+            "avatar_url": row['avatar_url'] if 'avatar_url' in row.keys() else '',
+            "created_at": row['created_at']
+        }
     return None
 
 def delete_user_token(token: str):
