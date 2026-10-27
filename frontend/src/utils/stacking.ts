@@ -212,12 +212,25 @@ export function getLinerThickness(product: DaisoProduct): number {
 }
 
 /**
+ * Checks whether a product is a standalone chest of drawers / drawer cabinet / multi-tier pull-out drawer unit.
+ * Putting a drawer cabinet INSIDE another drawer is meaningless and physically unusable ("서랍 안에 서랍").
+ */
+export function isDrawerCabinet(product: DaisoProduct | { name: string; smallCategory?: string }): boolean {
+  const name = product.name;
+  if ('smallCategory' in product && (product.smallCategory === '서랍장' || product.smallCategory === '사무서랍장')) {
+    return true;
+  }
+  return /서랍장|미니\s*서랍|부착식\s*서랍|히든\s*서랍|층층이\s*서랍|\d+단\s*서랍|\d+칸\s*서랍|서랍형\s*수납|서랍형\s*정리|서랍형\s*케이스/.test(name);
+}
+
+/**
  * Checks whether a product is an open-top container, basket, tray, or box
  * that has an interior cavity where other items can be placed inside.
  */
 export function isOpenContainer(product: DaisoProduct): boolean {
   if (isMatOrLiner(product)) return false;
   if (isNonContainerAccessory(product.name)) return false;
+  if (isDrawerCabinet(product)) return false;
 
   const name = product.name;
 
@@ -236,7 +249,7 @@ export function isOpenContainer(product: DaisoProduct): boolean {
   }
 
   return (
-    /정리함|수납함|트레이|바구니|서랍함|수납박스|정리박스|아크릴함|오거나이저|바스켓|다용도함|멀티함|보관함|정리대|케이스/.test(name) ||
+    /정리함|수납함|트레이|바구니|수납박스|정리박스|아크릴함|오거나이저|바스켓|다용도함|멀티함|보관함|정리대|케이스/.test(name) ||
     ['storage', 'tray', 'storage_box', 'stackable', 'basket'].includes(product.category)
   );
 }
@@ -246,6 +259,7 @@ export function isOpenContainer(product: DaisoProduct): boolean {
  * suitable for the primary foundation layout of a drawer.
  */
 export function isDrawerOrganizer(product: DaisoProduct): boolean {
+  if (isDrawerCabinet(product)) return false;
   if (!isOpenContainer(product)) return false;
 
   // Minimum dimensions for a standalone drawer organizer container
@@ -264,10 +278,11 @@ export function isDrawerOrganizer(product: DaisoProduct): boolean {
     return false;
   }
 
-  // Pure organizer keywords: 정리함, 수납함, 트레이, 바구니, 서랍, 수납박스, 오거나이저
+  // Pure inner organizer keywords: 트레이, 바구니, 칸막이, 디바이더, 정리함, 수납함, 바스켓
+  // Note: Standalone '서랍' / '서랍장' is NOT allowed inside a drawer.
   return (
-    /정리함|수납함|트레이|바구니|서랍|수납박스|정리박스|아크릴|오거나이저|칸막이|바스켓/.test(name) ||
-    ['storage', 'tray', 'storage_box', 'stackable', 'basket'].includes(product.category)
+    /트레이|바구니|칸막이|디바이더|오거나이저|섹션.*케이스|서랍\s*정리|서랍\s*트레이|서랍\s*칸막이|서랍\s*디바이더|정리함|수납함|바스켓|보관함/.test(name) ||
+    ['tray', 'divider', 'basket', 'stackable'].includes(product.category)
   );
 }
 

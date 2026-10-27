@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { DaisoProduct, DrawerDimension } from '../data/daisoProducts';
 import { PurposePreset, PURPOSE_PRESETS } from '../data/purposePresets';
+import { isDrawerCabinet, isDrawerOrganizer } from '../utils/stacking';
 import {
   Plus,
   Search,
@@ -28,16 +29,6 @@ interface ProductCatalogProps {
   onOpenPurposeModal?: () => void;
   onSelectPurpose?: (purpose: PurposePreset | null) => void;
 }
-
-const ORGANIZER_CATS = new Set([
-  'storage',
-  'tray',
-  'basket',
-  'divider',
-  'storage_box',
-  'stackable',
-  'kitchen'
-]);
 
 const QUICK_TAGS = [
   '청소 스프레이',
@@ -248,9 +239,10 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       }
 
       // 5. Organizer vs Content filter
-      const isOrg = ORGANIZER_CATS.has(p.category);
-      if (selectedType === 'organizer' && !isOrg) return false;
-      if (selectedType === 'content' && isOrg) return false;
+      const isCabinet = isDrawerCabinet(p);
+      const isOrg = isDrawerOrganizer(p) && !isCabinet;
+      if (selectedType === 'organizer' && (!isOrg || isCabinet)) return false;
+      if (selectedType === 'content' && (isOrg || isCabinet)) return false;
 
       return true;
     });
@@ -268,6 +260,23 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       if (sortBy === 'name') {
         return a.name.localeCompare(b.name, 'ko');
       }
+
+      // Default smart sorting:
+      // 1. Deprioritize standalone drawer cabinets ("서랍장", "미니서랍장") - drawers inside drawers make no sense!
+      const aIsCabinet = isDrawerCabinet(a) ? 1 : 0;
+      const bIsCabinet = isDrawerCabinet(b) ? 1 : 0;
+      if (aIsCabinet !== bIsCabinet) return aIsCabinet - bIsCabinet;
+
+      // 2. Prioritize authentic inner drawer organizers (trays, dividers, baskets)
+      const aIsOrg = isDrawerOrganizer(a) ? 1 : 0;
+      const bIsOrg = isDrawerOrganizer(b) ? 1 : 0;
+      if (aIsOrg !== bIsOrg) return bIsOrg - aIsOrg;
+
+      // 3. Prioritize in-stock and official verified specs
+      const aStock = a.isSoldOut ? 1 : 0;
+      const bStock = b.isSoldOut ? 1 : 0;
+      if (aStock !== bStock) return aStock - bStock;
+
       return 0;
     });
   }, [products, search, selectedCategory, selectedSubCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height, activePurpose]);

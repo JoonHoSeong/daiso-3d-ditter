@@ -1,4 +1,5 @@
 import math
+import re
 from typing import List, Tuple
 from ..models.schemas import DaisoProduct, DrawerDimension, FittedItem, SpaceMetrics
 
@@ -15,8 +16,11 @@ class DrawerPacker:
         strategy: str = 'balanced',
         allow_rotation: bool = False
     ) -> Tuple[List[FittedItem], SpaceMetrics]:
-        # Filter products that do not exceed drawer height
-        candidates = [p for p in products if p.height <= drawer.height]
+        # Filter products that do not exceed drawer height, and strictly exclude standalone drawer cabinets ("서랍장")
+        candidates = [
+            p for p in products
+            if p.height <= drawer.height and not re.search(r'서랍장|미니\s*서랍|부착식\s*서랍|히든\s*서랍|\d+단\s*서랍|\d+칸\s*서랍|서랍형\s*수납', p.name)
+        ]
         if not candidates:
             metrics = SpaceMetrics(
                 drawer_floor_area=round(drawer.width * drawer.depth, 1),
