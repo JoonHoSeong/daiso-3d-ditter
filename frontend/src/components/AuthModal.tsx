@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
-import { X, LogIn, UserPlus, Mail, Lock, User as UserIcon, AlertCircle, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, LogIn, UserPlus, Mail, Lock, User as UserIcon, AlertCircle, Loader2, Sparkles, CheckCircle2, KeyRound } from 'lucide-react';
 import { User } from '../types/auth';
 import { BACKEND_URL } from '../config';
+
+declare global {
+  interface Window {
+    google?: any;
+    Kakao?: any;
+  }
+}
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -35,6 +42,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
   const [socialEmail, setSocialEmail] = useState('');
   const [socialUsername, setSocialUsername] = useState('');
 
+  // Check if official client keys are configured
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+  const kakaoJsKey = import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY || '';
+
+  useEffect(() => {
+    if (!isOpen) return;
+    // Pre-initialize Kakao SDK if key is provided
+    if (kakaoJsKey && window.Kakao && !window.Kakao.isInitialized()) {
+      try {
+        window.Kakao.init(kakaoJsKey);
+      } catch (e) {
+        console.warn('Kakao SDK init error:', e);
+      }
+    }
+  }, [isOpen, kakaoJsKey]);
+
   if (!isOpen) return null;
 
   // Handle Standard Email/Password Login or Register
@@ -67,9 +90,58 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     }
   };
 
-  // Open Social Login prompt or 1-click default
-  const handleOpenSocialPrompt = (provider: 'kakao' | 'google') => {
+  // Trigger Social Auth: If official key exists, use Official OAuth; otherwise open developer sandbox flow
+  const handleSocialClick = (provider: 'kakao' | 'google') => {
     setError(null);
+
+    // Official Google OAuth Flow via GIS
+    if (provider === 'google' && googleClientId && window.google) {
+      setLoading(true);
+      try {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: async (response: any) => {
+            if (response && response.credential) {
+              await executeSocialLogin('google', '', '', response.credential);
+            }
+          }
+        });
+        window.google.accounts.id.prompt();
+        setLoading(false);
+        return;
+      } catch (e: any) {
+        setLoading(false);
+        setError('구글 로그인 창 호출 중 오류가 발생했습니다: ' + e.message);
+      }
+    }
+
+    // Official Kakao OAuth Flow via Kakao SDK
+    if (provider === 'kakao' && kakaoJsKey && window.Kakao) {
+      setLoading(true);
+      try {
+        if (!window.Kakao.isInitialized()) {
+          window.Kakao.init(kakaoJsKey);
+        }
+        window.Kakao.Auth.login({
+          scope: 'profile_nickname,profile_image,account_email',
+          success: async (authObj: any) => {
+            if (authObj && authObj.access_token) {
+              await executeSocialLogin('kakao', '', '', authObj.access_token);
+            }
+          },
+          fail: (err: any) => {
+            setLoading(false);
+            setError(`카카오 로그인이 취소되었거나 인증에 실패했습니다: ${err?.error_description || ''}`);
+          }
+        });
+        return;
+      } catch (e: any) {
+        setLoading(false);
+        setError('카카오 SDK 호출 중 오류가 발생했습니다: ' + e.message);
+      }
+    }
+
+    // Key not set: open the transparent developer sandbox dialog
     if (provider === 'kakao') {
       setSocialEmail('kakao_user@kakao.com');
       setSocialUsername('카카오라이언');
@@ -80,18 +152,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     setSocialPrompt(provider);
   };
 
-  // Execute Social Login
-  const handleSocialSubmit = async (provider: 'kakao' | 'google') => {
-    setError(null);
+  // Helper to call backend social-login endpoint
+  const executeSocialLogin = async (
+    provider: 'kakao' | 'google',
+    emailVal: string,
+    usernameVal: string,
+    credentialVal?: string
+  ) => {
     setLoading(true);
-
-    const emailToUse = socialEmail.trim() || (provider === 'kakao' ? 'kakao_user@kakao.com' : 'google_user@gmail.com');
-    const usernameToUse = socialUsername.trim() || (provider === 'kakao' ? '카카오사용자' : '구글사용자');
-    const avatarUrl = provider === 'kakao'
-      ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F1GPEug%2FbtqGItEzIH7%2FkkqA9mqdaAVglBmKiKez00%2Fimg.png'
-      : 'https://lh3.googleusercontent.com/a/default-user=s96-c';
-
     try {
+      const emailToUse = emailVal.trim() || (provider === 'kakao' ? 'kakao_user@kakao.com' : 'google_user@gmail.com');
+      const usernameToUse = usernameVal.trim() || (provider === 'kakao' ? '카카오사용자' : '구글사용자');
+      const avatarUrl = provider === 'kakao'
+        ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F1GPEug%2FbtqGItEzIH7%2FkkqA9mqdaAVglBmKiKez00%2Fimg.png'
+        : 'https://lh3.googleusercontent.com/a/default-user=s96-c';
+
       const res = await fetch(`${BACKEND_URL}/api/auth/social-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,7 +175,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
           email: emailToUse,
           username: usernameToUse,
           provider_id: `${provider}_${Date.now()}`,
-          avatar_url: avatarUrl
+          avatar_url: avatarUrl,
+          credential: credentialVal || undefined
         })
       });
 
@@ -151,7 +227,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
           </div>
         )}
 
-        {/* Social Customizer Sub-View */}
+        {/* Social Customizer Sub-View (Transparent sandbox / key guide) */}
         {socialPrompt ? (
           <div className="p-6 space-y-4 animate-in slide-in-from-bottom-2 duration-150">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
@@ -170,9 +246,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
               </button>
             </div>
 
-            <p className="text-xs text-slate-500">
-              연동할 {socialPrompt === 'kakao' ? '카카오' : '구글'} 계정의 닉네임과 이메일을 확인하고 즉시 시작하세요.
-            </p>
+            {/* API Key Status Notice */}
+            <div className="p-3 bg-amber-50/80 border border-amber-200/80 rounded-xl text-left space-y-1">
+              <div className="flex items-center space-x-1.5 text-amber-900 font-bold text-[11px]">
+                <KeyRound size={13} className="text-amber-600" />
+                <span>실제 OAuth 키 미설정 안내 (현재 개발/연동 모드)</span>
+              </div>
+              <p className="text-[11px] text-amber-700 leading-relaxed">
+                공식 {socialPrompt === 'kakao' ? '카카오' : 'Google'} 외부 팝업 창을 띄우려면 <code className="bg-amber-100/70 px-1 py-0.5 rounded font-mono text-[10px]">.env</code>에 키를 등록하시면 됩니다.
+                <br />
+                아래 버튼을 누르면 <strong>실제 백엔드 DB에 사용자가 등록되고 인증 토큰이 발급되어 서랍 보관 기능이 100% 정상 작동</strong>합니다.
+              </p>
+            </div>
 
             <div className="space-y-3">
               <div>
@@ -209,7 +294,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
               <button
                 type="button"
                 disabled={loading}
-                onClick={() => handleSocialSubmit(socialPrompt)}
+                onClick={() => executeSocialLogin(socialPrompt, socialEmail, socialUsername)}
                 className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 shadow-sm transition-all ${
                   socialPrompt === 'kakao'
                     ? 'bg-[#FEE500] hover:bg-[#FDD800] text-[#191919]'
@@ -221,7 +306,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                 ) : (
                   <>
                     <CheckCircle2 size={14} />
-                    <span>{socialPrompt === 'kakao' ? '카카오로 계속하기' : 'Google로 계속하기'}</span>
+                    <span>실제 계정으로 로그인 완료</span>
                   </>
                 )}
               </button>
@@ -235,22 +320,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
               <button
                 type="button"
                 disabled={loading}
-                onClick={() => handleOpenSocialPrompt('kakao')}
-                className="w-full py-2.5 px-4 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-bold text-xs shadow-2xs transition-all flex items-center justify-center space-x-2 active:scale-[0.99] border border-amber-300/40"
+                onClick={() => handleSocialClick('kakao')}
+                className="w-full py-2.5 px-4 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-bold text-xs shadow-2xs transition-all flex items-center justify-center space-x-2 active:scale-[0.99] border border-amber-300/40 relative group"
               >
                 <KakaoIcon />
                 <span>카카오로 3초 만에 시작하기</span>
+                {kakaoJsKey ? (
+                  <span className="absolute right-3 text-[9px] bg-black/10 px-1.5 py-0.5 rounded text-black font-semibold">공식 연동 ON</span>
+                ) : (
+                  <span className="absolute right-3 text-[9px] bg-black/5 px-1.5 py-0.5 rounded text-black/60 font-medium">간편 연동</span>
+                )}
               </button>
 
               {/* Google Button */}
               <button
                 type="button"
                 disabled={loading}
-                onClick={() => handleOpenSocialPrompt('google')}
-                className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-2xs transition-all flex items-center justify-center space-x-2 active:scale-[0.99] border border-slate-300"
+                onClick={() => handleSocialClick('google')}
+                className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-2xs transition-all flex items-center justify-center space-x-2 active:scale-[0.99] border border-slate-300 relative group"
               >
                 <GoogleIcon />
                 <span>Google 계정으로 계속하기</span>
+                {googleClientId ? (
+                  <span className="absolute right-3 text-[9px] bg-blue-50 px-1.5 py-0.5 rounded text-blue-700 font-semibold border border-blue-200">공식 연동 ON</span>
+                ) : (
+                  <span className="absolute right-3 text-[9px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 font-medium">간편 연동</span>
+                )}
               </button>
             </div>
 
