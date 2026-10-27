@@ -1,0 +1,395 @@
+{
+  "info": {
+    "_postman_id": "daiso-fitter-e2e-suite",
+    "name": "Daiso 3D Drawer Fitter - Full Auth & Drawer Save E2E Test Suite",
+    "description": "Comprehensive Newman test suite covering Health check, User Registration, Duplicate Prevention, Login, Session Verification, Custom Drawer Dimensions & 3D Items Saving, Drawer Retrieval, Drawer Deletion, and Logout Revocation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8001",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userEmail",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "drawerId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Health check responds with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.status).to.eql('ok');",
+              "    pm.expect(json.service).to.eql('daiso-3d-fitter-backend');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. User Registration (회원가입)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const rand = Math.floor(Math.random() * 100000);",
+              "const testEmail = 'daiso_tester_' + Date.now() + '_' + rand + '@daiso.com';",
+              "pm.collectionVariables.set('userEmail', testEmail);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Registration succeeds with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json).to.have.property('token');",
+              "    pm.expect(json.user).to.have.property('id');",
+              "    pm.expect(json.user.email).to.eql(pm.collectionVariables.get('userEmail'));",
+              "    pm.expect(json.user.username).to.eql('정리달인_뉴먼');",
+              "    pm.collectionVariables.set('authToken', json.token);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"username\": \"정리달인_뉴먼\",\n  \"password\": \"daiso_pass_2026!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "3. Duplicate Email Prevention (중복 가입 방지 검증)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Duplicate registration blocked with 400 Bad Request', function () {",
+              "    pm.response.to.have.status(400);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.detail).to.include('이미 가입된 이메일');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"username\": \"중복시도자\",\n  \"password\": \"some_password\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "4. User Login (로그인)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Login succeeds with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json).to.have.property('token');",
+              "    pm.expect(json.user.email).to.eql(pm.collectionVariables.get('userEmail'));",
+              "    pm.collectionVariables.set('authToken', json.token);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"daiso_pass_2026!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "5. Get Current User Profile (/me)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Profile fetched successfully', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.user.email).to.eql(pm.collectionVariables.get('userEmail'));",
+              "    pm.expect(json.user.username).to.eql('정리달인_뉴먼');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "me"]
+        }
+      }
+    },
+    {
+      "name": "6. Save Custom Drawer & 3D Items (내 서랍 크기 및 물품배치 저장)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Drawer saved with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.drawer).to.have.property('id');",
+              "    pm.expect(json.drawer.name).to.eql('뉴먼 테스트 책상 1번 서랍');",
+              "    pm.expect(json.drawer.width).to.eql(34.0);",
+              "    pm.expect(json.drawer.depth).to.eql(42.0);",
+              "    pm.expect(json.drawer.height).to.eql(7.5);",
+              "    pm.expect(json.drawer.items.length).to.eql(2);",
+              "    pm.collectionVariables.set('drawerId', json.drawer.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"뉴먼 테스트 책상 1번 서랍\",\n  \"width\": 34.0,\n  \"depth\": 42.0,\n  \"height\": 7.5,\n  \"category\": \"개인 서랍\",\n  \"items\": [\n    {\n      \"instanceId\": \"daiso-1032844-1\",\n      \"productId\": \"daiso-1032844\",\n      \"x\": 0.0,\n      \"y\": 0.0,\n      \"z\": 0.0,\n      \"rotation\": 0\n    },\n    {\n      \"instanceId\": \"daiso-1018471-2\",\n      \"productId\": \"daiso-1018471\",\n      \"x\": 8.0,\n      \"y\": 0.0,\n      \"z\": 0.0,\n      \"rotation\": 90\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/drawers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "drawers"]
+        }
+      }
+    },
+    {
+      "name": "7. List Saved Drawers (저장된 서랍 목록 조회)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Saved drawers returned with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.drawers).to.be.an('array');",
+              "    pm.expect(json.drawers.length).to.be.at.least(1);",
+              "    const matched = json.drawers.find(d => d.id === pm.collectionVariables.get('drawerId'));",
+              "    pm.expect(matched).to.not.be.undefined;",
+              "    pm.expect(matched.name).to.eql('뉴먼 테스트 책상 1번 서랍');",
+              "    pm.expect(matched.width).to.eql(34.0);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/drawers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "drawers"]
+        }
+      }
+    },
+    {
+      "name": "8. Delete Saved Drawer (서랍 삭제)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Drawer deleted with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.message).to.include('삭제되었습니다');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/drawers/{{drawerId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "drawers", "{{drawerId}}"]
+        }
+      }
+    },
+    {
+      "name": "9. User Logout (로그아웃)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Logout succeeds with 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.message).to.include('로그아웃되었습니다');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/logout",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "logout"]
+        }
+      }
+    },
+    {
+      "name": "10. Verify Token Revoked After Logout (세션 무효화 검증)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Unauthorized 401 returned after logout token revocation', function () {",
+              "    pm.response.to.have.status(401);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "me"]
+        }
+      }
+    }
+  ]
+}

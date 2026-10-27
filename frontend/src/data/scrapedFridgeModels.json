@@ -1,0 +1,6590 @@
+[
+  {
+    "id": "samsung-rm70f91r1a-901l",
+    "brand": "삼성전자",
+    "series": "비스포크 AI 하이브리드 901L (RM70F91R1A)",
+    "modelCode": "RM70F91R1A",
+    "capacityLiters": 901,
+    "fridgeLiters": 535,
+    "freezerLiters": 366,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "900L+ 초특대형",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "⭐ 우리집 냉장고",
+      "AI 스마트 케어",
+      "펠티어 하이브리드",
+      "900L+ 초대용량"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "depth": 930,
+      "height": 1853
+    },
+    "isUserSelected": true,
+    "tag": "⭐ 우리집 모델 (RM70F91R1A · 901L 플래그십)",
+    "description": "삼성 비스포크 최신 AI 하이브리드 쿨링 901L 냉장고로, 선반 깊이가 48cm에 달해 40~45cm 대형 수납 바구니가 여유 있게 들어갑니다.",
+    "imageUrl": "https://img.danuri.io/catalog-image/326/972/078/994ee8f849da4c2bb321b6e073552889.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78972326",
+    "compartments": [
+      {
+        "id": "shelf-1",
+        "name": "냉장실 1단 (상단 메인 선반)",
+        "categoryLabel": "냉장실 상단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 82.5,
+          "depth": 48.0,
+          "height": 23.0
+        },
+        "description": "깊은 수납 바구니 4~5호, 장류, 대용량 밀폐용기 수납",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "냉장고 수납 바구니 5호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "선반 깊이가 48.0cm로 깊어 다이소 45cm 대형 바구니가 여유 있게 들어갑니다."
+      },
+      {
+        "id": "shelf-2",
+        "name": "냉장실 2단 (중간 메인 반찬 선반)",
+        "categoryLabel": "냉장실 중간",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 82.5,
+          "depth": 48.0,
+          "height": 22.0
+        },
+        "description": "일상 반찬통 2단 적재, 투명 아크릴 트레이 배치",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니",
+          "투명 정리함",
+          "모듈 트레이",
+          "밀폐용기"
+        ],
+        "tips": "투명 핸들 트레이를 나란히 배치해 반찬을 한눈에 꺼내기 좋습니다."
+      },
+      {
+        "id": "shelf-3",
+        "name": "냉장실 3단 (하단 와이드/접이식 선반)",
+        "categoryLabel": "냉장실 하단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 82.5,
+          "depth": 48.0,
+          "height": 30.0
+        },
+        "description": "캔음료 2단 롤링 디스펜서, 30구 계란통, 우유 및 냄비 수납",
+        "recommendedKeywords": [
+          "캔음료",
+          "계란 보관함 30구",
+          "디스펜서",
+          "회전형 원형 트레이 30"
+        ],
+        "tips": "높이 30cm로 30구 계란 보관함과 대형 회전 턴테이블이 여유롭게 들어갑니다."
+      },
+      {
+        "id": "crisper-left",
+        "name": "신선 야채실 서랍 (좌측칸)",
+        "categoryLabel": "야채/과일실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 39.5,
+          "depth": 42.0,
+          "height": 18.5
+        },
+        "description": "대파, 양파, 흙 묻은 채소 보관함 및 세움 칸막이",
+        "recommendedKeywords": [
+          "야채 보관",
+          "칸막이",
+          "신선 보관함"
+        ],
+        "tips": "채소를 세워서 보관하면 신선도가 훨씬 오래 유지됩니다."
+      },
+      {
+        "id": "door-pocket",
+        "name": "냉장실 도어 포켓 바스켓",
+        "categoryLabel": "도어 포켓",
+        "zone": "door",
+        "dimensions": {
+          "width": 38.0,
+          "depth": 16.5,
+          "height": 18.0
+        },
+        "description": "2L 생수 2열, 소스병, 드레싱 및 튜브 양념 홀더",
+        "recommendedKeywords": [
+          "도어용 조립형 칸막이",
+          "틈새 수납",
+          "소스 홀더"
+        ],
+        "tips": "도어 칸막이를 끼우면 문을 세게 열어도 병이 넘어지지 않습니다."
+      },
+      {
+        "id": "freezer-drawer",
+        "name": "냉동실 대형 슬라이딩 서랍",
+        "categoryLabel": "냉동실 하단",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 36.0,
+          "depth": 40.0,
+          "height": 22.0
+        },
+        "description": "소분 육류, 냉동밥, 생선 세워서 보관",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "세워서 보관 트레이를 쓰면 원하는 냉동 재료를 책처럼 바로 뽑아 씁니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1x",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max AI 하이브리드 RM70F64R1X",
+    "modelCode": "RM70F64R1X",
+    "capacityLiters": 637,
+    "fridgeLiters": 396,
+    "freezerLiters": 241,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 697
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 637L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max AI 하이브리드 RM70F64R1X (총 637L, 외형 912x697x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/242/843/078/dc7c67dbafee49e8af6c27a349767d59.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78843242",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm80f91m1xj",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 하이브리드 RM80F91M1XJ",
+    "modelCode": "RM80F91M1XJ",
+    "capacityLiters": 894,
+    "fridgeLiters": 528,
+    "freezerLiters": 366,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어",
+      "펠티어 하이브리드"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 894L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 AI 하이브리드 RM80F91M1XJ (총 894L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/202/982/078/050f5aa5eae74c3dbccf352b5f066b1a.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78982202",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64q1a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max AI 하이브리드 RM70F64Q1A",
+    "modelCode": "RM70F64Q1A",
+    "capacityLiters": 623,
+    "fridgeLiters": 388,
+    "freezerLiters": 235,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 697
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 623L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max AI 하이브리드 RM70F64Q1A (총 623L, 외형 912x697x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/356/099/078/79c0990b678c4118a88226a28c172aba.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78099356",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max AI 하이브리드 RM70F64R1A",
+    "modelCode": "RM70F64R1A",
+    "capacityLiters": 637,
+    "fridgeLiters": 396,
+    "freezerLiters": 241,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 697
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 637L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max AI 하이브리드 RM70F64R1A (총 637L, 외형 912x697x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/676/787/078/6d7f46a8992a47b68b5976c01831c24f.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78787676",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f91r1zg",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 하이브리드 RM70F91R1ZG",
+    "modelCode": "RM70F91R1ZG",
+    "capacityLiters": 901,
+    "fridgeLiters": 535,
+    "freezerLiters": 366,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "900L+ 초특대형",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어",
+      "펠티어 하이브리드",
+      "900L+ 초대용량"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 901L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 AI 하이브리드 RM70F91R1ZG (총 901L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/881/981/078/e184961a0c82456cb9c5d26f3251d77c.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78981881",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mee1h1",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T876MEE1H1",
+    "modelCode": "T876MEE1H1",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T876MEE1H1 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/101/666/122/4465e2f9f2ac4c1ea41c50423c7f157d.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122666101",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mee011",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T876MEE011",
+    "modelCode": "T876MEE011",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T876MEE011 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/195/624/122/a9a5ebf662354e99a1b4fe265436b636.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122624195",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mee111",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T876MEE111",
+    "modelCode": "T876MEE111",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T876MEE111 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/386/634/122/f9d4e78e98a2424aa99090a21b61ef54.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122634386",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mee012",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T876MEE012",
+    "modelCode": "T876MEE012",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T876MEE012 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/195/624/122/f7461ca2ac884c4bb5f1751fc2081318.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122632075",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mee1s1",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T876MEE1S1",
+    "modelCode": "T876MEE1S1",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T876MEE1S1 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/847/708/122/09f32f93de5e4403ab7613f9cd2a788e.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122708847",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mqq1h1",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T876MQQ1H1",
+    "modelCode": "T876MQQ1H1",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T876MQQ1H1 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/668/700/122/55af1708c79c456284301c53813c1986.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122700668",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f63r2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F63R2A",
+    "modelCode": "RM70F63R2A",
+    "capacityLiters": 640,
+    "fridgeLiters": 399,
+    "freezerLiters": 241,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 697
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 640L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F63R2A (총 640L, 외형 912x697x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/156/705/077/90b3f85132d04ff4ac46689cc9162e03.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=77705156",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f90r2zd",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 RM70F90R2ZD",
+    "modelCode": "RM70F90R2ZD",
+    "capacityLiters": 905,
+    "fridgeLiters": 539,
+    "freezerLiters": 366,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "900L+ 초특대형",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "900L+ 초대용량"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1830,
+      "depth": 922
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 905L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 RM70F90R2ZD (총 905L, 외형 912x922x1830mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/326/972/078/994ee8f849da4c2bb321b6e073552889.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78972326",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f63r2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ33DB74D2AP",
+    "modelCode": "RM70F63R2A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ33DB74D2AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/259/844/078/4010d8bdda594f7986196f2180fb386d.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78844259",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rk70f58m1zg",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 김치플러스 RK70F58M1ZG",
+    "modelCode": "RK70F58M1ZG",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "AI 스마트 케어",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 799,
+      "height": 1853,
+      "depth": 892
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 AI 김치플러스 RK70F58M1ZG (총 610L, 외형 799x892x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/040/108/097/3094122772ce42dca8773915952f5f76.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=97108040",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f90r2gd",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 RM70F90R2GD",
+    "modelCode": "RM70F90R2GD",
+    "capacityLiters": 905,
+    "fridgeLiters": 539,
+    "freezerLiters": 366,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "900L+ 초특대형",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "900L+ 초대용량"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1830,
+      "depth": 922
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 905L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 RM70F90R2GD (총 905L, 외형 912x922x1830mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/284/972/078/786c09e7051b42a1a7a5f0af2691cb20.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=78972284",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rf85c9001",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 새틴 RF85C9001 (화이트+세이지그린)",
+    "modelCode": "RF85C9001",
+    "capacityLiters": 875,
+    "fridgeLiters": 522,
+    "freezerLiters": 177,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 875L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 새틴 RF85C9001 (화이트+세이지그린) (총 875L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/316/784/027/4a39e178f96e4ef9b8a653a03eef4b83.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=27784316",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rf85c9001",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 글램 RF85C9001",
+    "modelCode": "RF85C9001",
+    "capacityLiters": 875,
+    "fridgeLiters": 522,
+    "freezerLiters": 177,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 875L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 글램 RF85C9001 (총 875L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/416/031/020/d6b8bd71148d46e3927a6d865e1db586.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=20031416",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rf85c9001",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 코타 RF85C9001 (모닝블루)",
+    "modelCode": "RF85C9001",
+    "capacityLiters": 875,
+    "fridgeLiters": 522,
+    "freezerLiters": 177,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 875L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 코타 RF85C9001 (모닝블루) (총 875L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/709/706/021/ecd0b82a3fd34c5babe815eb564be8a3.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=21706709",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rf85c9001",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 코타 RF85C9001 (차콜)",
+    "modelCode": "RF85C9001",
+    "capacityLiters": 875,
+    "fridgeLiters": 522,
+    "freezerLiters": 177,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 875L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 코타 RF85C9001 (차콜) (총 875L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/992/661/020/c4a672ba933a4bdf8080416765715d54.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=20661992",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rf85c9001",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 코타 RF85C9001",
+    "modelCode": "RF85C9001",
+    "capacityLiters": 875,
+    "fridgeLiters": 522,
+    "freezerLiters": 177,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 875L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 코타 RF85C9001 (총 875L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/993/138/020/9094954e630a4658ab3858c58843c80d.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=20138993",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rf85b9001",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 코타 RF85B9001 (이브닝코랄)",
+    "modelCode": "RF85B9001",
+    "capacityLiters": 875,
+    "fridgeLiters": 522,
+    "freezerLiters": 353,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 930
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 875L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 코타 RF85B9001 (이브닝코랄) (총 875L, 외형 912x930x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/555/921/017/20b1e3ddc51a455186a42293fa9cd2d4.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=17921555",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-z490meef11",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 김치톡톡 Z490MEEF11",
+    "modelCode": "Z490MEEF11",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 김치톡톡",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 835,
+      "height": 1860,
+      "depth": 838
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 김치냉장고",
+    "description": "LG전자 오브제컬렉션 김치톡톡 Z490MEEF11 (총 610L, 외형 835x838x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/183/125/099/67a0332d65e547cc855de9981d35091c.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=99125183",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-z509mhhf23",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 Z509MHHF23",
+    "modelCode": "Z509MHHF23",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 835,
+      "height": 1787,
+      "depth": 730
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 4도어 키친핏",
+    "description": "LG전자 오브제컬렉션 Z509MHHF23 (총 610L, 외형 835x730x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/528/560/069/37c5d368eae84edf9c5d1cfedde287a3.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=69560528",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t873mee111",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 오브제컬렉션 T873MEE111",
+    "modelCode": "T873MEE111",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 오브제컬렉션 T873MEE111 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/099/432/017/6e7d5e87c3a44d12b685971807842f3b.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=17432099",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-g646gbb021",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 Fit & Max G646GBB021",
+    "modelCode": "G646GBB021",
+    "capacityLiters": 650,
+    "fridgeLiters": 391,
+    "freezerLiters": 259,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1860,
+      "depth": 709
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 650L · 4도어 키친핏",
+    "description": "LG전자 디오스 AI 오브제컬렉션 Fit & Max G646GBB021 (총 650L, 외형 914x709x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/242/699/122/74317d05cd2948b4bbccca30789fe4f4.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122699242",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-z490mpsf11",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 김치톡톡 Z490MPSF11",
+    "modelCode": "Z490MPSF11",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 김치톡톡",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 835,
+      "height": 1795,
+      "depth": 838
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 김치냉장고",
+    "description": "LG전자 오브제컬렉션 김치톡톡 Z490MPSF11 (총 610L, 외형 835x838x1795mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/259/414/103/e502396fea424d06a17b8226a4858158.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=103414259",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t875mee111",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 오브제컬렉션 T875MEE111",
+    "modelCode": "T875MEE111",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 오브제컬렉션 T875MEE111 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/772/353/065/42cd451170894457922a1eb65f19f27d.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=65353772",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t875mee111",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 T875MEE111 + Z408MEEF23",
+    "modelCode": "T875MEE111",
+    "capacityLiters": 875,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 875L · 4도어 프리스탠딩",
+    "description": "LG전자 오브제컬렉션 T875MEE111 + Z408MEEF23 (총 875L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/561/069/101/2e0748c22e09481183b65e56cdca87e9.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=101069561",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t875p012",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 오브제컬렉션 T875P012",
+    "modelCode": "T875P012",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 오브제컬렉션 T875P012 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/347/380/064/5778fb914c8145a78c02bb763eb478ec.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=64380347",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t875mhe111",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 T875MHE111",
+    "modelCode": "T875MHE111",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 오브제컬렉션 T875MHE111 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/008/074/073/cdf2561b3d62498bb791f6783cd16f37.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=73074008",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t875mee141",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 오브제컬렉션 STEM T875MEE141",
+    "modelCode": "T875MEE141",
+    "capacityLiters": 860,
+    "fridgeLiters": 498,
+    "freezerLiters": 362,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 860L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 오브제컬렉션 STEM T875MEE141 (총 860L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/644/581/067/8e1a8f6d86c242cd9e1fc6fdbfe36a51.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=67581644",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t875mee011",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 T875MEE011",
+    "modelCode": "T875MEE011",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "오브제컬렉션 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 AI 오브제컬렉션 T875MEE011 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/523/639/094/cca5c99e9d754fafabfdb714dc1830f8.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94639523",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mqq412",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 T876MQQ412",
+    "modelCode": "T876MQQ412",
+    "capacityLiters": 865,
+    "fridgeLiters": 498,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 865L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 T876MQQ412 (총 865L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/319/624/122/9eb0a7c284884e279ceb7ad3fc9e5183.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122624319",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mqq012",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 T876MQQ012",
+    "modelCode": "T876MQQ012",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 T876MQQ012 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/142/632/122/8589eda88aa94c53b98ea930e1198cbe.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122632142",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mqq011",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 T876MQQ011",
+    "modelCode": "T876MQQ011",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 T876MQQ011 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/243/624/122/d03832bd19a04c85a5bf39a2f21a0f35.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122624243",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mee041",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 T876MEE041",
+    "modelCode": "T876MEE041",
+    "capacityLiters": 860,
+    "fridgeLiters": 498,
+    "freezerLiters": 362,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 860L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 T876MEE041 (총 860L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/317/695/122/fa6468b5d47848d49552f1e3fd97876e.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122695317",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mqq011",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 T876MQQ011 + Z330MQQF11",
+    "modelCode": "T876MQQ011",
+    "capacityLiters": 875,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 875L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 T876MQQ011 + Z330MQQF11 (총 875L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/197/962/123/3f4ee638b6c34c7091c77a20e0cd158a.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=123962197",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-t876mrq012",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 T876MRQ012",
+    "modelCode": "T876MRQ012",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1787,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 T876MRQ012 (총 870L, 외형 914x918x1787mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/172/632/122/ba274e2d69c040ac8f33dae0951b1f23.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122632172",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rr70h39g10",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 RR70H39G10 + RZ70H32UN0 + RQ70H32S10",
+    "modelCode": "RR70H39G10",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 RR70H39G10 + RZ70H32UN0 + RQ70H32S10 (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/589/723/122/e234091ca40c47d4a690c813a5d05345.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122723589",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-nz63dg403cfk",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 NZ63DG403CFK (빌트인)",
+    "modelCode": "NZ63DG403CFK",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "depth": 910,
+      "height": 1853
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 NZ63DG403CFK (빌트인) (총 610L, 외형 912x910x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/045/489/047/56a9c1ab93d5463d8f62f508f4322ebe.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=47489045",
+    "compartments": [
+      {
+        "id": "shelf-1",
+        "name": "냉장실 1단 (상단 메인 선반)",
+        "categoryLabel": "냉장실 상단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 82.5,
+          "depth": 46.5,
+          "height": 23.0
+        },
+        "description": "깊은 수납 바구니 4~5호, 장류, 대용량 밀폐용기 수납",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "냉장고 수납 바구니 5호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "선반 깊이가 46.5cm로 깊어 다이소 45cm 대형 바구니가 여유 있게 들어갑니다."
+      },
+      {
+        "id": "shelf-2",
+        "name": "냉장실 2단 (중간 메인 반찬 선반)",
+        "categoryLabel": "냉장실 중간",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 82.5,
+          "depth": 46.5,
+          "height": 22.0
+        },
+        "description": "일상 반찬통 2단 적재, 투명 아크릴 트레이 배치",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니",
+          "투명 정리함",
+          "모듈 트레이",
+          "밀폐용기"
+        ],
+        "tips": "투명 핸들 트레이를 나란히 배치해 반찬을 한눈에 꺼내기 좋습니다."
+      },
+      {
+        "id": "shelf-3",
+        "name": "냉장실 3단 (하단 와이드/접이식 선반)",
+        "categoryLabel": "냉장실 하단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 82.5,
+          "depth": 46.5,
+          "height": 30.0
+        },
+        "description": "캔음료 2단 롤링 디스펜서, 30구 계란통, 우유 및 냄비 수납",
+        "recommendedKeywords": [
+          "캔음료",
+          "계란 보관함 30구",
+          "디스펜서",
+          "회전형 원형 트레이 30"
+        ],
+        "tips": "높이 30cm로 30구 계란 보관함과 대형 회전 턴테이블이 여유롭게 들어갑니다."
+      },
+      {
+        "id": "crisper-left",
+        "name": "신선 야채실 서랍 (좌측칸)",
+        "categoryLabel": "야채/과일실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 39.5,
+          "depth": 40.5,
+          "height": 18.5
+        },
+        "description": "대파, 양파, 흙 묻은 채소 보관함 및 세움 칸막이",
+        "recommendedKeywords": [
+          "야채 보관",
+          "칸막이",
+          "신선 보관함"
+        ],
+        "tips": "채소를 세워서 보관하면 신선도가 훨씬 오래 유지됩니다."
+      },
+      {
+        "id": "door-pocket",
+        "name": "냉장실 도어 포켓 바스켓",
+        "categoryLabel": "도어 포켓",
+        "zone": "door",
+        "dimensions": {
+          "width": 38.0,
+          "depth": 16.5,
+          "height": 18.0
+        },
+        "description": "2L 생수 2열, 소스병, 드레싱 및 튜브 양념 홀더",
+        "recommendedKeywords": [
+          "도어용 조립형 칸막이",
+          "틈새 수납",
+          "소스 홀더"
+        ],
+        "tips": "도어 칸막이를 끼우면 문을 세게 열어도 병이 넘어지지 않습니다."
+      },
+      {
+        "id": "freezer-drawer",
+        "name": "냉동실 대형 슬라이딩 서랍",
+        "categoryLabel": "냉동실 하단",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 36.0,
+          "depth": 40.0,
+          "height": 22.0
+        },
+        "description": "소분 육류, 냉동밥, 생선 세워서 보관",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "세워서 보관 트레이를 쓰면 원하는 냉동 재료를 책처럼 바로 뽑아 씁니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-dw99f79e1b00t",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 인피니트 라인 키친핏 DW99F79E1B00T 14인용 트루빌트인",
+    "modelCode": "DW99F79E1B00T",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 인피니트",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 595,
+      "height": 815,
+      "depth": 572
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 인피니트 라인 키친핏 DW99F79E1B00T 14인용 트루빌트인 (총 610L, 외형 595x572x815mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/128/100/086/c201c251731744b6b001b855004beb7e.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=86100128",
+    "compartments": [
+      {
+        "id": "shelf-main",
+        "name": "키친핏 냉장실 메인 선반 (1~2단)",
+        "categoryLabel": "키친핏 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 74.0,
+          "depth": 34.5,
+          "height": 21.0
+        },
+        "description": "깊이 30~34cm 중형 트레이 전용 (40cm 이상 대형 트레이 불가)",
+        "recommendedKeywords": [
+          "냉장고 정리 핸들 트레이 슬림",
+          "냉장고 수납 바구니 2호",
+          "냉장고 수납 바구니 3호"
+        ],
+        "tips": "키친핏은 깊이가 34.5cm이므로 반드시 34cm 이하 슬림 트레이를 써야 문이 닫힙니다."
+      },
+      {
+        "id": "shelf-bottom",
+        "name": "키친핏 냉장실 하단 선반",
+        "categoryLabel": "키친핏 하단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 74.0,
+          "depth": 34.5,
+          "height": 26.0
+        },
+        "description": "계란 15구/30구, 캔음료 홀더, 23.5cm 회전 트레이",
+        "recommendedKeywords": [
+          "계란 보관함 30구",
+          "캔음료",
+          "회전형 원형 트레이 23.5"
+        ],
+        "tips": "회전 트레이는 30cm 대신 23.5cm 규격을 써야 문에 걸리지 않습니다."
+      },
+      {
+        "id": "crisper",
+        "name": "키친핏 신선 야채실 서랍",
+        "categoryLabel": "야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 35.0,
+          "depth": 28.0,
+          "height": 16.0
+        },
+        "description": "슬림 야채실 전용 소형 칸막이",
+        "recommendedKeywords": [
+          "야채 보관",
+          "칸막이"
+        ],
+        "tips": "서랍 깊이가 28cm로 컴팩트하므로 소형 칸막이 2개를 나란히 두세요."
+      },
+      {
+        "id": "freezer",
+        "name": "키친핏 냉동실 서랍",
+        "categoryLabel": "냉동실 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 28.0,
+          "height": 18.0
+        },
+        "description": "냉동밥 소분용기 및 컴팩트 냉동 트레이",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이"
+        ],
+        "tips": "소분 용기 4~6개를 2열로 정갈하게 수납할 수 있습니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f63r2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F63R2A + RK70F42M2A",
+    "modelCode": "RM70F63R2A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F63R2A + RK70F42M2A (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/017/855/096/3ce9fa9cb42f44f995cb483af9266f89.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=96855017",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f63r2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ33DB74C1AP",
+    "modelCode": "RM70F63R2A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ33DB74C1AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/269/156/090/d8903e2651844f8eb008414b8a9b49b9.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=90156269",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f63r2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ34C7915AP",
+    "modelCode": "RM70F63R2A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ34C7915AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/539/156/090/8cd50091be824c698aacf364ab691526.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=90156539",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f63r2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ33DB74C1AP",
+    "modelCode": "RM70F63R2A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F63R2A + 키친핏 코타 RQ33DB74C1AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/851/635/091/63360ee0e21749b298ea7b1ae5224b84.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=91635851",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1x",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F64R1X + 키친핏 새틴 RQ33DB74D2AP",
+    "modelCode": "RM70F64R1X",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F64R1X + 키친핏 새틴 RQ33DB74D2AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/195/671/122/f610cdd1bffd4e22857f057c04c3d021.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122671195",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F64R1A + 키친핏 코타 RQ33DB74C1AP",
+    "modelCode": "RM70F64R1A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F64R1A + 키친핏 코타 RQ33DB74C1AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/670/696/094/bee1a0fdf9f14c98a0decdea220e9ea0.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94696670",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F64R1A + RK70F42M2A",
+    "modelCode": "RM70F64R1A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F64R1A + RK70F42M2A (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/940/408/097/5d46bdc25ca64420986cbb8130ee1421.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=97408940",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1x",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F64R1X + 키친핏 새틴 RQ33DB74C1AP",
+    "modelCode": "RM70F64R1X",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F64R1X + 키친핏 새틴 RQ33DB74C1AP (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/517/696/094/4e619de522c64b4ebf85ee2d44a81738.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94696517",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f64r1zg",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 키친핏 Max RM70F64R1ZG + 키친핏 에센셜 RQ33DB74C1AP (화이트+베이지)",
+    "modelCode": "RM70F64R1ZG",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 4도어 키친핏",
+    "description": "삼성전자 비스포크 키친핏 Max RM70F64R1ZG + 키친핏 에센셜 RQ33DB74C1AP (화이트+베이지) (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/122/407/097/3368bae63a58497181c6dcda86b1a564.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=97407122",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-z334gbb151",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 김치톡톡 Fit & Max Z334GBB151",
+    "modelCode": "Z334GBB151",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 김치톡톡",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 666,
+      "height": 1860,
+      "depth": 685
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 김치냉장고",
+    "description": "LG전자 오브제컬렉션 김치톡톡 Fit & Max Z334GBB151 (총 610L, 외형 666x685x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/774/180/124/280ff494b3fe4ddc82c319ff8fde5d81.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=124180774",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-q336mqq133",
+    "brand": "LG전자",
+    "series": "LG전자 모던엣지 AI 오브제컬렉션 Fit & Max Q336MQQ133",
+    "modelCode": "Q336MQQ133",
+    "capacityLiters": 333,
+    "fridgeLiters": 220,
+    "freezerLiters": 113,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "500L 이하 / 김치",
+    "subBrand": "오브제 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 597,
+      "height": 1860,
+      "depth": 674
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 333L · 4도어 키친핏",
+    "description": "LG전자 모던엣지 AI 오브제컬렉션 Fit & Max Q336MQQ133 (총 333L, 외형 597x674x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/906/700/122/06fbead632dc4eb08871ea5485d30531.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122700906",
+    "compartments": [
+      {
+        "id": "shelf-main",
+        "name": "키친핏 냉장실 메인 선반 (1~2단)",
+        "categoryLabel": "키친핏 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 74.0,
+          "depth": 34.5,
+          "height": 21.0
+        },
+        "description": "깊이 30~34cm 중형 트레이 전용 (40cm 이상 대형 트레이 불가)",
+        "recommendedKeywords": [
+          "냉장고 정리 핸들 트레이 슬림",
+          "냉장고 수납 바구니 2호",
+          "냉장고 수납 바구니 3호"
+        ],
+        "tips": "키친핏은 깊이가 34.5cm이므로 반드시 34cm 이하 슬림 트레이를 써야 문이 닫힙니다."
+      },
+      {
+        "id": "shelf-bottom",
+        "name": "키친핏 냉장실 하단 선반",
+        "categoryLabel": "키친핏 하단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 74.0,
+          "depth": 34.5,
+          "height": 26.0
+        },
+        "description": "계란 15구/30구, 캔음료 홀더, 23.5cm 회전 트레이",
+        "recommendedKeywords": [
+          "계란 보관함 30구",
+          "캔음료",
+          "회전형 원형 트레이 23.5"
+        ],
+        "tips": "회전 트레이는 30cm 대신 23.5cm 규격을 써야 문에 걸리지 않습니다."
+      },
+      {
+        "id": "crisper",
+        "name": "키친핏 신선 야채실 서랍",
+        "categoryLabel": "야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 35.0,
+          "depth": 28.0,
+          "height": 16.0
+        },
+        "description": "슬림 야채실 전용 소형 칸막이",
+        "recommendedKeywords": [
+          "야채 보관",
+          "칸막이"
+        ],
+        "tips": "서랍 깊이가 28cm로 컴팩트하므로 소형 칸막이 2개를 나란히 두세요."
+      },
+      {
+        "id": "freezer",
+        "name": "키친핏 냉동실 서랍",
+        "categoryLabel": "냉동실 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 28.0,
+          "height": 18.0
+        },
+        "description": "냉동밥 소분용기 및 컴팩트 냉동 트레이",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이"
+        ],
+        "tips": "소분 용기 4~6개를 2열로 정갈하게 수납할 수 있습니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-g646gbb021",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 Fit & Max G646GBB021 + Z386GBB261",
+    "modelCode": "G646GBB021",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 696,
+      "depth": 795,
+      "height": 1850
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 4도어 키친핏",
+    "description": "LG전자 디오스 AI 오브제컬렉션 Fit & Max G646GBB021 + Z386GBB261 (총 610L, 외형 696x795x1850mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/066/962/123/a0f043dab8bf4818b1d82b493abe07a8.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=123962066",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-z484gbb123s",
+    "brand": "LG전자",
+    "series": "LG전자 오브제컬렉션 김치톡톡 Fit & Max Z484GBB123S",
+    "modelCode": "Z484GBB123S",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 김치톡톡",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 835,
+      "height": 1860,
+      "depth": 685
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 김치냉장고",
+    "description": "LG전자 오브제컬렉션 김치톡톡 Fit & Max Z484GBB123S (총 610L, 외형 835x685x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/426/288/080/c0f02364ffdf496ab219ccd3143ab343.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=80288426",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-g646mee021",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 Fit & Max G646MEE021",
+    "modelCode": "G646MEE021",
+    "capacityLiters": 650,
+    "fridgeLiters": 391,
+    "freezerLiters": 259,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "AI 스마트 케어",
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1860,
+      "depth": 709
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 650L · 4도어 키친핏",
+    "description": "LG전자 디오스 AI 오브제컬렉션 Fit & Max G646MEE021 (총 650L, 외형 914x709x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/447/706/122/03f0e11f12f14296bd08dcae82818f0f.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122706447",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rs84db5002cw",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 RS84DB5002CW",
+    "modelCode": "RS84DB5002CW",
+    "capacityLiters": 852,
+    "fridgeLiters": 532,
+    "freezerLiters": 320,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "800L 대용량",
+    "subBrand": "비스포크 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1780,
+      "depth": 915
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 852L · 양문형",
+    "description": "삼성전자 비스포크 RS84DB5002CW (총 852L, 외형 912x915x1780mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/714/273/062/d8ad30be2bc64d008ecd59b7ab3c4a7b.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=62273714",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rm70f90m1zd",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 RM70F90M1ZD",
+    "modelCode": "RM70F90M1ZD",
+    "capacityLiters": 902,
+    "fridgeLiters": 536,
+    "freezerLiters": 366,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "900L+ 초특대형",
+    "subBrand": "비스포크 AI 하이브리드",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [
+      "펠티어 하이브리드",
+      "900L+ 초대용량"
+    ],
+    "dimensionsExterior": {
+      "width": 912,
+      "height": 1853,
+      "depth": 922
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 902L · 4도어 프리스탠딩",
+    "description": "삼성전자 비스포크 RM70F90M1ZD (총 902L, 외형 912x922x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/567/259/094/cebd177ddfc94307874af1e21b28cbcb.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94259567",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-f756si14",
+    "brand": "LG전자",
+    "series": "LG전자 프렌치디오스 F756SI14",
+    "modelCode": "F756SI14",
+    "capacityLiters": 716,
+    "fridgeLiters": 478,
+    "freezerLiters": 238,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 908,
+      "height": 1785,
+      "depth": 802
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 716L · 양문형",
+    "description": "LG전자 프렌치디오스 F756SI14 (총 716L, 외형 908x802x1785mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/101/426/060/eca8ff2d07b04de48b364df5f8f10a82.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=60426101",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-h876gbb011",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 H876GBB011",
+    "modelCode": "H876GBB011",
+    "capacityLiters": 870,
+    "fridgeLiters": 503,
+    "freezerLiters": 367,
+    "type": "4도어 프리스탠딩",
+    "doorType": "4도어 프리스탠딩",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 4도어",
+    "shelfDepthType": "대형 깊은 선반 (46~48cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 914,
+      "height": 1860,
+      "depth": 918
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 870L · 4도어 프리스탠딩",
+    "description": "LG전자 디오스 H876GBB011 (총 870L, 외형 914x918x1860mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/945/623/122/31272f4635894f0a81fc029e2a6fe999.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=122623945",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-s834mee111",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 S834MEE111",
+    "modelCode": "S834MEE111",
+    "capacityLiters": 832,
+    "fridgeLiters": 524,
+    "freezerLiters": 308,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 913,
+      "height": 1790,
+      "depth": 913
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 832L · 양문형",
+    "description": "LG전자 디오스 AI 오브제컬렉션 S834MEE111 (총 832L, 외형 913x913x1790mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/772/639/094/1d12186019cd4587b92549447db24a40.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94639772",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-s834mqq141",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 S834MQQ141",
+    "modelCode": "S834MQQ141",
+    "capacityLiters": 832,
+    "fridgeLiters": 524,
+    "freezerLiters": 308,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 913,
+      "height": 1790,
+      "depth": 913
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 832L · 양문형",
+    "description": "LG전자 디오스 AI 오브제컬렉션 S834MQQ141 (총 832L, 외형 913x913x1790mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/705/934/094/53f399fd39914c578242fe6410827f4b.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94934705",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-s834mte011",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 S834MTE011",
+    "modelCode": "S834MTE011",
+    "capacityLiters": 832,
+    "fridgeLiters": 524,
+    "freezerLiters": 308,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 913,
+      "height": 1790,
+      "depth": 913
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 832L · 양문형",
+    "description": "LG전자 디오스 AI 오브제컬렉션 S834MTE011 (총 832L, 외형 913x913x1790mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/487/639/094/4e173cd94dd54c88a635114e57e8d4af.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94639487",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-66",
+    "brand": "LG전자",
+    "series": "LG전자 냉장고 냉장실 도어 바구니 MAN64890001",
+    "modelCode": "",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "4도어 키친핏",
+    "doorType": "4도어 키친핏",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "오브제 키친핏",
+    "shelfDepthType": "슬림 얕은 선반 (34~35cm)",
+    "features": [
+      "싱크대 키친핏"
+    ],
+    "dimensionsExterior": {
+      "width": 415,
+      "height": 105,
+      "depth": 204
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 610L · 4도어 키친핏",
+    "description": "LG전자 냉장고 냉장실 도어 바구니 MAN64890001 (총 610L, 외형 415x204x105mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/656/480/027/8c213ee34f8f4f159ffce34f38ae107c.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=27480656",
+    "compartments": [
+      {
+        "id": "shelf-main",
+        "name": "키친핏 냉장실 메인 선반 (1~2단)",
+        "categoryLabel": "키친핏 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 74.0,
+          "depth": 34.5,
+          "height": 21.0
+        },
+        "description": "깊이 30~34cm 중형 트레이 전용 (40cm 이상 대형 트레이 불가)",
+        "recommendedKeywords": [
+          "냉장고 정리 핸들 트레이 슬림",
+          "냉장고 수납 바구니 2호",
+          "냉장고 수납 바구니 3호"
+        ],
+        "tips": "키친핏은 깊이가 34.5cm이므로 반드시 34cm 이하 슬림 트레이를 써야 문이 닫힙니다."
+      },
+      {
+        "id": "shelf-bottom",
+        "name": "키친핏 냉장실 하단 선반",
+        "categoryLabel": "키친핏 하단",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 74.0,
+          "depth": 34.5,
+          "height": 26.0
+        },
+        "description": "계란 15구/30구, 캔음료 홀더, 23.5cm 회전 트레이",
+        "recommendedKeywords": [
+          "계란 보관함 30구",
+          "캔음료",
+          "회전형 원형 트레이 23.5"
+        ],
+        "tips": "회전 트레이는 30cm 대신 23.5cm 규격을 써야 문에 걸리지 않습니다."
+      },
+      {
+        "id": "crisper",
+        "name": "키친핏 신선 야채실 서랍",
+        "categoryLabel": "야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 35.0,
+          "depth": 28.0,
+          "height": 16.0
+        },
+        "description": "슬림 야채실 전용 소형 칸막이",
+        "recommendedKeywords": [
+          "야채 보관",
+          "칸막이"
+        ],
+        "tips": "서랍 깊이가 28cm로 컴팩트하므로 소형 칸막이 2개를 나란히 두세요."
+      },
+      {
+        "id": "freezer",
+        "name": "키친핏 냉동실 서랍",
+        "categoryLabel": "냉동실 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 28.0,
+          "height": 18.0
+        },
+        "description": "냉동밥 소분용기 및 컴팩트 냉동 트레이",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이"
+        ],
+        "tips": "소분 용기 4~6개를 2열로 정갈하게 수납할 수 있습니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-s834mqq111",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 AI 오브제컬렉션 S834MQQ111",
+    "modelCode": "S834MQQ111",
+    "capacityLiters": 832,
+    "fridgeLiters": 524,
+    "freezerLiters": 308,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [
+      "AI 스마트 케어"
+    ],
+    "dimensionsExterior": {
+      "width": 913,
+      "height": 1790,
+      "depth": 913
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 832L · 양문형",
+    "description": "LG전자 디오스 AI 오브제컬렉션 S834MQQ111 (총 832L, 외형 913x913x1790mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/550/639/094/6e7e4e7450b3458083fbdec2697ac4b8.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=94639550",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-s834w30v",
+    "brand": "LG전자",
+    "series": "LG전자 디오스 S834W30V",
+    "modelCode": "S834W30V",
+    "capacityLiters": 832,
+    "fridgeLiters": 524,
+    "freezerLiters": 308,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "800L 대용량",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 913,
+      "height": 1790,
+      "depth": 913
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 832L · 양문형",
+    "description": "LG전자 디오스 S834W30V (총 832L, 외형 913x913x1790mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/383/497/016/b736ecc5ce164544b780ef0bda791bf2.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=16497383",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "lg전자-f756si014",
+    "brand": "LG전자",
+    "series": "LG전자 프렌치디오스 F756SI014",
+    "modelCode": "F756SI014",
+    "capacityLiters": 742,
+    "fridgeLiters": 504,
+    "freezerLiters": 238,
+    "type": "양문형",
+    "doorType": "양문형",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "디오스 양문형",
+    "shelfDepthType": "표준 깊은 선반 (42~45cm)",
+    "features": [],
+    "dimensionsExterior": {
+      "width": 908,
+      "height": 1785,
+      "depth": 802
+    },
+    "isUserSelected": false,
+    "tag": "LG전자 · 742L · 양문형",
+    "description": "LG전자 프렌치디오스 F756SI014 (총 742L, 외형 908x802x1785mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/158/764/106/7f191bd4f1c54e3b862810a1089047f5.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=106764158",
+    "compartments": [
+      {
+        "id": "fridge-shelf",
+        "name": "우측 냉장실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉장실",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 43.0,
+          "depth": 45.0,
+          "height": 24.0
+        },
+        "description": "폭 15~20cm 모듈 트레이 2열 배치에 완벽",
+        "recommendedKeywords": [
+          "냉장고 수납 바구니 4호",
+          "핸들 트레이",
+          "밀폐용기"
+        ],
+        "tips": "폭 20cm 트레이 2개를 나란히 넣으면 선반 폭 43cm에 빈틈없이 들어맞습니다."
+      },
+      {
+        "id": "fridge-crisper",
+        "name": "우측 냉장실 하단 야채실 서랍",
+        "categoryLabel": "양문형 야채실",
+        "zone": "crisper",
+        "dimensions": {
+          "width": 40.0,
+          "depth": 40.0,
+          "height": 20.0
+        },
+        "description": "깊은 서랍형 야채/과일 보관함",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기",
+          "야채 보관"
+        ],
+        "tips": "대용량 야채 보관함 1개와 칸막이를 결합해 쓰기 좋습니다."
+      },
+      {
+        "id": "freezer-shelf",
+        "name": "좌측 냉동실 메인 선반 (1~3단)",
+        "categoryLabel": "양문형 냉동실",
+        "zone": "freezer_tray",
+        "dimensions": {
+          "width": 33.0,
+          "depth": 42.0,
+          "height": 23.0
+        },
+        "description": "냉동밥 소분 용기, 냉동 피자, 소분 육류 2열 수납",
+        "recommendedKeywords": [
+          "소분 용기",
+          "냉동 트레이",
+          "지퍼백"
+        ],
+        "tips": "폭 15cm 냉동 트레이 2개를 앞뒤로 길게 수납하면 깔끔합니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rk80f42c2w",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 김치플러스 키친핏 Max RK80F42C2W",
+    "modelCode": "RK80F42C2W",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "AI 스마트 케어",
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 799,
+      "height": 1853,
+      "depth": 697
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 AI 김치플러스 키친핏 Max RK80F42C2W (총 610L, 외형 799x697x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/661/259/096/395329003aa54490ac8b024726e09d2d.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=96259661",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rk70f49m1a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 김치플러스 RK70F49M1A",
+    "modelCode": "RK70F49M1A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "AI 스마트 케어",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 799,
+      "height": 1853,
+      "depth": 794
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 AI 김치플러스 RK70F49M1A (총 610L, 외형 799x794x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/006/723/123/51acdad4b8a6453fa1bbfcf36048c27d.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=123723006",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rk70f49f1dd",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 김치플러스 RK70F49F1DD",
+    "modelCode": "RK70F49F1DD",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "AI 스마트 케어",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 799,
+      "height": 1825,
+      "depth": 787
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 AI 김치플러스 RK70F49F1DD (총 610L, 외형 799x787x1825mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/842/773/097/1cf75ee9e210428396987688207a6e0a.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=97773842",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rk70f42m2a",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 김치플러스 키친핏 Max RK70F42M2A",
+    "modelCode": "RK70F42M2A",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "AI 스마트 케어",
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 799,
+      "height": 1853,
+      "depth": 697
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 AI 김치플러스 키친핏 Max RK70F42M2A (총 610L, 외형 799x697x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/708/681/123/d1cf4e20509b4f88854c43dff3412b0f.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=123681708",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rk70f49m2zd",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 AI 김치플러스 RK70F49M2ZD",
+    "modelCode": "RK70F49M2ZD",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "AI 스마트 케어",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 799,
+      "height": 1825,
+      "depth": 787
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 AI 김치플러스 RK70F49M2ZD (총 610L, 외형 799x787x1825mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/057/723/123/4305f3ece32943789454064295bcc45c.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=123723057",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rq33dg71j3ew",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 김치플러스 RQ33DG71J3EW",
+    "modelCode": "RQ33DG71J3EW",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 693,
+      "height": 1797,
+      "depth": 649
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 김치플러스 RQ33DG71J3EW (총 610L, 외형 693x649x1797mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/486/786/068/d873d5f7322047e799d104c2670f3e7d.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=68786486",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rq33dg71j2et",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 김치플러스 RQ33DG71J2ET",
+    "modelCode": "RQ33DG71J2ET",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 693,
+      "height": 1797,
+      "depth": 649
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 김치플러스 RQ33DG71J2ET (총 610L, 외형 693x649x1797mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/922/788/068/ba8ec5e71de94256938f090771e7d118.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=68788922",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rq33db74d2ap",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 김치플러스 키친핏 코타 RQ33DB74D2AP",
+    "modelCode": "RQ33DB74D2AP",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 695,
+      "height": 1853,
+      "depth": 600
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 김치플러스 키친핏 코타 RQ33DB74D2AP (총 610L, 외형 695x600x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/366/786/068/b620c0e8937e41ea8793e058d9fbf056.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=68786366",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rq33db74c1ap",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 김치플러스 키친핏 에센셜 RQ33DB74C1AP",
+    "modelCode": "RQ33DB74C1AP",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 695,
+      "height": 1853,
+      "depth": 600
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 김치플러스 키친핏 에센셜 RQ33DB74C1AP (총 610L, 외형 695x600x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/949/788/068/83d2a15757df492c88ddb30e31b13505.jpeg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=68788949",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  },
+  {
+    "id": "삼성전자-rq33db74b1ap",
+    "brand": "삼성전자",
+    "series": "삼성전자 비스포크 김치플러스 키친핏 에센셜 RQ33DB74B1AP",
+    "modelCode": "RQ33DB74B1AP",
+    "capacityLiters": 610,
+    "fridgeLiters": null,
+    "freezerLiters": null,
+    "type": "김치냉장고",
+    "doorType": "김치냉장고",
+    "capacityTier": "600L 키친핏/슬림",
+    "subBrand": "비스포크 김치플러스",
+    "shelfDepthType": "김치통/선반 복합 (42~45cm)",
+    "features": [
+      "싱크대 키친핏",
+      "김치 맞춤숙성"
+    ],
+    "dimensionsExterior": {
+      "width": 695,
+      "height": 1853,
+      "depth": 600
+    },
+    "isUserSelected": false,
+    "tag": "삼성전자 · 610L · 김치냉장고",
+    "description": "삼성전자 비스포크 김치플러스 키친핏 에센셜 RQ33DB74B1AP (총 610L, 외형 695x600x1853mm)",
+    "imageUrl": "https://img.danuri.io/catalog-image/443/778/068/d4a7ab0fabed492a862c1fb6fb45da3d.jpg?shrink=130:130",
+    "sourceUrl": "https://prod.danawa.com/info/?pcode=68778443",
+    "compartments": [
+      {
+        "id": "top-shelf",
+        "name": "상칸 다목적 와이드 선반 (1~2단)",
+        "categoryLabel": "김치 상칸 선반",
+        "zone": "shelf",
+        "dimensions": {
+          "width": 64.0,
+          "depth": 44.0,
+          "height": 25.0
+        },
+        "description": "와인, 맥주, 수박, 대형 반찬통 및 회전 트레이",
+        "recommendedKeywords": [
+          "회전형 원형 트레이 30",
+          "냉장고 수납 바구니 4호",
+          "캔음료"
+        ],
+        "tips": "상칸은 높이가 25cm로 여유로워 캔맥주 디스펜서와 와인 수납에 제격입니다."
+      },
+      {
+        "id": "mid-drawer",
+        "name": "중칸 김치통 서랍 (김치통 4개칸)",
+        "categoryLabel": "김치 중칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 45.0,
+          "height": 28.0
+        },
+        "description": "김치통 4개 또는 야채/과일/육류 대량 보관 바스켓",
+        "recommendedKeywords": [
+          "물받이형 밀폐용기 5.5L",
+          "수납 바스켓",
+          "김치통"
+        ],
+        "tips": "김치통 대신 다이소 5.5L 대형 물받이 밀폐용기를 넣으면 대형 야채실로 쓸 수 있습니다."
+      },
+      {
+        "id": "low-drawer",
+        "name": "하칸 쌀/잡곡/야채 보관 서랍",
+        "categoryLabel": "김치 하칸 서랍",
+        "zone": "freezer_drawer",
+        "dimensions": {
+          "width": 48.0,
+          "depth": 42.0,
+          "height": 26.0
+        },
+        "description": "쌀통, 잡곡통, 감자/고구마 뿌리채소 보관",
+        "recommendedKeywords": [
+          "쌀통",
+          "밀폐용기",
+          "수납 바구니"
+        ],
+        "tips": "잡곡통을 나란히 세워두면 깔끔한 곡물 저장고가 완성됩니다."
+      }
+    ]
+  }
+]
