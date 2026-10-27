@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { DaisoProduct, DrawerDimension } from '../data/daisoProducts';
+import { PurposePreset, PURPOSE_PRESETS } from '../data/purposePresets';
 import {
   Plus,
   Search,
@@ -10,7 +11,8 @@ import {
   RotateCcw,
   Check,
   CheckCircle2,
-  Zap
+  Zap,
+  Target
 } from 'lucide-react';
 
 interface ProductCatalogProps {
@@ -21,6 +23,10 @@ interface ProductCatalogProps {
   onPreviewProduct: (product: DaisoProduct) => void;
   width?: number;
   isFullWidth?: boolean;
+  activePurpose?: PurposePreset | null;
+  onClearPurpose?: () => void;
+  onOpenPurposeModal?: () => void;
+  onSelectPurpose?: (purpose: PurposePreset | null) => void;
 }
 
 const ORGANIZER_CATS = new Set([
@@ -51,7 +57,11 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   onFillMaxProduct,
   onPreviewProduct,
   width,
-  isFullWidth = false
+  isFullWidth = false,
+  activePurpose = null,
+  onClearPurpose,
+  onOpenPurposeModal,
+  onSelectPurpose
 }) => {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -92,6 +102,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   };
 
   const isFiltered =
+    Boolean(activePurpose) ||
     search.trim() !== '' ||
     selectedCategory !== 'all' ||
     fitOnly ||
@@ -102,6 +113,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     sortBy !== 'default';
 
   const resetAllFilters = () => {
+    if (onClearPurpose) onClearPurpose();
     setSearch('');
     setSelectedCategory('all');
     setFitOnly(false);
@@ -115,12 +127,23 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
   const filtered = useMemo(() => {
     const list = products.filter(p => {
-      // 0a. Official verified spec filter
+      // 0a. Active Purpose matching & Drawer height check
+      if (activePurpose) {
+        if (p.height > drawer.height) {
+          return false;
+        }
+        const allKeywords = [...activePurpose.keywords, ...activePurpose.organizerKeywords];
+        const searchTarget = `${p.name} ${p.categoryLabel} ${p.description || ''}`.toLowerCase();
+        const matchesPurpose = allKeywords.some(kw => searchTarget.includes(kw.toLowerCase()));
+        if (!matchesPurpose) return false;
+      }
+
+      // 0b. Official verified spec filter
       if (verifiedOnly && p.dimSource === 'inferred') {
         return false;
       }
 
-      // 0b. Exclude sold out filter
+      // 0c. Exclude sold out filter
       if (excludeSoldOut && p.isSoldOut) {
         return false;
       }
@@ -171,7 +194,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       }
       return 0;
     });
-  }, [products, search, selectedCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height]);
+  }, [products, search, selectedCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height, activePurpose]);
 
   // Count active advanced filters
   const activeAdvancedFilterCount =
@@ -208,6 +231,47 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </div>
         </div>
 
+        {/* Purpose Filter Active Banner */}
+        {activePurpose && (
+          <div className="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 border border-indigo-200/90 rounded-xl p-2.5 flex items-center justify-between text-xs shadow-2xs">
+            <div className="flex items-center space-x-2 min-w-0">
+              <span className="text-xl flex-shrink-0">{activePurpose.icon}</span>
+              <div className="min-w-0">
+                <div className="flex items-center space-x-1.5 flex-wrap">
+                  <span className="font-bold text-indigo-950 truncate">[{activePurpose.name}] 맞춤 필터</span>
+                  <span className="text-[10px] bg-indigo-200/80 text-indigo-800 font-bold px-1.5 py-0.2 rounded-full whitespace-nowrap">
+                    높이 ≤ {drawer.height}cm
+                  </span>
+                </div>
+                <p className="text-[10px] text-indigo-700/80 truncate">
+                  {activePurpose.description}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1 flex-shrink-0 ml-1.5">
+              {onOpenPurposeModal && (
+                <button
+                  type="button"
+                  onClick={onOpenPurposeModal}
+                  className="text-[10px] bg-white text-indigo-700 hover:bg-indigo-100 border border-indigo-200 font-bold px-2 py-0.5 rounded shadow-2xs transition-colors"
+                >
+                  서랍/용도 변경
+                </button>
+              )}
+              {onClearPurpose && (
+                <button
+                  type="button"
+                  onClick={onClearPurpose}
+                  className="p-1 text-indigo-400 hover:text-indigo-800 hover:bg-indigo-100 rounded transition-colors"
+                  title="용도 필터 해제"
+                >
+                  <X size={13} />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Search input with Clear Button */}
         <div className="relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -227,6 +291,49 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               <X size={13} />
             </button>
           )}
+        </div>
+
+        {/* Purpose Quick Selector Row */}
+        <div className="flex items-center space-x-1 overflow-x-auto pb-0.5 scrollbar-none text-[11px]">
+          <span className="text-[10px] text-purple-700 font-bold flex-shrink-0 flex items-center space-x-0.5">
+            <Target size={11} />
+            <span>용도:</span>
+          </span>
+          <button
+            type="button"
+            onClick={() => onClearPurpose && onClearPurpose()}
+            className={`px-2 py-0.5 rounded-full whitespace-nowrap transition-colors text-[10px] font-medium ${
+              !activePurpose
+                ? 'bg-purple-600 text-white font-bold'
+                : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+            }`}
+          >
+            전체
+          </button>
+          {PURPOSE_PRESETS.map((p) => {
+            const isSelected = activePurpose?.id === p.id;
+            return (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => {
+                  if (isSelected) {
+                    if (onClearPurpose) onClearPurpose();
+                  } else {
+                    if (onSelectPurpose) onSelectPurpose(p);
+                  }
+                }}
+                className={`px-2 py-0.5 rounded-full whitespace-nowrap transition-colors text-[10px] flex items-center space-x-1 ${
+                  isSelected
+                    ? 'bg-purple-600 text-white font-bold shadow-2xs'
+                    : 'bg-purple-50 text-purple-800 hover:bg-purple-100'
+                }`}
+              >
+                <span>{p.icon}</span>
+                <span>{p.name.split('/')[0]}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Quick Search Chips */}

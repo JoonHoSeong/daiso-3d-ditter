@@ -46,6 +46,8 @@ interface HeaderNavProps {
   onOpenAuthModal: () => void;
   onLogout: () => void;
   onOpenFridgeModal?: () => void;
+  onOpenPurposeModal?: () => void;
+  activePurposeName?: string | null;
   // Responsive sidebar toggles for compact viewports
   onToggleCatalog?: () => void;
   onToggleInspector?: () => void;
@@ -78,6 +80,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onOpenAuthModal,
   onLogout,
   onOpenFridgeModal,
+  onOpenPurposeModal,
+  activePurposeName,
   onToggleCatalog,
   onToggleInspector,
   isCatalogOpen = false,
@@ -256,6 +260,27 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <span className="text-[10px] bg-sky-600 text-white px-1.5 py-0.2 rounded font-bold">
                   RM70F91R1A (901L)
                 </span>
+              </button>
+            )}
+
+            {/* Dedicated Drawer & Purpose Matcher Button */}
+            {onOpenPurposeModal && (
+              <button
+                type="button"
+                onClick={onOpenPurposeModal}
+                className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all shadow-2xs active:scale-95 ${
+                  activePurposeName
+                    ? 'bg-purple-600 text-white border border-purple-700 shadow-sm ring-1 ring-purple-400'
+                    : 'bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-indigo-800 border border-indigo-200'
+                }`}
+                title="서랍과 정리 용도를 지정하여 맞춤 제품 추천, 필터 및 3D 자동 피팅"
+              >
+                <span>🎯 서랍 & 용도 맞춤</span>
+                {activePurposeName && (
+                  <span className="text-[10px] bg-white/20 text-white px-1.5 py-0.2 rounded font-bold">
+                    {activePurposeName}
+                  </span>
+                )}
               </button>
             )}
 

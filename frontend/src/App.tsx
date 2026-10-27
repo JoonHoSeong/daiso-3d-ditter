@@ -38,6 +38,8 @@ import { CheckCircle2, Layers, Printer } from 'lucide-react';
 import { FillGoodsModal } from './components/FillGoodsModal';
 import { AiPurposeModal } from './components/AiPurposeModal';
 import { FridgeSelectorModal } from './components/FridgeSelectorModal';
+import { DrawerPurposeModal } from './components/DrawerPurposeModal';
+import { PurposePreset } from './data/purposePresets';
 import { FridgeModel, FridgeCompartment } from './data/fridgeModels';
 import { normalizeProduct } from './utils/normalizeProduct';
 
@@ -84,6 +86,8 @@ export const App: React.FC = () => {
   const [isFillGoodsModalOpen, setIsFillGoodsModalOpen] = useState<boolean>(false);
   const [isAiPurposeModalOpen, setIsAiPurposeModalOpen] = useState<boolean>(false);
   const [isFridgeModalOpen, setIsFridgeModalOpen] = useState<boolean>(false);
+  const [isPurposeModalOpen, setIsPurposeModalOpen] = useState<boolean>(false);
+  const [activePurpose, setActivePurpose] = useState<PurposePreset | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [allowRotation, setAllowRotation] = useState<boolean>(false);
   const [allowHeightExceed, setAllowHeightExceed] = useState<boolean>(false);
@@ -446,6 +450,36 @@ export const App: React.FC = () => {
     setItems(cleared);
     setSelectedItemInstanceId(null);
     showToast('수납함 구조는 남겨두고 내부 소품만 비웠습니다.');
+  };
+
+  const handleApplyPurposeAndDrawer = (
+    targetDrawer: DrawerDimension,
+    purpose: PurposePreset,
+    fittedItems: FittedItem[]
+  ) => {
+    setDrawer(targetDrawer);
+    setItems(fittedItems);
+    setActivePurpose(purpose);
+    setSelectedItemInstanceId(null);
+    showToast(
+      `🎯 [${purpose.name}] 서랍(${targetDrawer.width}×${targetDrawer.depth}×${targetDrawer.height}cm) & 맞춤 수납함+소품 ${fittedItems.length}개 자동 배치 완료!`
+    );
+  };
+
+  const handleFilterCatalogOnly = (
+    targetDrawer: DrawerDimension,
+    purpose: PurposePreset
+  ) => {
+    setDrawer(targetDrawer);
+    setActivePurpose(purpose);
+    showToast(
+      `🎯 [${purpose.name}] 서랍(${targetDrawer.width}×${targetDrawer.depth}×${targetDrawer.height}cm) 맞춤 카탈로그 필터 적용 (높이 ≤ ${targetDrawer.height}cm)`
+    );
+  };
+
+  const handleClearPurpose = () => {
+    setActivePurpose(null);
+    showToast('용도 맞춤 필터가 해제되었습니다.');
   };
 
   const handleAddProduct = (product: DaisoProduct) => {
@@ -914,6 +948,8 @@ export const App: React.FC = () => {
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
         onOpenFridgeModal={() => setIsFridgeModalOpen(true)}
+        onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
+        activePurposeName={activePurpose?.name}
         onToggleCatalog={() => setIsCatalogOpen(prev => !prev)}
         onToggleInspector={() => setIsInspectorOpen(prev => !prev)}
         isCatalogOpen={isCatalogOpen}
@@ -998,6 +1034,10 @@ export const App: React.FC = () => {
                   onFillMaxProduct={handleFillSpecificProduct}
                   onPreviewProduct={setPreviewProduct}
                   isFullWidth={true}
+                  activePurpose={activePurpose}
+                  onClearPurpose={handleClearPurpose}
+                  onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
+                  onSelectPurpose={(p) => setActivePurpose(p)}
                 />
               ) : (
                 <FittedInspector
@@ -1031,6 +1071,10 @@ export const App: React.FC = () => {
               onFillMaxProduct={handleFillSpecificProduct}
               onPreviewProduct={setPreviewProduct}
               width={catalogWidth}
+              activePurpose={activePurpose}
+              onClearPurpose={handleClearPurpose}
+              onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
+              onSelectPurpose={(p) => setActivePurpose(p)}
             />
 
             {/* Draggable Divider for Catalog Width */}
@@ -1136,6 +1180,16 @@ export const App: React.FC = () => {
         onClose={() => setIsFridgeModalOpen(false)}
         onSelectCompartment={handleSelectFridgeCompartment}
         currentDrawer={drawer}
+      />
+
+      {/* Drawer Dimension & Specific Purpose Recommendation & 3D Auto-Fitting Modal */}
+      <DrawerPurposeModal
+        isOpen={isPurposeModalOpen}
+        onClose={() => setIsPurposeModalOpen(false)}
+        currentDrawer={drawer}
+        products={products}
+        onApplyPurposeAndDrawer={handleApplyPurposeAndDrawer}
+        onFilterCatalogOnly={handleFilterCatalogOnly}
       />
 
       {/* Export & Print Shopping List & Blueprint Modal */}
