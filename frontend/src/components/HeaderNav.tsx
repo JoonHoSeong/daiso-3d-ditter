@@ -148,6 +148,9 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <span className="hidden lg:inline-block text-[9px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded border border-slate-200">
                 Unofficial
               </span>
+              <span className="hidden sm:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
+                <span>✨ Personal 3D Edition</span>
+              </span>
             </div>
             <p className="hidden 2xl:block text-[10px] text-slate-400">내 공간에 딱 맞는 다이소 수납 솔루션</p>
           </div>

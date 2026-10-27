@@ -10,6 +10,11 @@ import {
   getPostureInfo
 } from '../utils/stacking';
 import {
+  createRealisticItemMesh,
+  createRealisticFridgeEnvironment,
+  exportSceneToGLTF
+} from '../utils/personal3DModeler';
+import {
   Eye,
   RotateCw,
   ArrowUpDown,
@@ -23,7 +28,9 @@ import {
   AlertCircle,
   CheckCircle2,
   Magnet,
-  X
+  X,
+  Sparkles,
+  Download
 } from 'lucide-react';
 
 interface DrawerCanvas3DProps {
@@ -75,12 +82,34 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
   const [nudgeStep, setNudgeStep] = useState<number>(1.0); // 1cm or 5cm
   const [warningToast, setWarningToast] = useState<string | null>(null);
 
+  // 3D Realistic Modeling Mode Toggle (Personal Edition)
+  const [renderMode, setRenderMode] = useState<'realistic' | 'boxes'>('realistic');
+  const [isExporting3D, setIsExporting3D] = useState<boolean>(false);
+
   const showToast = useCallback((msg: string) => {
     setWarningToast(msg);
     setTimeout(() => {
       setWarningToast(prev => (prev === msg ? null : prev));
     }, 2800);
   }, []);
+
+  const handleExportGLTF = async () => {
+    if (!sceneRef.current) return;
+    setIsExporting3D(true);
+    showToast('💾 3D 모델 파일(.GLB)을 생성하고 다운로드하는 중입니다...');
+    try {
+      await exportSceneToGLTF(
+        sceneRef.current,
+        `daiso-3d-model-${drawer.width}x${drawer.depth}x${drawer.height}.glb`
+      );
+      showToast('🎉 3D 모델(.GLB) 다운로드가 완료되었습니다! Blender/3D 뷰어에서 확인해보세요.');
+    } catch (err) {
+      console.error(err);
+      showToast('3D 모델 파일 내보내기에 실패했습니다.');
+    } finally {
+      setIsExporting3D(false);
+    }
+  };
 
   // Set camera perspective
   const setCameraView = (view: 'iso' | 'top' | 'front') => {
@@ -587,75 +616,81 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     const h = drawer.height;
     const wallThick = 0.8;
 
-    const floorGeo = new THREE.PlaneGeometry(w, d);
-    floorGeo.rotateX(-Math.PI / 2);
-    const floorMat = new THREE.MeshStandardMaterial({
-      color: 0xFFFFFF,
-      roughness: 0.25,
-      metalness: 0.05
-    });
-    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-    drawerGroup.add(floorMesh);
+    const isFridge = d >= 30 && (h >= 14 || w >= 50);
 
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xCBD5E1, linewidth: 1 });
-    const gridGroup = new THREE.Group();
-    const step = 2.0;
+    if (renderMode === 'realistic' && isFridge) {
+      drawerGroup.add(createRealisticFridgeEnvironment(w, d, h));
+    } else {
+      const floorGeo = new THREE.PlaneGeometry(w, d);
+      floorGeo.rotateX(-Math.PI / 2);
+      const floorMat = new THREE.MeshStandardMaterial({
+        color: 0xFFFFFF,
+        roughness: 0.25,
+        metalness: 0.05
+      });
+      const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+      drawerGroup.add(floorMesh);
 
-    for (let x = -w / 2 + step; x < w / 2; x += step) {
-      const pts = [new THREE.Vector3(x, 0.02, -d / 2), new THREE.Vector3(x, 0.02, d / 2)];
-      gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), lineMat));
+      const lineMat = new THREE.LineBasicMaterial({ color: 0xCBD5E1, linewidth: 1 });
+      const gridGroup = new THREE.Group();
+      const step = 2.0;
+
+      for (let x = -w / 2 + step; x < w / 2; x += step) {
+        const pts = [new THREE.Vector3(x, 0.02, -d / 2), new THREE.Vector3(x, 0.02, d / 2)];
+        gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), lineMat));
+      }
+      for (let z = -d / 2 + step; z < d / 2; z += step) {
+        const pts = [new THREE.Vector3(-w / 2, 0.02, z), new THREE.Vector3(w / 2, 0.02, z)];
+        gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), lineMat));
+      }
+      drawerGroup.add(gridGroup);
+
+      const wallMat = new THREE.MeshStandardMaterial({
+        color: 0xE2E8F0,
+        roughness: 0.4,
+        transparent: true,
+        opacity: 0.6,
+        side: THREE.DoubleSide
+      });
+
+      const backGeo = new THREE.BoxGeometry(w + wallThick * 2, h, wallThick);
+      const backWall = new THREE.Mesh(backGeo, wallMat);
+      backWall.position.set(0, h / 2, -d / 2 - wallThick / 2);
+      drawerGroup.add(backWall);
+
+      const frontWallMat = wallMat.clone();
+      frontWallMat.opacity = 0.35;
+      const frontWall = new THREE.Mesh(backGeo, frontWallMat);
+      frontWall.position.set(0, h / 2, d / 2 + wallThick / 2);
+      drawerGroup.add(frontWall);
+
+      const sideGeo = new THREE.BoxGeometry(wallThick, h, d);
+      const leftWall = new THREE.Mesh(sideGeo, wallMat);
+      leftWall.position.set(-w / 2 - wallThick / 2, h / 2, 0);
+      drawerGroup.add(leftWall);
+
+      const rightWall = new THREE.Mesh(sideGeo, wallMat);
+      rightWall.position.set(w / 2 + wallThick / 2, h / 2, 0);
+      drawerGroup.add(rightWall);
+
+      const edgePoints = [
+        new THREE.Vector3(-w / 2, h, -d / 2),
+        new THREE.Vector3(w / 2, h, -d / 2),
+        new THREE.Vector3(w / 2, h, d / 2),
+        new THREE.Vector3(-w / 2, h, d / 2),
+        new THREE.Vector3(-w / 2, h, -d / 2)
+      ];
+      drawerGroup.add(
+        new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(edgePoints),
+          new THREE.LineBasicMaterial({ color: 0x64748B, linewidth: 2 })
+        )
+      );
     }
-    for (let z = -d / 2 + step; z < d / 2; z += step) {
-      const pts = [new THREE.Vector3(-w / 2, 0.02, z), new THREE.Vector3(w / 2, 0.02, z)];
-      gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), lineMat));
-    }
-    drawerGroup.add(gridGroup);
-
-    const wallMat = new THREE.MeshStandardMaterial({
-      color: 0xE2E8F0,
-      roughness: 0.4,
-      transparent: true,
-      opacity: 0.6,
-      side: THREE.DoubleSide
-    });
-
-    const backGeo = new THREE.BoxGeometry(w + wallThick * 2, h, wallThick);
-    const backWall = new THREE.Mesh(backGeo, wallMat);
-    backWall.position.set(0, h / 2, -d / 2 - wallThick / 2);
-    drawerGroup.add(backWall);
-
-    const frontWallMat = wallMat.clone();
-    frontWallMat.opacity = 0.35;
-    const frontWall = new THREE.Mesh(backGeo, frontWallMat);
-    frontWall.position.set(0, h / 2, d / 2 + wallThick / 2);
-    drawerGroup.add(frontWall);
-
-    const sideGeo = new THREE.BoxGeometry(wallThick, h, d);
-    const leftWall = new THREE.Mesh(sideGeo, wallMat);
-    leftWall.position.set(-w / 2 - wallThick / 2, h / 2, 0);
-    drawerGroup.add(leftWall);
-
-    const rightWall = new THREE.Mesh(sideGeo, wallMat);
-    rightWall.position.set(w / 2 + wallThick / 2, h / 2, 0);
-    drawerGroup.add(rightWall);
-
-    const edgePoints = [
-      new THREE.Vector3(-w / 2, h, -d / 2),
-      new THREE.Vector3(w / 2, h, -d / 2),
-      new THREE.Vector3(w / 2, h, d / 2),
-      new THREE.Vector3(-w / 2, h, d / 2),
-      new THREE.Vector3(-w / 2, h, -d / 2)
-    ];
-    drawerGroup.add(
-      new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(edgePoints),
-        new THREE.LineBasicMaterial({ color: 0x64748B, linewidth: 2 })
-      )
-    );
 
     scene.add(drawerGroup);
     requestRenderRef.current();
-  }, [drawer]);
+  }, [drawer, renderMode]);
 
   // Update Fitted Items Meshes
   useEffect(() => {
@@ -680,7 +715,11 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
 
       const mainColor = new THREE.Color(item.product.color || '#BAE6FD');
 
-      if (isContainer) {
+      if (renderMode === 'realistic') {
+        // High-Quality Realistic 3D Product Mesh (Cans, Bottles, Milk Cartons, Egg Trays, Containers)
+        const realisticMesh = createRealisticItemMesh(item, curW, curD, curH, isSelected);
+        group.add(realisticMesh);
+      } else if (isContainer) {
         // High-Performance Hollow Open-Top Container / Basket
         const wallThick = 0.28;
         const floorThick = 0.25;
@@ -787,7 +826,7 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     });
     requestRenderRef.current();
     updateScreenPosRef.current();
-  }, [items, drawer, selectedItemInstanceId]);
+  }, [items, drawer, selectedItemInstanceId, renderMode]);
 
   const selectedItem = items.find(i => i.instanceId === selectedItemInstanceId);
   const selectedDims = selectedItem ? getItemDimensions(selectedItem) : null;
@@ -962,6 +1001,45 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
 
         <div className="h-4 w-[1px] bg-slate-200 mx-1" />
 
+        {/* 3D Realistic Modeling Mode Toggle */}
+        <button
+          onClick={() => {
+            setRenderMode(prev => {
+              const next = prev === 'realistic' ? 'boxes' : 'realistic';
+              showToast(
+                next === 'realistic'
+                  ? '🎨 사실적 3D 모델링 모드 켜짐 (캔/음료/우유/계란/유리병 실감 모델)'
+                  : '📦 기본 박스 뷰 모드로 전환됨'
+              );
+              return next;
+            });
+          }}
+          className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg font-bold transition-all whitespace-nowrap cursor-pointer ${
+            renderMode === 'realistic'
+              ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-xs'
+              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+          title="사실적 3D 모델링 뷰와 기본 박스 뷰 전환"
+        >
+          <Sparkles size={12} />
+          <span>{renderMode === 'realistic' ? '🎨 사실적 3D 모델' : '📦 박스 뷰'}</span>
+        </button>
+
+        <div className="h-4 w-[1px] bg-slate-200 mx-1" />
+
+        {/* 3D Model Download (.GLB) Button */}
+        <button
+          onClick={handleExportGLTF}
+          disabled={isExporting3D}
+          className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-xs disabled:opacity-50 whitespace-nowrap cursor-pointer"
+          title="현재 3D 배치 모델 전체를 .GLB 파일로 내보내기 (Blender/3D 뷰어 호환)"
+        >
+          <Download size={12} />
+          <span>{isExporting3D ? '내보내는 중...' : '💾 3D 다운로드 (.GLB)'}</span>
+        </button>
+
+        <div className="h-4 w-[1px] bg-slate-200 mx-1" />
+
         {/* Magnetic Snap Toggle Button */}
         <button
           onClick={() => {
@@ -988,7 +1066,7 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
       </div>
 
       {/* Usage Guide */}
-      <div className="hidden lg:flex absolute top-4 right-4 items-center space-x-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs text-[11px] text-slate-600 z-10">
+      <div className="hidden 2xl:flex absolute top-4 right-4 items-center space-x-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-2xs text-[11px] text-slate-600 z-10 pointer-events-none">
         <HelpCircle size={13} className="text-slate-400" />
         <span>3D 물품 클릭: [R] 90° 회전 · [V] 세우기/눕히기 · [Del] 삭제 · 드래그 이동</span>
       </div>
