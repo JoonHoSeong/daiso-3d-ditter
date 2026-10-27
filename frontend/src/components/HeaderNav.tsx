@@ -627,6 +627,32 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </button>
         )}
 
+        {/* Direct Auth / User Profile Button (Prominent & immediately visible) */}
+        {user ? (
+          <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-sky-50 border border-sky-200 text-xs font-bold text-sky-800 shadow-2xs">
+            <div className="w-5 h-5 rounded-full bg-sky-600 text-white flex items-center justify-center text-[10px] font-black uppercase">
+              {user.username ? user.username.slice(0, 1) : 'U'}
+            </div>
+            <span className="hidden sm:inline max-w-[80px] truncate">{user.username}님</span>
+            <button
+              onClick={onLogout}
+              className="ml-1 p-0.5 text-slate-400 hover:text-rose-600 rounded transition-colors"
+              title="로그아웃"
+            >
+              <LogOut size={12} />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenAuthModal}
+            className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all shadow-2xs border border-slate-200 active:scale-95"
+            title="로그인 또는 회원가입"
+          >
+            <UserIcon size={13} className="text-slate-500" />
+            <span className="hidden sm:inline">로그인</span>
+          </button>
+        )}
+
         {/* Adaptive More Options [···] Menu Button (Guarantees zero overflow on any width!) */}
         <div className="relative" ref={moreMenuRef}>
           <button
