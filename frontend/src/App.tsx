@@ -39,6 +39,7 @@ import { FillGoodsModal } from './components/FillGoodsModal';
 import { AiPurposeModal } from './components/AiPurposeModal';
 import { FridgeSelectorModal } from './components/FridgeSelectorModal';
 import { SpacePresetModal } from './components/SpacePresetModal';
+import { CustomPresetModal } from './components/CustomPresetModal';
 import { DrawerPurposeModal } from './components/DrawerPurposeModal';
 import { PurposePreset } from './data/purposePresets';
 import { SpacePreset } from './data/spacePresets';
@@ -89,6 +90,15 @@ export const App: React.FC = () => {
   const [isAiPurposeModalOpen, setIsAiPurposeModalOpen] = useState<boolean>(false);
   const [isFridgeModalOpen, setIsFridgeModalOpen] = useState<boolean>(false);
   const [isPresetModalOpen, setIsPresetModalOpen] = useState<boolean>(false);
+  const [isCustomPresetModalOpen, setIsCustomPresetModalOpen] = useState<boolean>(false);
+  const [customPresets, setCustomPresets] = useState<SpacePreset[]>(() => {
+    try {
+      const local = localStorage.getItem('daiso_custom_space_presets');
+      return local ? JSON.parse(local) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isPurposeModalOpen, setIsPurposeModalOpen] = useState<boolean>(false);
   const [activePurpose, setActivePurpose] = useState<PurposePreset | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -419,6 +429,26 @@ export const App: React.FC = () => {
       })
     );
     showToast(`📐 [${preset.name}] 공간 규격(${finalDim.width}×${finalDim.depth}×${finalDim.height}cm)이 적용되었습니다.`);
+  };
+
+  const handleSaveCustomPreset = (preset: SpacePreset) => {
+    setCustomPresets(prev => {
+      const updated = [preset, ...prev.filter(p => p.id !== preset.id)];
+      localStorage.setItem('daiso_custom_space_presets', JSON.stringify(updated));
+      return updated;
+    });
+    setDrawer(preset.dimensions);
+    setSelectedItemInstanceId(null);
+    showToast(`⭐ 새 맞춤 공간 "${preset.name}" (${preset.dimensions.width}×${preset.dimensions.depth}×${preset.dimensions.height}cm)이 저장 및 적용되었습니다.`);
+  };
+
+  const handleDeleteCustomPreset = (id: string) => {
+    setCustomPresets(prev => {
+      const updated = prev.filter(p => p.id !== id);
+      localStorage.setItem('daiso_custom_space_presets', JSON.stringify(updated));
+      return updated;
+    });
+    showToast('맞춤 공간 프리셋이 삭제되었습니다.');
   };
 
   const handleFillCategory = (category: string) => {
@@ -972,6 +1002,8 @@ export const App: React.FC = () => {
         onOpenFridgeModal={() => setIsFridgeModalOpen(true)}
         onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
         onOpenPresetModal={() => setIsPresetModalOpen(true)}
+        customPresets={customPresets}
+        onOpenCreateCustomPreset={() => setIsCustomPresetModalOpen(true)}
         activePurposeName={activePurpose?.name}
         onToggleCatalog={() => setIsCatalogOpen(prev => !prev)}
         onToggleInspector={() => setIsInspectorOpen(prev => !prev)}
@@ -1205,12 +1237,22 @@ export const App: React.FC = () => {
         currentDrawer={drawer}
       />
 
-      {/* Rich Space Preset Explorer Modal (Refrigerators, Kitchen, Desks, Vanity, Bathroom, Camping) */}
+      {/* Rich Space Preset Explorer Modal (Refrigerators & Kitchen Storage) */}
       <SpacePresetModal
         isOpen={isPresetModalOpen}
         onClose={() => setIsPresetModalOpen(false)}
         onSelectPreset={handleSelectSpacePreset}
-        currentDrawer={drawer}
+        customPresets={customPresets}
+        onOpenCreateCustomPreset={() => setIsCustomPresetModalOpen(true)}
+        onDeleteCustomPreset={handleDeleteCustomPreset}
+      />
+
+      {/* User Custom Space Preset Creator Modal */}
+      <CustomPresetModal
+        isOpen={isCustomPresetModalOpen}
+        onClose={() => setIsCustomPresetModalOpen(false)}
+        onSavePreset={handleSaveCustomPreset}
+        initialDimensions={drawer}
       />
 
       {/* Drawer Dimension & Specific Purpose Recommendation & 3D Auto-Fitting Modal */}
