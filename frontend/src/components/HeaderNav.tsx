@@ -19,7 +19,8 @@ import {
   ChevronDown,
   X,
   Layers,
-  Shield
+  Shield,
+  Store
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
 
@@ -44,6 +45,7 @@ interface HeaderNavProps {
   onDeleteSavedDrawer: (id: string) => void;
   onOpenSaveModal: () => void;
   onOpenExportModal?: () => void;
+  onOpenStoreStockModal?: () => void;
   user: User | null;
   onOpenAuthModal: () => void;
   onLogout: () => void;
@@ -82,6 +84,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onDeleteSavedDrawer,
   onOpenSaveModal,
   onOpenExportModal,
+  onOpenStoreStockModal,
   user,
   onOpenAuthModal,
   onLogout,
@@ -778,6 +781,20 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 >
                   <Printer size={13} className="text-daiso-red" />
                   <span>매장 구매표 인쇄 / PDF 저장</span>
+                </button>
+              )}
+
+              {/* Check Store Stock */}
+              {onOpenStoreStockModal && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenStoreStockModal();
+                  }}
+                  className="w-full px-3.5 py-2 text-left text-xs font-semibold hover:bg-emerald-50 text-emerald-800 flex items-center space-x-2"
+                >
+                  <Store size={13} className="text-emerald-600" />
+                  <span>🏬 매장별 실시간 재고 파악</span>
                 </button>
               )}
 

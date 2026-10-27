@@ -8,6 +8,7 @@ import { AuthModal } from './components/AuthModal';
 import { SaveDrawerModal } from './components/SaveDrawerModal';
 import { ExportShoppingListModal } from './components/ExportShoppingListModal';
 import { AdminUsersModal } from './components/AdminUsersModal';
+import { StoreStockModal } from './components/StoreStockModal';
 import {
   DAISO_PRODUCTS,
   DrawerDimension,
@@ -86,6 +87,7 @@ export const App: React.FC = () => {
   // Modals state
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
+  const [isStoreStockModalOpen, setIsStoreStockModalOpen] = useState<boolean>(false);
   const [isSaveDrawerModalOpen, setIsSaveDrawerModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isFillGoodsModalOpen, setIsFillGoodsModalOpen] = useState<boolean>(false);
@@ -998,6 +1000,7 @@ export const App: React.FC = () => {
         onDeleteSavedDrawer={handleDeleteSavedDrawer}
         onOpenSaveModal={() => setIsSaveDrawerModalOpen(true)}
         onOpenExportModal={() => setIsExportModalOpen(true)}
+        onOpenStoreStockModal={() => setIsStoreStockModalOpen(true)}
         user={user}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
@@ -1113,6 +1116,7 @@ export const App: React.FC = () => {
                   onClearGoodsOnly={handleClearGoodsOnly}
                   onPreviewProduct={setPreviewProduct}
                   onOpenExportModal={() => setIsExportModalOpen(true)}
+                  onOpenStoreStockModal={() => setIsStoreStockModalOpen(true)}
                   isFullWidth={true}
                 />
               )}
@@ -1177,6 +1181,7 @@ export const App: React.FC = () => {
               onClearGoodsOnly={handleClearGoodsOnly}
               onPreviewProduct={setPreviewProduct}
               onOpenExportModal={() => setIsExportModalOpen(true)}
+              onOpenStoreStockModal={() => setIsStoreStockModalOpen(true)}
             />
           </div>
         )}
@@ -1283,6 +1288,14 @@ export const App: React.FC = () => {
         isOpen={isExportModalOpen}
         onClose={() => setIsExportModalOpen(false)}
         drawer={drawer}
+        items={items}
+        onOpenStoreStock={() => setIsStoreStockModalOpen(true)}
+      />
+
+      {/* Real-time Daiso Store Pickup Inventory Checker Modal */}
+      <StoreStockModal
+        isOpen={isStoreStockModalOpen}
+        onClose={() => setIsStoreStockModalOpen(false)}
         items={items}
       />
     </div>

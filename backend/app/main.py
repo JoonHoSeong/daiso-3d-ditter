@@ -5,6 +5,7 @@ from .api.auth_routes import router as auth_router
 from .api.drawer_routes import router as drawer_router
 from .api.ai_routes import router as ai_router
 from .api.admin_routes import router as admin_router
+from .api.store_routes import router as store_router
 
 app = FastAPI(
     title="Daiso 3D Drawer Fitter API",
@@ -31,6 +32,7 @@ app.include_router(router)
 app.include_router(auth_router, prefix="/api")
 app.include_router(drawer_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
+app.include_router(store_router, prefix="/api")
 app.include_router(ai_router)
 
 if __name__ == "__main__":

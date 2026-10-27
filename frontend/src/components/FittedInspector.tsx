@@ -12,7 +12,8 @@ import {
   Printer,
   Maximize2,
   RotateCw,
-  ArrowUpDown
+  ArrowUpDown,
+  Store
 } from 'lucide-react';
 
 interface FittedInspectorProps {
@@ -30,6 +31,7 @@ interface FittedInspectorProps {
   onClearGoodsOnly?: () => void;
   onPreviewProduct?: (product: DaisoProduct) => void;
   onOpenExportModal?: () => void;
+  onOpenStoreStockModal?: () => void;
   isFullWidth?: boolean;
 }
 
@@ -48,6 +50,7 @@ export const FittedInspector: React.FC<FittedInspectorProps> = ({
   onClearGoodsOnly,
   onPreviewProduct,
   onOpenExportModal,
+  onOpenStoreStockModal,
   isFullWidth = false
 }) => {
   const [copied, setCopied] = useState(false);
@@ -412,6 +415,21 @@ export const FittedInspector: React.FC<FittedInspectorProps> = ({
 
         {/* Action buttons */}
         <div className="space-y-2">
+          {onOpenStoreStockModal && (
+            <button
+              onClick={onOpenStoreStockModal}
+              disabled={groupedItems.length === 0}
+              className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all shadow-sm ${
+                groupedItems.length === 0
+                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  : 'bg-emerald-600 hover:bg-emerald-700 text-white active:scale-98 shadow-md'
+              }`}
+            >
+              <Store size={14} />
+              <span>🏬 내 주변 매장 재고 확인 (실시간)</span>
+            </button>
+          )}
+
           {onOpenExportModal && (
             <button
               onClick={onOpenExportModal}

@@ -19,13 +19,15 @@ interface ExportShoppingListModalProps {
   onClose: () => void;
   drawer: DrawerDimension;
   items: FittedItem[];
+  onOpenStoreStock?: () => void;
 }
 
 export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = ({
   isOpen,
   onClose,
   drawer,
-  items
+  items,
+  onOpenStoreStock
 }) => {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'2d' | '3d'>('2d');
@@ -237,6 +239,20 @@ export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = (
           </div>
 
           <div className="flex items-center space-x-2">
+            {onOpenStoreStock && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenStoreStock();
+                }}
+                className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-sm"
+                title="매장별 실시간 재고 확인"
+              >
+                <Store size={14} />
+                <span>🏬 매장 재고 확인</span>
+              </button>
+            )}
+
             <button
               onClick={handlePrint}
               className="px-3.5 py-1.5 rounded-lg bg-daiso-red hover:bg-red-600 text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-sm"
