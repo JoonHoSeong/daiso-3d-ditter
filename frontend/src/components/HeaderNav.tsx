@@ -23,6 +23,7 @@ import {
   Store
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
+import { StoreInfo } from './StoreStockModal';
 
 interface HeaderNavProps {
   drawer: DrawerDimension;
@@ -45,7 +46,10 @@ interface HeaderNavProps {
   onDeleteSavedDrawer: (id: string) => void;
   onOpenSaveModal: () => void;
   onOpenExportModal?: () => void;
-  onOpenStoreStockModal?: () => void;
+  onOpenStoreStockModal?: (defaultTab?: 'all_in_stock' | 'search') => void;
+  activeStore?: StoreInfo | null;
+  onlyStoreStock?: boolean;
+  onToggleOnlyStoreStock?: () => void;
   user: User | null;
   onOpenAuthModal: () => void;
   onLogout: () => void;
@@ -85,6 +89,9 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onOpenSaveModal,
   onOpenExportModal,
   onOpenStoreStockModal,
+  activeStore = null,
+  onlyStoreStock = false,
+  onToggleOnlyStoreStock,
   user,
   onOpenAuthModal,
   onLogout,
@@ -645,6 +652,27 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </button>
         )}
 
+        {/* Branch / Store Selector Badge Button */}
+        {onOpenStoreStockModal && (
+          <button
+            onClick={() => onOpenStoreStockModal('search')}
+            className={`flex items-center space-x-1.5 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-xl text-[10px] sm:text-xs font-bold border transition-all active:scale-95 shadow-2xs shrink-0 ${
+              activeStore
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100 shadow-emerald-500/10'
+                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+            }`}
+            title={activeStore ? `현재 기준 지점: ${activeStore.name} (클릭하여 변경)` : '다이소 지점 선택 (재고 기반 피팅)'}
+          >
+            <Store size={12} className={activeStore ? 'text-emerald-600' : 'text-slate-500'} />
+            <span className="hidden sm:inline max-w-[85px] truncate">{activeStore ? activeStore.name : '지점 선택'}</span>
+            {activeStore && (
+              <span className="hidden lg:inline text-[9px] px-1 py-0.2 rounded bg-emerald-200/80 text-emerald-900 font-black">
+                재고연동
+              </span>
+            )}
+          </button>
+        )}
+
         {/* Direct Auth / User Profile Button (Prominent & immediately visible) */}
         {user ? (
           <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs">
@@ -756,6 +784,26 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 </button>
               )}
 
+              {/* Only Store Stock Toggle (when activeStore is set) */}
+              {activeStore && onToggleOnlyStoreStock && (
+                <button
+                  onClick={() => {
+                    onToggleOnlyStoreStock();
+                  }}
+                  className="w-full px-3.5 py-2.5 text-left text-xs font-semibold hover:bg-slate-50 flex items-center justify-between text-slate-700"
+                >
+                  <div className="flex items-center space-x-2 truncate pr-1">
+                    <Store size={13} className={onlyStoreStock ? 'text-emerald-600' : 'text-slate-400'} />
+                    <span className="truncate">[{activeStore.name}] 재고 품목만 피팅</span>
+                  </div>
+                  <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded shrink-0 ${
+                    onlyStoreStock ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {onlyStoreStock ? '재고 우선' : '전체 상품'}
+                  </span>
+                </button>
+              )}
+
               <div className="h-[1px] bg-slate-100 my-1" />
 
               {/* Save Drawer */}
@@ -784,17 +832,31 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 </button>
               )}
 
-              {/* Check Store Stock */}
+              {/* Find All-in-Stock Stores */}
               {onOpenStoreStockModal && (
                 <button
                   onClick={() => {
                     setIsMoreMenuOpen(false);
-                    onOpenStoreStockModal();
+                    onOpenStoreStockModal('all_in_stock');
+                  }}
+                  className="w-full px-3.5 py-2 text-left text-xs font-semibold hover:bg-emerald-50 text-emerald-800 flex items-center space-x-2"
+                >
+                  <Sparkles size={13} className="text-amber-500" />
+                  <span>🌟 내가 구성한 제품 다 있는 매장 찾기</span>
+                </button>
+              )}
+
+              {/* Check Store Stock & Set Active Branch */}
+              {onOpenStoreStockModal && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenStoreStockModal('search');
                   }}
                   className="w-full px-3.5 py-2 text-left text-xs font-semibold hover:bg-emerald-50 text-emerald-800 flex items-center space-x-2"
                 >
                   <Store size={13} className="text-emerald-600" />
-                  <span>🏬 매장별 실시간 재고 파악</span>
+                  <span>🏬 매장 검색 & 기준 지점 설정</span>
                 </button>
               )}
 

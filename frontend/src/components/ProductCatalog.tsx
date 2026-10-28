@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { DaisoProduct, DrawerDimension } from '../data/daisoProducts';
 import { PurposePreset, PURPOSE_PRESETS } from '../data/purposePresets';
 import { isDrawerCabinet, isDrawerOrganizer } from '../utils/stacking';
+import { StoreInfo } from './StoreStockModal';
 import {
   Plus,
   Search,
@@ -13,7 +14,8 @@ import {
   Check,
   CheckCircle2,
   Zap,
-  Target
+  Target,
+  Store
 } from 'lucide-react';
 
 interface ProductCatalogProps {
@@ -28,6 +30,12 @@ interface ProductCatalogProps {
   onClearPurpose?: () => void;
   onOpenPurposeModal?: () => void;
   onSelectPurpose?: (purpose: PurposePreset | null) => void;
+  activeStore?: StoreInfo | null;
+  onlyStoreStock?: boolean;
+  onToggleOnlyStoreStock?: () => void;
+  onOpenStoreModal?: () => void;
+  storeInStockCodes?: Set<string>;
+  storeStockMap?: Record<string, { quantity: number; in_stock: boolean; status_label: string }>;
 }
 
 const QUICK_TAGS = [
@@ -52,7 +60,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   activePurpose = null,
   onClearPurpose,
   onOpenPurposeModal,
-  onSelectPurpose
+  onSelectPurpose,
+  activeStore = null,
+  onlyStoreStock = false,
+  onToggleOnlyStoreStock,
+  onOpenStoreModal,
+  storeInStockCodes,
+  storeStockMap
 }) => {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -215,6 +229,14 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         return false;
       }
 
+      // 0d. Active Store Inventory filter
+      if (activeStore && onlyStoreStock && storeInStockCodes && storeInStockCodes.size > 0) {
+        const code = p.itemCode || p.id;
+        if (!storeInStockCodes.has(code)) {
+          return false;
+        }
+      }
+
       // 1. Text search (multi-word match)
       if (search.trim()) {
         const queryTerms = search.toLowerCase().trim().split(/\s+/);
@@ -279,7 +301,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
       return 0;
     });
-  }, [products, search, selectedCategory, selectedSubCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height, activePurpose]);
+  }, [products, search, selectedCategory, selectedSubCategory, fitOnly, excludeSoldOut, verifiedOnly, selectedPrice, selectedType, sortBy, drawer.height, activePurpose, activeStore, onlyStoreStock, storeInStockCodes]);
 
   // Count active advanced filters
   const activeAdvancedFilterCount =
@@ -315,6 +337,54 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             )}
           </div>
         </div>
+
+        {/* Active Store Inventory Filter Banner */}
+        {activeStore && (
+          <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-300 rounded-xl p-2.5 flex items-center justify-between text-xs shadow-2xs">
+            <div className="flex items-center space-x-2 min-w-0">
+              <div className="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                <Store size={13} />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center space-x-1.5 flex-wrap">
+                  <span className="font-bold text-emerald-950 truncate">[{activeStore.name}] 기준</span>
+                  <span className="text-[10px] bg-emerald-200/80 text-emerald-900 font-bold px-1.5 py-0.2 rounded-full whitespace-nowrap">
+                    실시간 재고 연동
+                  </span>
+                </div>
+                <p className="text-[10px] text-emerald-700 truncate">
+                  {onlyStoreStock ? '선택 지점에 재고가 있는 상품만 표시 중' : '전체 상품 중 매장 재고 현황 표시'}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1 flex-shrink-0 ml-1.5">
+              {onToggleOnlyStoreStock && (
+                <button
+                  type="button"
+                  onClick={onToggleOnlyStoreStock}
+                  className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all flex items-center space-x-1 ${
+                    onlyStoreStock
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                      : 'bg-white text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                  }`}
+                  title={onlyStoreStock ? '전체 상품 표시로 전환' : '이 매장 재고 보유 품목만 표시'}
+                >
+                  <span>{onlyStoreStock ? '✓ 재고품만' : '전체 보기'}</span>
+                </button>
+              )}
+              {onOpenStoreModal && (
+                <button
+                  type="button"
+                  onClick={onOpenStoreModal}
+                  className="text-[10px] bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 font-bold px-2 py-1 rounded-lg transition-colors shadow-2xs"
+                  title="다른 지점으로 변경"
+                >
+                  지점 변경
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Purpose Filter Active Banner */}
         {activePurpose && (
@@ -732,11 +802,22 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         {prod.description}
                       </p>
 
-                      <div className="mt-1 flex items-center space-x-2 text-[10px] font-mono text-slate-400">
+                      <div className="mt-1 flex items-center space-x-2 text-[10px] font-mono text-slate-400 flex-wrap gap-y-1">
                         <span>품번: {prod.itemCode}</span>
                         {prod.isSoldOut && (
                           <span className="bg-slate-100 text-slate-500 border border-slate-200/80 px-1 py-0.2 text-[9px] rounded font-sans font-medium">
                             일시품절
+                          </span>
+                        )}
+                        {activeStore && storeStockMap && storeStockMap[prod.itemCode] && (
+                          <span className={`px-1.5 py-0.2 text-[9px] rounded font-sans font-bold border ${
+                            storeStockMap[prod.itemCode].in_stock
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                              : 'bg-rose-50 text-rose-700 border-rose-200'
+                          }`}>
+                            {storeStockMap[prod.itemCode].in_stock
+                              ? `🏬 지점 재고: ${storeStockMap[prod.itemCode].quantity}개`
+                              : `🏬 지점 품절`}
                           </span>
                         )}
                       </div>

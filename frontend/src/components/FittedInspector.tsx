@@ -13,8 +13,11 @@ import {
   Maximize2,
   RotateCw,
   ArrowUpDown,
-  Store
+  Store,
+  Star,
+  Compass
 } from 'lucide-react';
+import { StoreInfo } from './StoreStockModal';
 
 interface FittedInspectorProps {
   drawer: DrawerDimension;
@@ -31,7 +34,8 @@ interface FittedInspectorProps {
   onClearGoodsOnly?: () => void;
   onPreviewProduct?: (product: DaisoProduct) => void;
   onOpenExportModal?: () => void;
-  onOpenStoreStockModal?: () => void;
+  onOpenStoreStockModal?: (defaultTab?: 'all_in_stock' | 'search') => void;
+  activeStore?: StoreInfo | null;
   isFullWidth?: boolean;
 }
 
@@ -51,6 +55,7 @@ export const FittedInspector: React.FC<FittedInspectorProps> = ({
   onPreviewProduct,
   onOpenExportModal,
   onOpenStoreStockModal,
+  activeStore = null,
   isFullWidth = false
 }) => {
   const [copied, setCopied] = useState(false);
@@ -413,21 +418,60 @@ export const FittedInspector: React.FC<FittedInspectorProps> = ({
           </div>
         </div>
 
+        {/* Active Store Indicator */}
+        {activeStore && (
+          <div className="p-2.5 rounded-xl bg-purple-50/80 border border-purple-200 text-xs flex items-center justify-between">
+            <div className="flex items-center space-x-1.5 min-w-0">
+              <Compass size={14} className="text-purple-600 shrink-0" />
+              <div className="truncate">
+                <span className="font-extrabold text-purple-900">기준 매장: {activeStore.name}</span>
+                <span className="text-[10px] text-purple-600 block truncate">{activeStore.address}</span>
+              </div>
+            </div>
+            {onOpenStoreStockModal && (
+              <button
+                onClick={() => onOpenStoreStockModal('search')}
+                className="text-[10px] font-bold text-purple-700 bg-white border border-purple-200 hover:bg-purple-100 px-2 py-0.5 rounded shadow-2xs shrink-0 ml-1.5"
+              >
+                재고 확인
+              </button>
+            )}
+          </div>
+        )}
+
         {/* Action buttons */}
         <div className="space-y-2">
           {onOpenStoreStockModal && (
-            <button
-              onClick={onOpenStoreStockModal}
-              disabled={groupedItems.length === 0}
-              className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all shadow-sm ${
-                groupedItems.length === 0
-                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                  : 'bg-emerald-600 hover:bg-emerald-700 text-white active:scale-98 shadow-md'
-              }`}
-            >
-              <Store size={14} />
-              <span>🏬 내 주변 매장 재고 확인 (실시간)</span>
-            </button>
+            <>
+              {/* Primary: Find All In Stock Stores */}
+              <button
+                onClick={() => onOpenStoreStockModal('all_in_stock')}
+                disabled={groupedItems.length === 0}
+                className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all shadow-sm ${
+                  groupedItems.length === 0
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white active:scale-98 shadow-md'
+                }`}
+                title="내가 서랍에 배치한 수납함 품목이 100% 구비된 다이소 매장을 찾습니다"
+              >
+                <Star size={14} className="fill-amber-300 text-amber-300" />
+                <span>🌟 내가 구성한 제품 다 있는 매장 찾기</span>
+              </button>
+
+              {/* Secondary: Check Store Stock by Area */}
+              <button
+                onClick={() => onOpenStoreStockModal('search')}
+                disabled={groupedItems.length === 0}
+                className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all border ${
+                  groupedItems.length === 0
+                    ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+                    : 'bg-white hover:bg-emerald-50 text-emerald-800 border-emerald-300 active:scale-98 shadow-2xs'
+                }`}
+              >
+                <Store size={14} className="text-emerald-600" />
+                <span>🏬 매장별 실시간 재고 검색 & 지점 선택</span>
+              </button>
+            </>
           )}
 
           {onOpenExportModal && (

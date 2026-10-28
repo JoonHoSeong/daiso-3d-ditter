@@ -19,7 +19,7 @@ interface ExportShoppingListModalProps {
   onClose: () => void;
   drawer: DrawerDimension;
   items: FittedItem[];
-  onOpenStoreStock?: () => void;
+  onOpenStoreStock?: (defaultTab?: 'all_in_stock' | 'search') => void;
 }
 
 export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = ({
@@ -243,13 +243,13 @@ export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = (
               <button
                 onClick={() => {
                   onClose();
-                  onOpenStoreStock();
+                  onOpenStoreStock('all_in_stock');
                 }}
                 className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-sm"
-                title="매장별 실시간 재고 확인"
+                title="내가 구성한 제품이 100% 모두 있는 매장 찾기"
               >
                 <Store size={14} />
-                <span>🏬 매장 재고 확인</span>
+                <span>🌟 전 품목 보유 매장 찾기</span>
               </button>
             )}
 

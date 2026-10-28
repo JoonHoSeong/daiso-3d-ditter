@@ -8,7 +8,7 @@ import { AuthModal } from './components/AuthModal';
 import { SaveDrawerModal } from './components/SaveDrawerModal';
 import { ExportShoppingListModal } from './components/ExportShoppingListModal';
 import { AdminUsersModal } from './components/AdminUsersModal';
-import { StoreStockModal } from './components/StoreStockModal';
+import { StoreStockModal, StoreInfo } from './components/StoreStockModal';
 import {
   DAISO_PRODUCTS,
   DrawerDimension,
@@ -36,7 +36,7 @@ import {
   getPostureInfo,
   getDistinct3DOrientations
 } from './utils/stacking';
-import { CheckCircle2, Layers, Printer } from 'lucide-react';
+import { CheckCircle2, Layers, Printer, Loader2 } from 'lucide-react';
 import { FillGoodsModal } from './components/FillGoodsModal';
 import { AiPurposeModal } from './components/AiPurposeModal';
 import { FridgeSelectorModal } from './components/FridgeSelectorModal';
@@ -88,6 +88,25 @@ export const App: React.FC = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
   const [isStoreStockModalOpen, setIsStoreStockModalOpen] = useState<boolean>(false);
+  const [storeStockModalTab, setStoreStockModalTab] = useState<'all_in_stock' | 'search'>('all_in_stock');
+  const [activeStore, setActiveStore] = useState<StoreInfo | null>(() => {
+    try {
+      const saved = localStorage.getItem('daiso_active_store');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [onlyStoreStock, setOnlyStoreStock] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('daiso_only_store_stock') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [storeInStockCodes, setStoreInStockCodes] = useState<Set<string>>(new Set());
+  const [storeStockMap, setStoreStockMap] = useState<Record<string, { quantity: number; in_stock: boolean; status_label: string }>>({});
+  const [isFilteringStoreStock, setIsFilteringStoreStock] = useState<boolean>(false);
   const [isSaveDrawerModalOpen, setIsSaveDrawerModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isFillGoodsModalOpen, setIsFillGoodsModalOpen] = useState<boolean>(false);
@@ -345,10 +364,165 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleAutoFitContainers = () => {
-    const fitted = fitContainersOnly(drawer, products, { allowRotation });
-    setItems(fitted);
-    setSelectedItemInstanceId(null);
+  const fetchStoreInStock = async (storeCode: string) => {
+    try {
+      setIsFilteringStoreStock(true);
+      const containerCodes = products
+        .filter(p => isDrawerOrganizer(p) && p.itemCode)
+        .slice(0, 100)
+        .map(p => p.itemCode);
+
+      if (!containerCodes.length) return;
+
+      const res = await fetch(`${BACKEND_URL}/api/stores/filter-in-stock`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          store_code: storeCode,
+          product_codes: containerCodes
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const inCodes: string[] = data.in_stock_codes || [];
+        setStoreInStockCodes(new Set(inCodes));
+        setStoreStockMap(data.stock_map || {});
+      }
+    } catch (err) {
+      console.error('Error filtering store stock:', err);
+    } finally {
+      setIsFilteringStoreStock(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeStore) {
+      localStorage.setItem('daiso_active_store', JSON.stringify(activeStore));
+      fetchStoreInStock(activeStore.store_code);
+    } else {
+      localStorage.removeItem('daiso_active_store');
+      setStoreInStockCodes(new Set());
+      setStoreStockMap({});
+    }
+  }, [activeStore]);
+
+  const handleToggleOnlyStoreStock = () => {
+    setOnlyStoreStock(prev => {
+      const next = !prev;
+      localStorage.setItem('daiso_only_store_stock', String(next));
+      if (next && activeStore && storeInStockCodes.size === 0) {
+        fetchStoreInStock(activeStore.store_code);
+      }
+      return next;
+    });
+  };
+
+  const handleOpenStoreStockModal = (tab: 'all_in_stock' | 'search' = 'all_in_stock') => {
+    setStoreStockModalTab(tab);
+    setIsStoreStockModalOpen(true);
+  };
+
+  const handleFitWithStoreStock = async (store: StoreInfo) => {
+    setActiveStore(store);
+    setOnlyStoreStock(true);
+    localStorage.setItem('daiso_only_store_stock', 'true');
+    setIsFilteringStoreStock(true);
+    try {
+      const containerCodes = products
+        .filter(p => isDrawerOrganizer(p) && p.itemCode)
+        .slice(0, 100)
+        .map(p => p.itemCode);
+
+      const res = await fetch(`${BACKEND_URL}/api/stores/filter-in-stock`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          store_code: store.store_code,
+          product_codes: containerCodes
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const inCodes = new Set<string>(data.in_stock_codes || []);
+        setStoreInStockCodes(inCodes);
+        setStoreStockMap(data.stock_map || {});
+
+        const inStockCandidates = products.filter(p => inCodes.has(p.itemCode));
+        if (inStockCandidates.length > 0) {
+          const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation });
+          if (fitted.length > 0) {
+            setItems(fitted);
+            setSelectedItemInstanceId(null);
+            showToast(`🎉 [${store.name}] 실시간 재고 수납함으로 피팅 완료! (${fitted.length}개)`);
+          } else {
+            showToast(`⚠️ [${store.name}]의 재고 수납함 중 현재 서랍 크기에 맞는 배치가 없습니다.`);
+          }
+        } else {
+          showToast(`⚠️ [${store.name}]에 현재 확인된 수납함 재고가 없습니다.`);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsFilteringStoreStock(false);
+    }
+  };
+
+  const handleAutoFitContainers = async () => {
+    if (activeStore && onlyStoreStock) {
+      setIsFilteringStoreStock(true);
+      try {
+        let targetCodes = storeInStockCodes;
+        if (targetCodes.size === 0) {
+          const containerCodes = products
+            .filter(p => isDrawerOrganizer(p) && p.itemCode)
+            .slice(0, 100)
+            .map(p => p.itemCode);
+
+          const res = await fetch(`${BACKEND_URL}/api/stores/filter-in-stock`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              store_code: activeStore.store_code,
+              product_codes: containerCodes
+            })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            targetCodes = new Set(data.in_stock_codes || []);
+            setStoreInStockCodes(targetCodes);
+            setStoreStockMap(data.stock_map || {});
+          }
+        }
+
+        const inStockCandidates = products.filter(p => targetCodes.has(p.itemCode));
+        if (inStockCandidates.length === 0) {
+          alert(`선택하신 [${activeStore.name}]의 현재 재고 보유 수납함이 부족합니다. 전체 상품으로 피팅하시거나 다른 매장을 선택해주세요.`);
+          return;
+        }
+
+        const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation });
+        if (fitted.length === 0) {
+          alert(`[${activeStore.name}]의 재고 수납함 중 현재 서랍 치수(${drawer.width}×${drawer.depth}×${drawer.height}cm)에 딱 맞는 조합이 없습니다.`);
+          return;
+        }
+
+        setItems(fitted);
+        setSelectedItemInstanceId(null);
+        showToast(`🎉 [${activeStore.name}] 실시간 재고 보유 수납함으로 피팅 완료! (${fitted.length}개)`);
+      } catch (e) {
+        console.error('Error auto-fitting with store stock:', e);
+        const fitted = fitContainersOnly(drawer, products, { allowRotation });
+        setItems(fitted);
+        setSelectedItemInstanceId(null);
+      } finally {
+        setIsFilteringStoreStock(false);
+      }
+    } else {
+      const fitted = fitContainersOnly(drawer, products, { allowRotation });
+      setItems(fitted);
+      setSelectedItemInstanceId(null);
+    }
   };
 
   const handleOpenFillGoodsModal = () => {
@@ -978,6 +1152,14 @@ export const App: React.FC = () => {
         </div>
       )}
 
+      {/* Store Stock Live Checking Overlay Badge */}
+      {isFilteringStoreStock && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-emerald-950/95 backdrop-blur-md text-white text-xs font-bold shadow-2xl border border-emerald-600 animate-in fade-in">
+          <Loader2 size={16} className="animate-spin text-emerald-400" />
+          <span>{activeStore ? `[${activeStore.name}]` : '다이소 매장'} 공식 실시간 재고 대조 중...</span>
+        </div>
+      )}
+
       {/* Top Navigation */}
       <HeaderNav
         drawer={drawer}
@@ -1000,7 +1182,10 @@ export const App: React.FC = () => {
         onDeleteSavedDrawer={handleDeleteSavedDrawer}
         onOpenSaveModal={() => setIsSaveDrawerModalOpen(true)}
         onOpenExportModal={() => setIsExportModalOpen(true)}
-        onOpenStoreStockModal={() => setIsStoreStockModalOpen(true)}
+        onOpenStoreStockModal={handleOpenStoreStockModal}
+        activeStore={activeStore}
+        onlyStoreStock={onlyStoreStock}
+        onToggleOnlyStoreStock={handleToggleOnlyStoreStock}
         user={user}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
@@ -1099,6 +1284,12 @@ export const App: React.FC = () => {
                   onClearPurpose={handleClearPurpose}
                   onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
                   onSelectPurpose={(p) => setActivePurpose(p)}
+                  activeStore={activeStore}
+                  onlyStoreStock={onlyStoreStock}
+                  onToggleOnlyStoreStock={handleToggleOnlyStoreStock}
+                  onOpenStoreModal={() => handleOpenStoreStockModal('search')}
+                  storeInStockCodes={storeInStockCodes}
+                  storeStockMap={storeStockMap}
                 />
               ) : (
                 <FittedInspector
@@ -1116,7 +1307,8 @@ export const App: React.FC = () => {
                   onClearGoodsOnly={handleClearGoodsOnly}
                   onPreviewProduct={setPreviewProduct}
                   onOpenExportModal={() => setIsExportModalOpen(true)}
-                  onOpenStoreStockModal={() => setIsStoreStockModalOpen(true)}
+                  onOpenStoreStockModal={handleOpenStoreStockModal}
+                  activeStore={activeStore}
                   isFullWidth={true}
                 />
               )}
@@ -1137,6 +1329,12 @@ export const App: React.FC = () => {
               onClearPurpose={handleClearPurpose}
               onOpenPurposeModal={() => setIsPurposeModalOpen(true)}
               onSelectPurpose={(p) => setActivePurpose(p)}
+              activeStore={activeStore}
+              onlyStoreStock={onlyStoreStock}
+              onToggleOnlyStoreStock={handleToggleOnlyStoreStock}
+              onOpenStoreModal={() => handleOpenStoreStockModal('search')}
+              storeInStockCodes={storeInStockCodes}
+              storeStockMap={storeStockMap}
             />
 
             {/* Draggable Divider for Catalog Width */}
@@ -1181,7 +1379,8 @@ export const App: React.FC = () => {
               onClearGoodsOnly={handleClearGoodsOnly}
               onPreviewProduct={setPreviewProduct}
               onOpenExportModal={() => setIsExportModalOpen(true)}
-              onOpenStoreStockModal={() => setIsStoreStockModalOpen(true)}
+              onOpenStoreStockModal={handleOpenStoreStockModal}
+              activeStore={activeStore}
             />
           </div>
         )}
@@ -1297,6 +1496,10 @@ export const App: React.FC = () => {
         isOpen={isStoreStockModalOpen}
         onClose={() => setIsStoreStockModalOpen(false)}
         items={items}
+        activeStore={activeStore}
+        onSelectActiveStore={setActiveStore}
+        initialTab={storeStockModalTab}
+        onFitWithStoreStock={handleFitWithStoreStock}
       />
     </div>
   );
