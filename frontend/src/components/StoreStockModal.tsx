@@ -19,7 +19,9 @@ import {
   Check,
   Star,
   Compass,
-  ArrowRight
+  ArrowRight,
+  Navigation,
+  Radio
 } from 'lucide-react';
 import { FittedItem } from '../data/daisoProducts';
 import { BACKEND_URL } from '../config';
@@ -35,6 +37,8 @@ export interface StoreInfo {
   pickup_available: boolean;
   latitude?: number;
   longitude?: number;
+  distance_km?: number | null;
+  distance_label?: string;
 }
 
 export interface ItemStockResult {
@@ -61,6 +65,17 @@ export interface EvaluatedStore extends StoreInfo {
   available_count: number;
   total_items: number;
   items: ItemStockResult[];
+}
+
+export interface UserLocation {
+  source: 'gps' | 'ip' | 'manual';
+  latitude: number;
+  longitude: number;
+  city?: string;
+  district?: string;
+  suburb?: string;
+  recommended_keyword: string;
+  full_address?: string;
 }
 
 interface StoreStockModalProps {
@@ -90,6 +105,10 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
   const [selectedStoreCode, setSelectedStoreCode] = useState<string | null>(null);
   const [storeStockMap, setStoreStockMap] = useState<StoreStockMap>({});
 
+  // Location detection states (GPS / IP)
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [isDetectingLocation, setIsDetectingLocation] = useState<boolean>(false);
+
   // All-in-stock finder states
   const [allInStockStores, setAllInStockStores] = useState<EvaluatedStore[]>([]);
   const [loadingAllInStock, setLoadingAllInStock] = useState<boolean>(false);
@@ -114,24 +133,123 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
     return uniqueProductsMap.map(entry => entry.product.itemCode || entry.product.id);
   }, [uniqueProductsMap]);
 
+  // Automatic Location Detection on Modal Open
   useEffect(() => {
     if (isOpen) {
       if (initialTab) setActiveTab(initialTab);
-      if (productCodes.length > 0) {
-        handleFindAllInStock(allInStockRegion || '강남');
+      if (!userLocation) {
+        detectUserLocation();
       } else {
-        setActiveTab('search');
-        handleSearchStores(keyword || '강남');
+        const kw = userLocation.recommended_keyword;
+        if (productCodes.length > 0) {
+          handleFindAllInStock(allInStockRegion || kw, { lat: userLocation.latitude, lon: userLocation.longitude });
+        } else {
+          setActiveTab('search');
+          handleSearchStores(keyword || kw, { lat: userLocation.latitude, lon: userLocation.longitude });
+        }
       }
     }
   }, [isOpen]);
 
-  const handleSearchStores = async (query: string) => {
+  const detectUserLocation = async () => {
+    setIsDetectingLocation(true);
+    setError(null);
+
+    const fallbackToIp = async () => {
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/stores/user-location`);
+        if (res.ok) {
+          const data = await res.json();
+          const loc: UserLocation = {
+            source: 'ip',
+            latitude: data.latitude,
+            longitude: data.longitude,
+            city: data.city,
+            district: data.district,
+            suburb: data.suburb,
+            recommended_keyword: data.recommended_keyword || '강남',
+            full_address: data.full_address || data.district
+          };
+          setUserLocation(loc);
+          const kw = loc.recommended_keyword;
+          setKeyword(kw);
+          setAllInStockRegion(kw);
+
+          if (productCodes.length > 0) {
+            handleFindAllInStock(kw, { lat: loc.latitude, lon: loc.longitude });
+          } else {
+            handleSearchStores(kw, { lat: loc.latitude, lon: loc.longitude });
+          }
+        }
+      } catch (e: any) {
+        console.warn('IP location detection fallback failed:', e);
+      } finally {
+        setIsDetectingLocation(false);
+      }
+    };
+
+    if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const res = await fetch(`${BACKEND_URL}/api/stores/reverse-geocode?lat=${lat}&lon=${lon}`);
+            if (res.ok) {
+              const data = await res.json();
+              const loc: UserLocation = {
+                source: 'gps',
+                latitude: lat,
+                longitude: lon,
+                city: data.city,
+                district: data.district,
+                suburb: data.suburb,
+                recommended_keyword: data.recommended_keyword || '강남',
+                full_address: data.full_address || data.district
+              };
+              setUserLocation(loc);
+              const kw = loc.recommended_keyword;
+              setKeyword(kw);
+              setAllInStockRegion(kw);
+
+              if (productCodes.length > 0) {
+                handleFindAllInStock(kw, { lat, lon });
+              } else {
+                handleSearchStores(kw, { lat, lon });
+              }
+            } else {
+              await fallbackToIp();
+            }
+          } catch {
+            await fallbackToIp();
+          } finally {
+            setIsDetectingLocation(false);
+          }
+        },
+        async (geoError) => {
+          console.info('HTML5 Geolocation unavailable or declined, falling back to IP:', geoError.message);
+          await fallbackToIp();
+        },
+        { timeout: 5000, enableHighAccuracy: true }
+      );
+    } else {
+      await fallbackToIp();
+    }
+  };
+
+  const handleSearchStores = async (query: string, coords?: { lat: number; lon: number }) => {
     if (!query.trim()) return;
     setLoadingStores(true);
     setError(null);
     try {
-      const res = await fetch(`${BACKEND_URL}/api/stores/search?keyword=${encodeURIComponent(query.trim())}`);
+      const latVal = coords?.lat ?? userLocation?.latitude;
+      const lonVal = coords?.lon ?? userLocation?.longitude;
+      const latParam = latVal ? `&lat=${latVal}` : '';
+      const lonParam = lonVal ? `&lon=${lonVal}` : '';
+
+      const res = await fetch(
+        `${BACKEND_URL}/api/stores/search?keyword=${encodeURIComponent(query.trim())}${latParam}${lonParam}`
+      );
       if (!res.ok) {
         throw new Error('매장 정보를 불러오지 못했습니다.');
       }
@@ -197,17 +315,22 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
     }
   };
 
-  const handleFindAllInStock = async (region: string) => {
+  const handleFindAllInStock = async (region: string, coords?: { lat: number; lon: number }) => {
     if (!productCodes.length || !region.trim()) return;
     setLoadingAllInStock(true);
     setError(null);
     try {
+      const latVal = coords?.lat ?? userLocation?.latitude;
+      const lonVal = coords?.lon ?? userLocation?.longitude;
+
       const res = await fetch(`${BACKEND_URL}/api/stores/find-all-in-stock`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           product_codes: productCodes,
-          keyword: region.trim()
+          keyword: region.trim(),
+          lat: latVal || null,
+          lon: lonVal || null
         })
       });
       if (!res.ok) {
@@ -215,7 +338,6 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
       }
       const data = await res.json();
       setAllInStockStores(data.stores || []);
-      // If there are stores with 100% stock, default filter to true if wanted
       const allInCount = (data.stores || []).filter((s: EvaluatedStore) => s.all_in_stock).length;
       if (allInCount > 0) {
         setAllInStockFilterOnly(true);
@@ -251,15 +373,15 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/65 backdrop-blur-xs p-2 sm:p-5 select-none animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl h-[94vh] max-h-[840px] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-4xl h-[94vh] max-h-[850px] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-rose-50/90 via-white to-amber-50/80">
+        <div className="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-rose-50/90 via-white to-amber-50/80">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-2xl bg-daiso-red flex items-center justify-center text-white shadow-md shadow-red-100">
               <Store size={20} />
             </div>
             <div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 flex-wrap">
                 <h2 className="text-base sm:text-lg font-black text-slate-900">
                   다이소 매장별 실시간 재고 & 맞춤 구성
                 </h2>
@@ -274,7 +396,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                 )}
               </div>
               <p className="text-xs text-slate-500">
-                원하는 지점의 재고만으로 서랍을 구성하거나, 구성한 품목이 모두 있는 100% 재고 매장을 찾습니다.
+                GPS 및 IP로 내 위치를 자동 감지하여 가장 가까운 매장의 실시간 재고를 즉시 대조합니다.
               </p>
             </div>
           </div>
@@ -283,6 +405,39 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
             className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
           >
             <X size={20} />
+          </button>
+        </div>
+
+        {/* User Location Bar (Mobile GPS / IP Auto-detected) */}
+        <div className="px-6 py-2 bg-gradient-to-r from-slate-900 to-indigo-950 text-white text-xs flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
+          <div className="flex items-center space-x-2">
+            <Navigation size={13} className="text-emerald-400 animate-pulse shrink-0" />
+            <span className="font-bold text-slate-200">현재 감지된 내 위치:</span>
+            {isDetectingLocation ? (
+              <span className="text-emerald-300 flex items-center space-x-1 text-[11px]">
+                <Loader2 size={12} className="animate-spin" />
+                <span>위치 자동 감지 중 (GPS/IP)...</span>
+              </span>
+            ) : userLocation ? (
+              <span className="text-emerald-300 font-extrabold flex items-center space-x-1.5">
+                <span>{userLocation.full_address || userLocation.district}</span>
+                <span className="px-1.5 py-0.2 rounded text-[9px] bg-white/20 text-white font-mono">
+                  {userLocation.source === 'gps' ? '📱 정밀 GPS' : '🌐 IP 위치'}
+                </span>
+              </span>
+            ) : (
+              <span className="text-slate-400">위치 미감지 (강남 기준)</span>
+            )}
+          </div>
+
+          <button
+            onClick={() => detectUserLocation()}
+            disabled={isDetectingLocation}
+            className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-[11px] flex items-center space-x-1 border border-white/20 transition-all active:scale-95"
+            title="모바일 GPS 또는 IP 위치 정보를 다시 감지합니다"
+          >
+            <Radio size={11} className="text-emerald-400" />
+            <span>내 위치로 다시 찾기</span>
           </button>
         </div>
 
@@ -372,7 +527,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                     type="text"
                     value={allInStockRegion}
                     onChange={(e) => setAllInStockRegion(e.target.value)}
-                    placeholder="지역 또는 구/동 검색 (예: 강남, 마포, 분당, 수원, 일산, 영등포...)"
+                    placeholder="지역 또는 구/동 검색 (예: 구로, 강남, 마포, 분당, 수원...)"
                     className="w-full pl-10 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
                   />
                 </div>
@@ -390,7 +545,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
                 <div className="flex items-center space-x-1.5 flex-wrap">
                   <span className="text-[11px] text-slate-400 font-semibold">인기 지역:</span>
-                  {['강남', '역삼', '매봉', '홍대', '잠실', '신촌', '분당', '수원'].map(loc => (
+                  {['구로', '강남', '역삼', '매봉', '홍대', '잠실', '신촌', '분당', '수원'].map(loc => (
                     <button
                       key={loc}
                       type="button"
@@ -464,7 +619,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                     '{allInStockRegion}' 일대 다이소 매장의 공식 실시간 재고를 전수 대조 중입니다...
                   </span>
                   <span className="text-[11px] text-slate-400">
-                    배치된 수납함 {productCodes.length}개 품목의 매장 픽업 재고를 일괄 질의하고 있습니다.
+                    배치된 수납함 {productCodes.length}개 품목의 매장 픽업 재고 및 사용자 거리 순으로 정렬합니다.
                   </span>
                 </div>
               ) : displayedAllInStores.length === 0 ? (
@@ -484,7 +639,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                         [일부 보유 매장 포함 전체 매장 보기]를 클릭해보세요.
                       </button>
                     ) : (
-                      '다른 지역명(예: 강남, 마포, 분당)을 입력해보세요.'
+                      '다른 지역명(예: 구로, 강남, 마포, 분당)을 입력해보세요.'
                     )}
                   </p>
                 </div>
@@ -533,6 +688,12 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                                   ({store.store_code})
                                 </span>
                               </h3>
+                              {store.distance_label && (
+                                <span className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-bold text-[10px] flex items-center space-x-1">
+                                  <MapPin size={10} className="text-indigo-500" />
+                                  <span>{store.distance_label}</span>
+                                </span>
+                              )}
                               {store.all_in_stock ? (
                                 <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-black text-[11px] flex items-center space-x-1 shadow-2xs">
                                   <Star size={11} className="fill-amber-400 text-amber-400" />
@@ -681,7 +842,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                     type="text"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
-                    placeholder="매장명 또는 지역 검색 (예: 강남, 매봉, 역삼, 홍대, 잠실, 분당, 해운대...)"
+                    placeholder="매장명 또는 지역 검색 (예: 구로, 강남, 매봉, 역삼, 홍대, 잠실, 분당, 해운대...)"
                     className="w-full pl-10 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-daiso-red focus:bg-white transition-all"
                   />
                 </div>
@@ -705,7 +866,7 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
               {/* Quick Filter Chips */}
               <div className="flex items-center space-x-1.5 text-xs">
                 <span className="text-[11px] text-slate-400 font-semibold">인기 지역:</span>
-                {['강남', '역삼', '매봉', '홍대', '잠실', '신촌', '분당', '수원'].map(loc => (
+                {['구로', '강남', '역삼', '매봉', '홍대', '잠실', '신촌', '분당', '수원'].map(loc => (
                   <button
                     key={loc}
                     type="button"
@@ -762,6 +923,11 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                         <div className="flex items-start justify-between">
                           <div className="font-bold text-slate-900 text-xs flex items-center space-x-1.5 flex-wrap">
                             <span>{store.name}</span>
+                            {store.distance_label && (
+                              <span className="px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 text-[9px] font-bold font-mono border border-indigo-200">
+                                📍 {store.distance_label}
+                              </span>
+                            )}
                             {store.pickup_available && (
                               <span className="px-1.5 py-0.2 rounded bg-sky-50 text-sky-700 text-[9px] font-bold border border-sky-200">
                                 픽업가능
@@ -827,6 +993,11 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                                 ({selectedStore.store_code})
                               </span>
                             </h3>
+                            {selectedStore.distance_label && (
+                              <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200 font-mono font-black text-[10px]">
+                                📍 {selectedStore.distance_label}
+                              </span>
+                            )}
                             {activeStore?.store_code === selectedStore.store_code && (
                               <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200 font-black text-[10px]">
                                 내 기준 지점

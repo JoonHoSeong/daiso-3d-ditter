@@ -1,13 +1,33 @@
 import os
 import base64
+import math
 from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel, Field
 import httpx
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 
 router = APIRouter(prefix="/stores", tags=["Daiso Store & Inventory"])
+
+def calculate_distance_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Calculates distance between two GPS coordinates in kilometers using Haversine formula."""
+    try:
+        R = 6371.0
+        d_lat = math.radians(lat2 - lat1)
+        d_lon = math.radians(lon2 - lon1)
+        a = math.sin(d_lat / 2.0)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(d_lon / 2.0)**2
+        c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
+        return round(R * c, 2)
+    except Exception:
+        return 9999.0
+
+def format_distance_label(km: float) -> str:
+    if km >= 9999.0:
+        return ""
+    if km < 1.0:
+        return f"{int(km * 1000)}m"
+    return f"{km:.1f}km"
 
 PRE_AUTH_ENC_KEY = b"PRE_AUTH_ENC_KEY"
 DEFAULT_HEADERS = {
@@ -43,13 +63,153 @@ class StockCheckRequest(BaseModel):
 class FindAllInStockRequest(BaseModel):
     product_codes: List[str] = Field(..., min_length=1, description="내가 구성한 다이소 상품 품번 목록")
     keyword: str = Field("강남", description="검색할 지역 또는 매장 키워드 (예: 강남, 마포, 분당, 수원)")
+    lat: Optional[float] = Field(None, description="사용자 현재 위도 (거리 계산 및 거리순 정렬용)")
+    lon: Optional[float] = Field(None, description="사용자 현재 경도 (거리 계산 및 거리순 정렬용)")
 
 class FilterInStockRequest(BaseModel):
     store_code: str = Field(..., description="다이소 매장 코드 (strCd)")
     product_codes: List[str] = Field(..., min_length=1, description="확인할 다이소 상품 품번 후보 목록")
 
+KOREAN_DISTRICT_MAP = {
+    "guro-gu": "구로구", "guro": "구로",
+    "gangnam-gu": "강남구", "gangnam": "강남",
+    "mapo-gu": "마포구", "mapo": "마포",
+    "seocho-gu": "서초구", "seocho": "서초",
+    "songpa-gu": "송파구", "songpa": "송파",
+    "bundang-gu": "분당구", "bundang": "분당",
+    "yeongdeungpo-gu": "영등포구", "yeongdeungpo": "영등포",
+    "jung-gu": "중구", "jongno-gu": "종로구", "yongsan-gu": "용산구",
+    "seongdong-gu": "성동구", "gwangjin-gu": "광진구", "dongdaemun-gu": "동대문구",
+    "seodaemun-gu": "서대문구", "nowon-gu": "노원구", "gangseo-gu": "강서구",
+    "yangcheon-gu": "양천구", "geumcheon-gu": "금천구", "gwanak-gu": "관악구",
+    "dongjak-gu": "동작구", "gangdong-gu": "강동구", "eunpyeong-gu": "은평구",
+    "gangbuk-gu": "강북구", "dobong-gu": "도봉구", "jungnang-gu": "중랑구",
+    "suwon": "수원", "seongnam": "성남", "anyang": "안양", "bucheon": "부천",
+    "ansan": "안산", "goyang": "고양", "ilsan": "일산", "incheon": "인천",
+    "busan": "부산", "daegu": "대구", "daejeon": "대전", "gwangju": "광주",
+    "ulsan": "울산", "jeju": "제주", "yongin": "용인", "hwaseong": "화성"
+}
+
+@router.get("/user-location")
+async def get_user_location_by_ip(request: Request):
+    """
+    사용자의 IP 주소를 감지하여 대략적인 위치(행정구역/위경도)를 자동 감지합니다.
+    모바일/브라우저 GPS 권한이 없거나 최초 접속 시 주변 다이소 매장을 자동 추천할 때 사용됩니다.
+    """
+    client_ip = request.headers.get("x-forwarded-for") or request.headers.get("x-real-ip") or (request.client.host if request.client else "")
+    if client_ip and "," in client_ip:
+        client_ip = client_ip.split(",")[0].strip()
+
+    is_local = not client_ip or client_ip in ("127.0.0.1", "localhost", "::1") or client_ip.startswith("192.168.") or client_ip.startswith("10.")
+
+    ip_query_url = f"http://ip-api.com/json/{client_ip}" if not is_local else "http://ip-api.com/json/"
+
+    try:
+        async with httpx.AsyncClient(timeout=4.0) as client:
+            ip_resp = await client.get(ip_query_url)
+            ip_data = ip_resp.json() if ip_resp.status_code == 200 else {}
+
+        lat = float(ip_data.get("lat", 37.5665))
+        lon = float(ip_data.get("lon", 126.9780))
+        raw_city = str(ip_data.get("city", "")).strip().lower()
+
+        # Reverse geocode with OpenStreetMap Nominatim for precise Korean borough/suburb name
+        city_name = "서울특별시"
+        district_name = KOREAN_DISTRICT_MAP.get(raw_city, raw_city or "강남구")
+        suburb_name = ""
+
+        try:
+            async with httpx.AsyncClient(timeout=3.5) as client:
+                headers = {"User-Agent": "Daiso3DFitter/1.0 (LocationService)"}
+                geo_resp = await client.get(
+                    f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}&accept-language=ko",
+                    headers=headers
+                )
+                if geo_resp.status_code == 200:
+                    addr = geo_resp.json().get("address", {})
+                    city_name = addr.get("city") or addr.get("province") or city_name
+                    district_name = addr.get("borough") or addr.get("city_district") or addr.get("suburb") or district_name
+                    suburb_name = addr.get("suburb") or addr.get("neighbourhood") or ""
+        except Exception:
+            pass
+
+        rec_kw = district_name or "강남"
+
+        return {
+            "source": "ip",
+            "ip": ip_data.get("query", client_ip or "unknown"),
+            "city": city_name,
+            "district": district_name,
+            "suburb": suburb_name,
+            "latitude": lat,
+            "longitude": lon,
+            "recommended_keyword": rec_kw,
+            "full_address": f"{city_name} {district_name} {suburb_name}".strip()
+        }
+    except Exception as e:
+        return {
+            "source": "fallback",
+            "ip": client_ip or "unknown",
+            "city": "서울특별시",
+            "district": "강남구",
+            "suburb": "역삼동",
+            "latitude": 37.498,
+            "longitude": 127.028,
+            "recommended_keyword": "강남",
+            "full_address": "서울특별시 강남구 역삼동"
+        }
+
+@router.get("/reverse-geocode")
+async def reverse_geocode_coordinates(lat: float = Query(...), lon: float = Query(...)):
+    """
+    모바일/브라우저의 HTML5 Geolocation(GPS) 위도/경도를 한국어 행정구역명(시/구/동)으로 변환합니다.
+    """
+    try:
+        city_name = "서울특별시"
+        district_name = "강남구"
+        suburb_name = ""
+
+        async with httpx.AsyncClient(timeout=4.0) as client:
+            headers = {"User-Agent": "Daiso3DFitter/1.0 (GPSReverseGeocode)"}
+            geo_resp = await client.get(
+                f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}&accept-language=ko",
+                headers=headers
+            )
+            if geo_resp.status_code == 200:
+                addr = geo_resp.json().get("address", {})
+                city_name = addr.get("city") or addr.get("province") or city_name
+                district_name = addr.get("borough") or addr.get("city_district") or addr.get("suburb") or district_name
+                suburb_name = addr.get("suburb") or addr.get("neighbourhood") or ""
+
+        rec_kw = district_name or "강남"
+        return {
+            "source": "gps",
+            "latitude": lat,
+            "longitude": lon,
+            "city": city_name,
+            "district": district_name,
+            "suburb": suburb_name,
+            "recommended_keyword": rec_kw,
+            "full_address": f"{city_name} {district_name} {suburb_name}".strip()
+        }
+    except Exception as e:
+        return {
+            "source": "gps_fallback",
+            "latitude": lat,
+            "longitude": lon,
+            "city": "서울특별시",
+            "district": "강남구",
+            "suburb": "",
+            "recommended_keyword": "강남",
+            "full_address": "서울특별시 강남구"
+        }
+
 @router.get("/search")
-async def search_stores(keyword: str = Query(..., min_length=1, description="매장명 또는 지역 검색어 (예: 강남, 마포, 분당)")):
+async def search_stores(
+    keyword: str = Query(..., min_length=1, description="매장명 또는 지역 검색어 (예: 강남, 마포, 분당)"),
+    lat: Optional[float] = Query(None, description="사용자 현재 위도"),
+    lon: Optional[float] = Query(None, description="사용자 현재 경도")
+):
     """Searches official Daiso branches across Korea."""
     try:
         bearer, uid = generate_daiso_auth()
@@ -73,6 +233,10 @@ async def search_stores(keyword: str = Query(..., min_length=1, description="매
         raw_stores = payload.get("data") or []
         stores = []
         for s in raw_stores:
+            s_lat = float(s.get("strLttd") or 0.0)
+            s_lon = float(s.get("strLitd") or 0.0)
+            dist_km = calculate_distance_km(lat, lon, s_lat, s_lon) if (lat and lon and s_lat and s_lon) else 9999.0
+
             stores.append({
                 "store_code": s.get("strCd"),
                 "name": s.get("strNm"),
@@ -82,9 +246,15 @@ async def search_stores(keyword: str = Query(..., min_length=1, description="매
                 "close_time": s.get("clsngTime", "22:00"),
                 "parking": s.get("parkYn") == "Y",
                 "pickup_available": s.get("pkupYn") == "Y",
-                "latitude": s.get("strLttd"),
-                "longitude": s.get("strLitd")
+                "latitude": s_lat,
+                "longitude": s_lon,
+                "distance_km": dist_km if dist_km < 9999.0 else None,
+                "distance_label": format_distance_label(dist_km)
             })
+
+        # Sort by distance if user coords provided
+        if lat and lon:
+            stores.sort(key=lambda x: (x["distance_km"] if x["distance_km"] is not None else 9999.0))
 
         return {
             "keyword": keyword,
@@ -266,6 +436,10 @@ async def find_all_in_stock_stores(req: FindAllInStockRequest):
 
             all_in_stock = (in_stock_count == len(pd_codes))
 
+            s_lat = float(s.get("strLttd") or 0.0)
+            s_lon = float(s.get("strLitd") or 0.0)
+            dist_km = calculate_distance_km(req.lat, req.lon, s_lat, s_lon) if (req.lat and req.lon and s_lat and s_lon) else 9999.0
+
             evaluated_stores.append({
                 "store_code": str_cd,
                 "name": s.get("strNm"),
@@ -275,16 +449,21 @@ async def find_all_in_stock_stores(req: FindAllInStockRequest):
                 "close_time": s.get("clsngTime", "22:00"),
                 "parking": s.get("parkYn") == "Y",
                 "pickup_available": s.get("pkupYn") == "Y",
-                "latitude": s.get("strLttd"),
-                "longitude": s.get("strLitd"),
+                "latitude": s_lat,
+                "longitude": s_lon,
+                "distance_km": dist_km if dist_km < 9999.0 else None,
+                "distance_label": format_distance_label(dist_km),
                 "all_in_stock": all_in_stock,
                 "available_count": in_stock_count,
                 "total_items": len(pd_codes),
                 "items": item_results
             })
 
-        # Sort: 1) all_in_stock true first, 2) available_count desc
-        evaluated_stores.sort(key=lambda x: (not x["all_in_stock"], -x["available_count"]))
+        # Sort: 1) all_in_stock true first, 2) distance_km asc (if coords), 3) available_count desc
+        if req.lat and req.lon:
+            evaluated_stores.sort(key=lambda x: (not x["all_in_stock"], x["distance_km"] if x["distance_km"] is not None else 9999.0, -x["available_count"]))
+        else:
+            evaluated_stores.sort(key=lambda x: (not x["all_in_stock"], -x["available_count"]))
         all_in_count = sum(1 for s in evaluated_stores if s["all_in_stock"])
 
         return {
