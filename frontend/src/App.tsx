@@ -1229,12 +1229,13 @@ export const App: React.FC = () => {
                 setIsResizingSplit(true);
               }}
               onTouchStart={() => setIsResizingSplit(true)}
-              className={`w-full h-2.5 cursor-row-resize flex items-center justify-center shrink-0 transition-colors z-20 ${
+              onDoubleClick={() => setSplitRatio(46)}
+              className={`w-full h-3 cursor-row-resize flex items-center justify-center shrink-0 transition-colors z-20 ${
                 isResizingSplit ? 'bg-daiso-red' : 'bg-slate-200 hover:bg-daiso-red/70'
               }`}
-              title="위아래로 드래그하여 3D 화면과 메뉴 창 높이 조절"
+              title="위아래로 드래그하여 3D 화면과 메뉴 창 높이 조절 (더블클릭 시 기본 비율 46% 복원)"
             >
-              <div className="w-10 h-1 rounded-full bg-slate-400" />
+              <div className="w-12 h-1.5 rounded-full bg-slate-400" />
             </div>
 
             {/* Dynamic Segmented Menu Switcher & Real-time Stats Divider */}

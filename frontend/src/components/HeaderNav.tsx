@@ -636,11 +636,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </button>
         )}
 
-        {/* Admin Dashboard Button (Only visible for admin accounts) */}
+        {/* Admin Dashboard Button (Only visible for admin accounts, tucked into More menu on < 360px) */}
         {user?.role === 'admin' && onOpenAdminModal && (
           <button
             onClick={onOpenAdminModal}
-            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shadow-xs active:scale-95 shrink-0"
+            className="hidden min-[360px]:flex items-center space-x-1 px-2 sm:px-2.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shadow-xs active:scale-95 shrink-0"
             title="회원 관리 대시보드 열기"
           >
             <Shield size={13} className="text-purple-200" />

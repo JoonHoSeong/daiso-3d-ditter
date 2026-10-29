@@ -651,8 +651,18 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     };
     window.addEventListener('resize', handleResize);
 
+    // Responsive ResizeObserver for Foldables (Fold/Unfold), Tablets, and Split-screen multitasking
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        handleResize();
+      });
+      resizeObserver.observe(containerRef.current);
+    }
+
     return () => {
       if (animId) cancelAnimationFrame(animId);
+      if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener('mousemove', onPointerMove);
       window.removeEventListener('mouseup', onPointerUp);
       window.removeEventListener('resize', handleResize);
