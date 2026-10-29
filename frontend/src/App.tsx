@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DrawerCanvas3D } from './components/DrawerCanvas3D';
 import { ProductCatalog } from './components/ProductCatalog';
 import { FittedInspector } from './components/FittedInspector';
@@ -7,6 +7,7 @@ import { ProductImageModal } from './components/ProductImageModal';
 import { AuthModal } from './components/AuthModal';
 import { SaveDrawerModal } from './components/SaveDrawerModal';
 import { ExportShoppingListModal } from './components/ExportShoppingListModal';
+import { KakaoShareModal } from './components/KakaoShareModal';
 import { AdminUsersModal } from './components/AdminUsersModal';
 import { StoreStockModal, StoreInfo } from './components/StoreStockModal';
 import {
@@ -109,6 +110,16 @@ export const App: React.FC = () => {
   const [isFilteringStoreStock, setIsFilteringStoreStock] = useState<boolean>(false);
   const [isSaveDrawerModalOpen, setIsSaveDrawerModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const captureCanvasRef = useRef<() => string | null>(() => null);
+
+  const triggerHaptic = () => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(15);
+      } catch {}
+    }
+  };
   const [isFillGoodsModalOpen, setIsFillGoodsModalOpen] = useState<boolean>(false);
   const [isAiPurposeModalOpen, setIsAiPurposeModalOpen] = useState<boolean>(false);
   const [isFridgeModalOpen, setIsFridgeModalOpen] = useState<boolean>(false);
@@ -160,6 +171,46 @@ export const App: React.FC = () => {
     }
 
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Deep Link Shared Fitting Restoration (?s={shortId} or ?share={base64})
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const shareId = params.get('s');
+    const shareData = params.get('share');
+
+    if (shareId) {
+      fetch(`${BACKEND_URL}/api/drawers/share/${shareId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.success && data.drawer && data.items) {
+            setDrawer(data.drawer);
+            setItems(data.items);
+            if (data.activeStore) setActiveStore(data.activeStore);
+            if (data.activePurpose) setActivePurpose(data.activePurpose);
+            setToastMessage(`✨ "${data.title || '공유받은 서랍'}" 피팅을 불러왔습니다! (${data.items.length}개 상품)`);
+            window.history.replaceState({}, '', window.location.pathname);
+          }
+        })
+        .catch(err => {
+          console.warn('Failed to load shared drawer:', err);
+        });
+    } else if (shareData) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(escape(atob(shareData))));
+        if (parsed && parsed.drawer && parsed.items) {
+          setDrawer(parsed.drawer);
+          setItems(parsed.items);
+          if (parsed.activeStore) setActiveStore(parsed.activeStore);
+          if (parsed.activePurpose) setActivePurpose(parsed.activePurpose);
+          setToastMessage(`✨ 공유받은 서랍 피팅을 성공적으로 불러왔습니다! (${parsed.items.length}개 상품)`);
+          window.history.replaceState({}, '', window.location.pathname);
+        }
+      } catch (e) {
+        console.warn('Failed to decode share data:', e);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -951,6 +1002,7 @@ export const App: React.FC = () => {
 
   const handleRemoveItem = (instanceId: string) => {
     setItems(prev => prev.filter(i => i.instanceId !== instanceId));
+    triggerHaptic();
     if (selectedItemInstanceId === instanceId) {
       setSelectedItemInstanceId(null);
     }
@@ -1002,6 +1054,7 @@ export const App: React.FC = () => {
     setItems(prev =>
       prev.map(i => (i.instanceId === instanceId ? { ...i, x: newX, y: finalY, z: newZ } : i))
     );
+    triggerHaptic();
     return true;
   };
 
@@ -1066,6 +1119,7 @@ export const App: React.FC = () => {
           : i
       )
     );
+    triggerHaptic();
     showToast(`🔄 "${item.product.name}"을(를) 바닥 90° 회전했습니다 (${nextW}×${nextD}×${curH}cm).`);
   };
 
@@ -1138,6 +1192,7 @@ export const App: React.FC = () => {
           : i
       )
     );
+    triggerHaptic();
     showToast(
       `${postureInfo.icon} "${item.product.name}" 보관 방향 전환: ${postureInfo.label} (${nextW}×${nextD}×${nextH}cm)`
     );
@@ -1199,6 +1254,7 @@ export const App: React.FC = () => {
         onDeleteSavedDrawer={handleDeleteSavedDrawer}
         onOpenSaveModal={() => setIsSaveDrawerModalOpen(true)}
         onOpenExportModal={() => setIsExportModalOpen(true)}
+        onOpenShareModal={() => setIsShareModalOpen(true)}
         onOpenStoreStockModal={handleOpenStoreStockModal}
         activeStore={activeStore}
         onlyStoreStock={onlyStoreStock}
@@ -1236,6 +1292,7 @@ export const App: React.FC = () => {
                 onTogglePosture={handleToggleItemPosture}
                 onMoveItem={handleMoveItem}
                 onPreviewProduct={setPreviewProduct}
+                onRegisterCapture={(fn) => { captureCanvasRef.current = fn; }}
               />
             </div>
 
@@ -1325,6 +1382,7 @@ export const App: React.FC = () => {
                   onClearGoodsOnly={handleClearGoodsOnly}
                   onPreviewProduct={setPreviewProduct}
                   onOpenExportModal={() => setIsExportModalOpen(true)}
+                  onOpenShareModal={() => setIsShareModalOpen(true)}
                   onOpenStoreStockModal={handleOpenStoreStockModal}
                   activeStore={activeStore}
                   isFullWidth={true}
@@ -1378,6 +1436,7 @@ export const App: React.FC = () => {
                 onTogglePosture={handleToggleItemPosture}
                 onMoveItem={handleMoveItem}
                 onPreviewProduct={setPreviewProduct}
+                onRegisterCapture={(fn) => { captureCanvasRef.current = fn; }}
               />
             </main>
 
@@ -1397,6 +1456,7 @@ export const App: React.FC = () => {
               onClearGoodsOnly={handleClearGoodsOnly}
               onPreviewProduct={setPreviewProduct}
               onOpenExportModal={() => setIsExportModalOpen(true)}
+              onOpenShareModal={() => setIsShareModalOpen(true)}
               onOpenStoreStockModal={handleOpenStoreStockModal}
               activeStore={activeStore}
             />
@@ -1507,6 +1567,7 @@ export const App: React.FC = () => {
         drawer={drawer}
         items={items}
         onOpenStoreStock={() => setIsStoreStockModalOpen(true)}
+        onOpenShareModal={() => setIsShareModalOpen(true)}
       />
 
       {/* Real-time Daiso Store Pickup Inventory Checker Modal */}
@@ -1518,6 +1579,17 @@ export const App: React.FC = () => {
         onSelectActiveStore={setActiveStore}
         initialTab={storeStockModalTab}
         onFitWithStoreStock={handleFitWithStoreStock}
+      />
+
+      {/* KakaoTalk & 3D Interactive Fitting Share Modal */}
+      <KakaoShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        drawer={drawer}
+        items={items}
+        activeStore={activeStore}
+        activePurpose={activePurpose}
+        onCaptureCanvas={() => captureCanvasRef.current()}
       />
     </div>
   );

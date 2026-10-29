@@ -21,7 +21,8 @@ import {
   Layers,
   Shield,
   Store,
-  Plus
+  Plus,
+  Share2
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
 import { StoreInfo } from './StoreStockModal';
@@ -47,6 +48,7 @@ interface HeaderNavProps {
   onDeleteSavedDrawer: (id: string) => void;
   onOpenSaveModal: () => void;
   onOpenExportModal?: () => void;
+  onOpenShareModal?: () => void;
   onOpenStoreStockModal?: (defaultTab?: 'all_in_stock' | 'search') => void;
   activeStore?: StoreInfo | null;
   onlyStoreStock?: boolean;
@@ -89,6 +91,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onDeleteSavedDrawer,
   onOpenSaveModal,
   onOpenExportModal,
+  onOpenShareModal,
   onOpenStoreStockModal,
   activeStore = null,
   onlyStoreStock = false,
@@ -744,6 +747,20 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                     </div>
                   ))}
                 </div>
+              )}
+
+              {/* KakaoTalk & 3D Share */}
+              {onOpenShareModal && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenShareModal();
+                  }}
+                  className="w-full px-3.5 py-2.5 text-left text-xs font-bold hover:bg-yellow-50 text-[#3C1E1E] flex items-center space-x-2 bg-yellow-50/70 border-y border-yellow-200/50 transition-colors"
+                >
+                  <Share2 size={13} className="text-amber-600" />
+                  <span>💬 카카오톡 & 3D 피팅 공유하기</span>
+                </button>
               )}
 
               {/* Print & Export */}

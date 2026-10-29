@@ -77,6 +77,20 @@ def init_db():
     )
     """)
 
+    # 4. Shared 3D Drawer Links table (KakaoTalk / Social Share)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS shared_links (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        drawer_json TEXT NOT NULL,
+        items_json TEXT NOT NULL,
+        active_store_json TEXT DEFAULT '{}',
+        active_purpose_json TEXT DEFAULT '{}',
+        view_count INTEGER DEFAULT 0,
+        created_at TEXT NOT NULL
+    )
+    """)
+
     conn.commit()
     conn.close()
 
@@ -532,6 +546,60 @@ def admin_delete_user(user_id: str, current_admin_id: str) -> bool:
 
 def admin_get_user_drawers(user_id: str) -> List[Dict[str, Any]]:
     return get_user_saved_drawers(user_id)
+
+def create_shared_link(
+    title: str,
+    drawer: Dict[str, Any],
+    items: List[Dict[str, Any]],
+    active_store: Optional[Dict[str, Any]] = None,
+    active_purpose: Optional[Dict[str, Any]] = None
+) -> str:
+    share_id = secrets.token_urlsafe(6)  # e.g. 'aB7x9Q' (short and clean for Kakao links)
+    now = datetime.now().isoformat()
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO shared_links (id, title, drawer_json, items_json, active_store_json, active_purpose_json, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (
+        share_id,
+        title,
+        json.dumps(drawer, ensure_ascii=False),
+        json.dumps(items, ensure_ascii=False),
+        json.dumps(active_store or {}, ensure_ascii=False),
+        json.dumps(active_purpose or {}, ensure_ascii=False),
+        now
+    ))
+    conn.commit()
+    conn.close()
+    return share_id
+
+def get_shared_link(share_id: str) -> Optional[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM shared_links WHERE id = ?", (share_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return None
+
+    # Increment view count
+    cursor.execute("UPDATE shared_links SET view_count = view_count + 1 WHERE id = ?", (share_id,))
+    conn.commit()
+
+    data = {
+        "id": row["id"],
+        "title": row["title"],
+        "drawer": json.loads(row["drawer_json"]),
+        "items": json.loads(row["items_json"]),
+        "active_store": json.loads(row["active_store_json"]) if row["active_store_json"] else None,
+        "active_purpose": json.loads(row["active_purpose_json"]) if row["active_purpose_json"] else None,
+        "view_count": row["view_count"] + 1,
+        "created_at": row["created_at"]
+    }
+    conn.close()
+    return data
 
 # Initialize DB on load
 init_db()

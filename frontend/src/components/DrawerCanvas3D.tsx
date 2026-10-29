@@ -43,6 +43,7 @@ interface DrawerCanvas3DProps {
   onTogglePosture?: (instanceId: string) => void;
   onMoveItem: (instanceId: string, newX: number, newZ: number, newY?: number) => boolean;
   onPreviewProduct?: (product: DaisoProduct) => void;
+  onRegisterCapture?: (captureFn: () => string | null) => void;
 }
 
 export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
@@ -54,7 +55,8 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
   onRotateItem,
   onTogglePosture,
   onMoveItem,
-  onPreviewProduct
+  onPreviewProduct,
+  onRegisterCapture
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -182,6 +184,14 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
+
+    if (onRegisterCapture) {
+      onRegisterCapture(() => {
+        if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return null;
+        rendererRef.current.render(sceneRef.current, cameraRef.current);
+        return rendererRef.current.domElement.toDataURL('image/png');
+      });
+    }
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     scene.add(ambientLight);

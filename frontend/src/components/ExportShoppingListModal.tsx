@@ -8,7 +8,9 @@ import {
   Check,
   Layers,
   Camera,
-  Store
+  Store,
+  Share2,
+  ExternalLink
 } from 'lucide-react';
 import { DrawerDimension, FittedItem } from '../data/daisoProducts';
 import { calculateSpaceMetrics } from '../utils/fitterAlgorithm';
@@ -20,6 +22,7 @@ interface ExportShoppingListModalProps {
   drawer: DrawerDimension;
   items: FittedItem[];
   onOpenStoreStock?: (defaultTab?: 'all_in_stock' | 'search') => void;
+  onOpenShareModal?: () => void;
 }
 
 export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = ({
@@ -27,7 +30,8 @@ export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = (
   onClose,
   drawer,
   items,
-  onOpenStoreStock
+  onOpenStoreStock,
+  onOpenShareModal
 }) => {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'2d' | '3d'>('2d');
@@ -239,6 +243,20 @@ export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = (
           </div>
 
           <div className="flex items-center space-x-2">
+            {onOpenShareModal && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenShareModal();
+                }}
+                className="px-3 py-1.5 rounded-lg bg-[#FEE500] hover:bg-[#FDD800] text-[#3C1E1E] text-xs font-bold flex items-center space-x-1.5 transition-colors shadow-sm"
+                title="카카오톡 또는 다이렉트 링크로 서랍 피팅 공유"
+              >
+                <Share2 size={14} className="text-[#3C1E1E]" />
+                <span>💬 카카오톡 공유</span>
+              </button>
+            )}
+
             {onOpenStoreStock && (
               <button
                 onClick={() => {
@@ -618,9 +636,20 @@ export const ExportShoppingListModal: React.FC<ExportShoppingListModalProps> = (
 
                       {/* Product Code */}
                       <td className="py-2 px-3 font-mono font-bold text-slate-900">
-                        <span className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-daiso-red">
-                          {g.product.itemCode}
-                        </span>
+                        <div className="flex items-center space-x-1">
+                          <span className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-daiso-red">
+                            {g.product.itemCode}
+                          </span>
+                          <a
+                            href={`https://www.daisomall.co.kr/ds/pd/P0101_01.do?pdNo=${g.product.itemCode}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="no-print p-0.5 text-slate-400 hover:text-daiso-red rounded hover:bg-slate-200/60 transition-colors"
+                            title="다이소몰 온라인 상품 상세 바로가기"
+                          >
+                            <ExternalLink size={12} />
+                          </a>
+                        </div>
                       </td>
 
                       {/* Dimensions */}

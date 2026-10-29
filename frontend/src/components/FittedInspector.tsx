@@ -15,7 +15,8 @@ import {
   ArrowUpDown,
   Store,
   Star,
-  Compass
+  Compass,
+  Share2
 } from 'lucide-react';
 import { StoreInfo } from './StoreStockModal';
 
@@ -34,6 +35,7 @@ interface FittedInspectorProps {
   onClearGoodsOnly?: () => void;
   onPreviewProduct?: (product: DaisoProduct) => void;
   onOpenExportModal?: () => void;
+  onOpenShareModal?: () => void;
   onOpenStoreStockModal?: (defaultTab?: 'all_in_stock' | 'search') => void;
   activeStore?: StoreInfo | null;
   isFullWidth?: boolean;
@@ -54,6 +56,7 @@ export const FittedInspector: React.FC<FittedInspectorProps> = ({
   onClearGoodsOnly,
   onPreviewProduct,
   onOpenExportModal,
+  onOpenShareModal,
   onOpenStoreStockModal,
   activeStore = null,
   isFullWidth = false
@@ -472,6 +475,21 @@ export const FittedInspector: React.FC<FittedInspectorProps> = ({
                 <span>🏬 매장별 실시간 재고 검색 & 지점 선택</span>
               </button>
             </>
+          )}
+
+          {onOpenShareModal && (
+            <button
+              onClick={onOpenShareModal}
+              disabled={groupedItems.length === 0}
+              className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all shadow-sm ${
+                groupedItems.length === 0
+                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  : 'bg-[#FEE500] hover:bg-[#FDD800] text-[#3C1E1E] active:scale-98 shadow-sm hover:shadow'
+              }`}
+            >
+              <Share2 size={14} className="text-[#3C1E1E]" />
+              <span>💬 카카오톡 & 3D 피팅 공유하기</span>
+            </button>
           )}
 
           {onOpenExportModal && (
