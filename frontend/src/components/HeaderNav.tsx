@@ -142,11 +142,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
     <header className="h-14 sm:h-16 bg-white border-b border-slate-200 px-1.5 sm:px-4 lg:px-5 flex items-center justify-between z-30 flex-shrink-0 relative select-none">
       {/* 1. Left: Brand & Mobile Panel Toggles */}
       <div className="flex items-center space-x-1 sm:space-x-2.5 shrink-0">
-        {/* Tablet Catalog Drawer Button (768px - 1280px) */}
+        {/* Tablet Catalog Drawer Button (>= 1024px and < 1280px) */}
         {onToggleCatalog && (
           <button
             onClick={onToggleCatalog}
-            className={`hidden md:flex xl:hidden p-1.5 sm:p-2 rounded-xl border text-xs font-bold items-center space-x-1 transition-all ${
+            className={`hidden lg:flex xl:hidden p-1.5 sm:p-2 rounded-xl border text-xs font-bold items-center space-x-1 transition-all ${
               isCatalogOpen
                 ? 'bg-daiso-red text-white border-daiso-red shadow-xs'
                 : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -154,7 +154,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             title="상품 카탈로그 열기/닫기"
           >
             <Layers size={13} />
-            <span className="hidden md:inline text-[11px]">카탈로그</span>
+            <span className="text-[11px]">카탈로그</span>
           </button>
         )}
 
@@ -169,10 +169,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <span className="hidden md:inline">다이소 서랍 3D 피터</span>
                 <span className="hidden sm:inline md:hidden">다이소 3D</span>
               </h1>
-              <span className="hidden lg:inline-block text-[9px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded border border-slate-200">
+              <span className="hidden 2xl:inline-block text-[9px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded border border-slate-200">
                 Unofficial
               </span>
-              <span className="hidden sm:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
+              <span className="hidden xl:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
                 <span>✨ Personal 3D Edition</span>
               </span>
             </div>
@@ -551,33 +551,30 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         >
           <LayoutGrid size={12} className="shrink-0" />
           <span className="hidden xl:inline">1단계: 수납함 틀 배치</span>
-          <span className="hidden sm:inline xl:hidden">1단계: 틀</span>
-          <span className="sm:hidden">1단계</span>
+          <span className="xl:hidden">1단계</span>
         </button>
 
-        {/* Step 2: Fill Goods (Visible on >= 640px) */}
+        {/* Step 2: Fill Goods (Visible on Desktop >= 1280px) */}
         {onFillGoods && (
           <button
             onClick={onFillGoods}
-            className="hidden sm:flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-daiso-red hover:bg-daiso-redHover shadow-sm shadow-red-500/20 active:scale-97 transition-all shrink-0"
+            className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-xl text-xs font-bold text-white bg-daiso-red hover:bg-daiso-redHover shadow-sm shadow-red-500/20 active:scale-97 transition-all shrink-0"
             title="2단계: 수납함 안쪽 공간에 실제 문구, 화장품, 소품 등 일상 물건을 채워 넣습니다"
           >
             <Package size={12} className="shrink-0" />
-            <span className="hidden xl:inline">2단계: 물건 채우기</span>
-            <span className="hidden sm:inline xl:hidden">2단계: 채우기</span>
+            <span>2단계: 물건 채우기</span>
           </button>
         )}
 
-        {/* AI Purpose Recommendation CTA (Visible on >= 640px) */}
+        {/* AI Purpose Recommendation CTA (Visible on Desktop >= 1280px) */}
         {onOpenAiPurposeModal && (
           <button
             onClick={onOpenAiPurposeModal}
-            className="hidden sm:flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-indigo-500/20 active:scale-97 transition-all shrink-0"
+            className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-indigo-500/20 active:scale-97 transition-all shrink-0"
             title="AI에게 서랍의 용도를 입력하면, 딱 맞는 서로 다른 물건들을 추천하여 채워줍니다"
           >
             <Sparkles size={12} className="shrink-0 text-amber-300" />
-            <span className="hidden md:inline">AI 맞춤 정리</span>
-            <span className="md:hidden">AI</span>
+            <span>AI 맞춤 정리</span>
           </button>
         )}
 
@@ -623,11 +620,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           <span>비우기</span>
         </button>
 
-        {/* Mobile Inspector Drawer Button (Only on Tablet 768px-1279px, mobile uses bottom tabs) */}
+        {/* Mobile Inspector Drawer Button (Only on Desktop 1024px-1279px, mobile uses bottom tabs) */}
         {onToggleInspector && (
           <button
             onClick={onToggleInspector}
-            className={`hidden md:flex xl:hidden p-2 rounded-xl border text-xs font-bold items-center space-x-1 transition-all ${
+            className={`hidden lg:flex xl:hidden p-2 rounded-xl border text-xs font-bold items-center space-x-1 transition-all ${
               isInspectorOpen
                 ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
                 : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -635,7 +632,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             title="견적 및 구매 목록 열기/닫기"
           >
             <Printer size={14} />
-            <span className="hidden md:inline text-[11px]">견적표</span>
+            <span className="text-[11px]">견적표</span>
           </button>
         )}
 
@@ -647,7 +644,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             title="회원 관리 대시보드 열기"
           >
             <Shield size={13} className="text-purple-200" />
-            <span className="hidden sm:inline">회원 관리</span>
+            <span className="hidden xl:inline">회원 관리</span>
           </button>
         )}
 
@@ -663,9 +660,9 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             title={activeStore ? `현재 기준 지점: ${activeStore.name} (클릭하여 변경)` : '다이소 지점 선택 (재고 기반 피팅)'}
           >
             <Store size={12} className={activeStore ? 'text-emerald-600' : 'text-slate-500'} />
-            <span className="hidden sm:inline max-w-[85px] truncate">{activeStore ? activeStore.name : '지점 선택'}</span>
+            <span className="hidden xl:inline max-w-[85px] truncate">{activeStore ? activeStore.name : '지점 선택'}</span>
             {activeStore && (
-              <span className="hidden lg:inline text-[9px] px-1 py-0.2 rounded bg-emerald-200/80 text-emerald-900 font-black">
+              <span className="hidden 2xl:inline text-[9px] px-1 py-0.2 rounded bg-emerald-200/80 text-emerald-900 font-black">
                 재고연동
               </span>
             )}
@@ -674,7 +671,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
         {/* Direct Auth / User Profile Button (Prominent & immediately visible) */}
         {user ? (
-          <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs">
+          <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs shrink-0">
             {user.avatar_url ? (
               <img
                 src={user.avatar_url}
@@ -694,9 +691,9 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 {user.username ? user.username.slice(0, 1) : 'U'}
               </div>
             )}
-            <span className="hidden sm:inline max-w-[80px] truncate">{user.username}님</span>
+            <span className="hidden xl:inline max-w-[80px] truncate">{user.username}님</span>
             {user.role === 'admin' && (
-              <span className="hidden md:inline text-[9px] px-1 py-0.2 rounded font-extrabold bg-purple-100 text-purple-800 border border-purple-200">
+              <span className="hidden 2xl:inline text-[9px] px-1 py-0.2 rounded font-extrabold bg-purple-100 text-purple-800 border border-purple-200">
                 Admin
               </span>
             )}
