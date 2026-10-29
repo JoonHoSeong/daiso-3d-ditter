@@ -142,11 +142,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
     <header className="h-14 sm:h-16 bg-white border-b border-slate-200 px-1.5 sm:px-4 lg:px-5 flex items-center justify-between z-30 flex-shrink-0 relative select-none">
       {/* 1. Left: Brand & Mobile Panel Toggles */}
       <div className="flex items-center space-x-1 sm:space-x-2.5 shrink-0">
-        {/* Mobile Catalog Drawer Button (< 1280px) */}
+        {/* Tablet Catalog Drawer Button (768px - 1280px) */}
         {onToggleCatalog && (
           <button
             onClick={onToggleCatalog}
-            className={`xl:hidden p-1.5 sm:p-2 rounded-xl border text-xs font-bold flex items-center space-x-1 transition-all ${
+            className={`hidden md:flex xl:hidden p-1.5 sm:p-2 rounded-xl border text-xs font-bold items-center space-x-1 transition-all ${
               isCatalogOpen
                 ? 'bg-daiso-red text-white border-daiso-red shadow-xs'
                 : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -555,25 +555,24 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           <span className="sm:hidden">1단계</span>
         </button>
 
-        {/* Step 2: Fill Goods */}
+        {/* Step 2: Fill Goods (Visible on >= 640px) */}
         {onFillGoods && (
           <button
             onClick={onFillGoods}
-            className="flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-daiso-red hover:bg-daiso-redHover shadow-sm shadow-red-500/20 active:scale-97 transition-all shrink-0"
+            className="hidden sm:flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-daiso-red hover:bg-daiso-redHover shadow-sm shadow-red-500/20 active:scale-97 transition-all shrink-0"
             title="2단계: 수납함 안쪽 공간에 실제 문구, 화장품, 소품 등 일상 물건을 채워 넣습니다"
           >
             <Package size={12} className="shrink-0" />
             <span className="hidden xl:inline">2단계: 물건 채우기</span>
             <span className="hidden sm:inline xl:hidden">2단계: 채우기</span>
-            <span className="sm:hidden">2단계</span>
           </button>
         )}
 
-        {/* AI Purpose Recommendation CTA */}
+        {/* AI Purpose Recommendation CTA (Visible on >= 640px) */}
         {onOpenAiPurposeModal && (
           <button
             onClick={onOpenAiPurposeModal}
-            className="flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-indigo-500/20 active:scale-97 transition-all shrink-0"
+            className="hidden sm:flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-indigo-500/20 active:scale-97 transition-all shrink-0"
             title="AI에게 서랍의 용도를 입력하면, 딱 맞는 서로 다른 물건들을 추천하여 채워줍니다"
           >
             <Sparkles size={12} className="shrink-0 text-amber-300" />
@@ -624,11 +623,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           <span>비우기</span>
         </button>
 
-        {/* Mobile Inspector Drawer Button (< 1280px) */}
+        {/* Mobile Inspector Drawer Button (Only on Tablet 768px-1279px, mobile uses bottom tabs) */}
         {onToggleInspector && (
           <button
             onClick={onToggleInspector}
-            className={`xl:hidden p-2 rounded-xl border text-xs font-bold flex items-center space-x-1 transition-all ${
+            className={`hidden md:flex xl:hidden p-2 rounded-xl border text-xs font-bold items-center space-x-1 transition-all ${
               isInspectorOpen
                 ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
                 : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -739,7 +738,41 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
           {/* More Options Dropdown */}
           {isMoreMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-60 sm:w-64 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+            <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150 max-h-[80vh] overflow-y-auto">
+              {/* Mobile Actions (< sm only) */}
+              <div className="sm:hidden border-b border-slate-100 pb-2 mb-1 px-1">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  모바일 단계 & AI
+                </div>
+                {onFillGoods && (
+                  <button
+                    onClick={() => {
+                      setIsMoreMenuOpen(false);
+                      onFillGoods();
+                    }}
+                    className="w-full px-3 py-2 rounded-xl text-left text-xs font-semibold flex items-center justify-between hover:bg-slate-50 text-slate-700 transition-colors"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Package size={13} className="text-daiso-red" />
+                      <span>2단계: 수납함 속 물건 채우기</span>
+                    </div>
+                    <span className="text-[10px] bg-red-100 text-daiso-red px-1.5 py-0.2 rounded font-bold">실행</span>
+                  </button>
+                )}
+                {onOpenAiPurposeModal && (
+                  <button
+                    onClick={() => {
+                      setIsMoreMenuOpen(false);
+                      onOpenAiPurposeModal();
+                    }}
+                    className="w-full px-3 py-2 rounded-xl text-left text-xs font-bold text-purple-700 hover:bg-purple-50 flex items-center space-x-2 transition-colors mt-0.5"
+                  >
+                    <Sparkles size={13} className="text-purple-600" />
+                    <span>✨ AI 맞춤 정리 추천</span>
+                  </button>
+                )}
+              </div>
+
               <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
                 피팅 옵션 & 서랍 관리
               </div>

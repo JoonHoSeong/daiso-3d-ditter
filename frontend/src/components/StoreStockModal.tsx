@@ -372,30 +372,30 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
     : allInStockStores;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/65 backdrop-blur-xs p-2 sm:p-5 select-none animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl h-[94vh] max-h-[850px] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/65 backdrop-blur-xs p-0 sm:p-5 select-none animate-in fade-in duration-200">
+      <div className="relative w-full sm:max-w-4xl h-full sm:h-[94vh] sm:max-h-[850px] bg-white rounded-none sm:rounded-3xl shadow-2xl border-0 sm:border border-slate-200 overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-rose-50/90 via-white to-amber-50/80">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-daiso-red flex items-center justify-center text-white shadow-md shadow-red-100">
-              <Store size={20} />
+        <div className="px-4 sm:px-6 py-3 sm:py-3.5 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-rose-50/90 via-white to-amber-50/80">
+          <div className="flex items-center space-x-2.5 sm:space-x-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-daiso-red flex items-center justify-center text-white shadow-md shadow-red-100 shrink-0">
+              <Store size={18} />
             </div>
             <div>
               <div className="flex items-center space-x-2 flex-wrap">
-                <h2 className="text-base sm:text-lg font-black text-slate-900">
-                  다이소 매장별 실시간 재고 & 맞춤 구성
+                <h2 className="text-sm sm:text-lg font-black text-slate-900">
+                  다이소 실시간 매장 재고
                 </h2>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold flex items-center space-x-1">
+                <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold flex items-center space-x-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>LIVE 실시간 연동</span>
+                  <span>LIVE</span>
                 </span>
                 {activeStore && (
-                  <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-extrabold border border-purple-200">
-                    기준 지점: {activeStore.name}
+                  <span className="px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-extrabold border border-purple-200 truncate max-w-[130px]">
+                    {activeStore.name}
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 hidden sm:block">
                 GPS 및 IP로 내 위치를 자동 감지하여 가장 가까운 매장의 실시간 재고를 즉시 대조합니다.
               </p>
             </div>
@@ -409,20 +409,20 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
         </div>
 
         {/* User Location Bar (Mobile GPS / IP Auto-detected) */}
-        <div className="px-6 py-2 bg-gradient-to-r from-slate-900 to-indigo-950 text-white text-xs flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
-          <div className="flex items-center space-x-2">
-            <Navigation size={13} className="text-emerald-400 animate-pulse shrink-0" />
-            <span className="font-bold text-slate-200">현재 감지된 내 위치:</span>
+        <div className="px-3 sm:px-6 py-2 bg-gradient-to-r from-slate-900 to-indigo-950 text-white text-xs flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 border-b border-slate-800">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 text-[11px] sm:text-xs">
+            <Navigation size={12} className="text-emerald-400 animate-pulse shrink-0" />
+            <span className="font-bold text-slate-200 hidden sm:inline">내 위치:</span>
             {isDetectingLocation ? (
               <span className="text-emerald-300 flex items-center space-x-1 text-[11px]">
-                <Loader2 size={12} className="animate-spin" />
-                <span>위치 자동 감지 중 (GPS/IP)...</span>
+                <Loader2 size={11} className="animate-spin" />
+                <span>위치 감지 중...</span>
               </span>
             ) : userLocation ? (
               <span className="text-emerald-300 font-extrabold flex items-center space-x-1.5">
-                <span>{userLocation.full_address || userLocation.district}</span>
-                <span className="px-1.5 py-0.2 rounded text-[9px] bg-white/20 text-white font-mono">
-                  {userLocation.source === 'gps' ? '📱 정밀 GPS' : '🌐 IP 위치'}
+                <span className="truncate max-w-[160px] sm:max-w-none">{userLocation.full_address || userLocation.district}</span>
+                <span className="px-1.5 py-0.2 rounded text-[9px] bg-white/20 text-white font-mono shrink-0">
+                  {userLocation.source === 'gps' ? '📱 GPS' : '🌐 IP'}
                 </span>
               </span>
             ) : (
@@ -433,16 +433,16 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
           <button
             onClick={() => detectUserLocation()}
             disabled={isDetectingLocation}
-            className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-[11px] flex items-center space-x-1 border border-white/20 transition-all active:scale-95"
+            className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-[10px] sm:text-[11px] flex items-center space-x-1 border border-white/20 transition-all active:scale-95"
             title="모바일 GPS 또는 IP 위치 정보를 다시 감지합니다"
           >
             <Radio size={11} className="text-emerald-400" />
-            <span>내 위치로 다시 찾기</span>
+            <span>재감지</span>
           </button>
         </div>
 
         {/* Tab Selector */}
-        <div className="px-6 pt-2 pb-0 bg-slate-50 border-b border-slate-200 flex items-center space-x-2 text-xs">
+        <div className="px-3 sm:px-6 pt-2 pb-0 bg-slate-50 border-b border-slate-200 flex items-center space-x-1 sm:space-x-2 text-xs overflow-x-auto scrollbar-none">
           <button
             onClick={() => {
               setActiveTab('all_in_stock');
@@ -450,14 +450,15 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                 handleFindAllInStock(allInStockRegion);
               }
             }}
-            className={`flex items-center space-x-1.5 px-3.5 py-2 font-bold border-b-2 transition-all ${
+            className={`flex items-center space-x-1.5 px-3 py-2 font-bold border-b-2 transition-all whitespace-nowrap text-xs ${
               activeTab === 'all_in_stock'
                 ? 'border-daiso-red text-daiso-red bg-white rounded-t-xl shadow-2xs'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Sparkles size={14} className={activeTab === 'all_in_stock' ? 'text-amber-500' : 'text-slate-400'} />
-            <span>🌟 내 서랍 품목 모두 있는 매장 찾기 (전 품목 올스톡)</span>
+            <Sparkles size={13} className={activeTab === 'all_in_stock' ? 'text-amber-500' : 'text-slate-400'} />
+            <span className="hidden sm:inline">🌟 내 서랍 품목 모두 있는 매장 찾기 (전 품목 올스톡)</span>
+            <span className="sm:hidden">🌟 전 품목 보유 매장</span>
             {allInStockCount > 0 && (
               <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black">
                 {allInStockCount}곳
@@ -472,19 +473,20 @@ export const StoreStockModal: React.FC<StoreStockModalProps> = ({
                 handleSearchStores(keyword);
               }
             }}
-            className={`flex items-center space-x-1.5 px-3.5 py-2 font-bold border-b-2 transition-all ${
+            className={`flex items-center space-x-1.5 px-3 py-2 font-bold border-b-2 transition-all whitespace-nowrap text-xs ${
               activeTab === 'search'
                 ? 'border-daiso-red text-daiso-red bg-white rounded-t-xl shadow-2xs'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Search size={14} />
-            <span>🏬 매장 검색 & 기준 지점 설정</span>
+            <Search size={13} />
+            <span className="hidden sm:inline">🏬 매장 검색 & 기준 지점 설정</span>
+            <span className="sm:hidden">🏬 매장 검색 & 지점</span>
           </button>
         </div>
 
         {/* Current Placed Items Strip */}
-        <div className="px-6 py-2 bg-white border-b border-slate-100 flex items-center space-x-3 overflow-x-auto text-xs shrink-0">
+        <div className="px-3 sm:px-6 py-2 bg-white border-b border-slate-100 flex items-center space-x-2 sm:space-x-3 overflow-x-auto text-xs shrink-0 scrollbar-none">
           <div className="flex items-center space-x-1 font-bold text-slate-700 shrink-0">
             <ShoppingBag size={14} className="text-daiso-red" />
             <span>확인 대상 수납함 ({uniqueProductsMap.length}종):</span>

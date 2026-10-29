@@ -511,11 +511,74 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     };
 
     const canvasDom = renderer.domElement;
+    canvasDom.style.touchAction = 'none';
     canvasDom.addEventListener('mousedown', onPointerDown);
     window.addEventListener('mousemove', onPointerMove);
     window.addEventListener('mouseup', onPointerUp);
     canvasDom.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('keydown', onKeyDown);
+
+    // Mobile Touch & Pinch-to-Zoom Gestures
+    let touchStartDist = 0;
+    let initialTouchRadius = 0;
+    let isPinching = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        isPinching = true;
+        isOrbiting = false;
+        isDraggingItem = false;
+        touchStartDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        initialTouchRadius = spherical.radius;
+      } else if (e.touches.length === 1) {
+        isPinching = false;
+        const touch = e.touches[0];
+        onPointerDown({
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+          preventDefault: () => {}
+        } as any);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (isPinching && e.touches.length === 2) {
+        const currentDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        if (touchStartDist > 0 && currentDist > 0) {
+          const factor = touchStartDist / currentDist;
+          spherical.radius = Math.max(20, Math.min(180, initialTouchRadius * factor));
+          camera.position.setFromSpherical(spherical);
+          camera.lookAt(0, drawerRef.current.height * 0.25, 0);
+          requestRender();
+        }
+      } else if (!isPinching && e.touches.length === 1) {
+        const touch = e.touches[0];
+        onPointerMove({
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        } as any);
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) {
+        isPinching = false;
+      }
+      if (e.touches.length === 0) {
+        onPointerUp();
+      }
+    };
+
+    canvasDom.addEventListener('touchstart', onTouchStart, { passive: false });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onTouchEnd);
+    window.addEventListener('touchcancel', onTouchEnd);
 
     // High-performance On-Demand Render Loop (0% idle GPU usage)
     let renderRequested = false;
@@ -596,6 +659,10 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
       window.removeEventListener('keydown', onKeyDown);
       canvasDom.removeEventListener('mousedown', onPointerDown);
       canvasDom.removeEventListener('wheel', onWheel);
+      canvasDom.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('touchcancel', onTouchEnd);
       renderer.dispose();
     };
   }, [showToast]);
@@ -976,7 +1043,7 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
       )}
 
       {/* Camera View & Magnet Toggle Toolbar */}
-      <div className="absolute top-4 left-4 flex items-center space-x-1.5 bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-xl border border-slate-200/90 shadow-sm text-xs font-medium text-slate-700 whitespace-nowrap z-10">
+      <div className="absolute top-2.5 left-2.5 right-2.5 sm:right-auto flex items-center space-x-1 sm:space-x-1.5 bg-white/95 backdrop-blur-md px-2 py-1.5 sm:px-2.5 rounded-xl border border-slate-200/90 shadow-sm text-xs font-medium text-slate-700 whitespace-nowrap z-10 overflow-x-auto scrollbar-none">
         <span className="text-slate-400 mr-1 flex items-center whitespace-nowrap">
           <Eye size={13} className="mr-1" /> 카메라:
         </span>
