@@ -20,7 +20,8 @@ import {
   X,
   Layers,
   Shield,
-  Store
+  Store,
+  Plus
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
 import { StoreInfo } from './StoreStockModal';
@@ -139,7 +140,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   };
 
   return (
-    <header className="h-14 sm:h-16 bg-white border-b border-slate-200 px-1.5 sm:px-4 lg:px-5 flex items-center justify-between z-30 flex-shrink-0 relative select-none">
+    <header className="h-14 sm:h-16 bg-white border-b border-slate-200 px-1.5 sm:px-3 lg:px-4 flex items-center justify-between z-30 flex-shrink-0 relative select-none">
       {/* 1. Left: Brand & Mobile Panel Toggles */}
       <div className="flex items-center space-x-1 sm:space-x-2.5 shrink-0">
         {/* Tablet Catalog Drawer Button (>= 1024px and < 1280px) */}
@@ -172,7 +173,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <span className="hidden 2xl:inline-block text-[9px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded border border-slate-200">
                 Unofficial
               </span>
-              <span className="hidden xl:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
+              <span className="hidden 2xl:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
                 <span>✨ Personal 3D Edition</span>
               </span>
             </div>
@@ -183,8 +184,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
       {/* 2. Center: Drawer Dimensions & Presets (Dynamic Responsive Layout) */}
       <div className="flex items-center space-x-1 sm:space-x-2 mx-0.5 sm:mx-1 shrink-0">
-        {/* Desktop View (>= 1280px): Full inline steppers */}
-        <div className="hidden xl:flex items-center space-x-2 xl:space-x-2.5 bg-slate-50 px-2.5 xl:px-3 py-1.5 rounded-xl border border-slate-200 text-xs shadow-2xs">
+        {/* Desktop View (>= 1536px): Full inline steppers */}
+        <div className="hidden 2xl:flex items-center space-x-2 xl:space-x-2.5 bg-slate-50 px-2.5 xl:px-3 py-1.5 rounded-xl border border-slate-200 text-xs shadow-2xs">
           <div className="hidden xl:flex items-center text-[11px] font-semibold text-slate-600 mr-0.5">
             <Sliders size={12} className="mr-1 text-slate-400" />
             <span>크기:</span>
@@ -273,12 +274,12 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <button
                 type="button"
                 onClick={onOpenFridgeModal}
-                className="flex items-center space-x-1 px-2 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-xs font-bold transition-all shadow-2xs active:scale-95"
+                className="flex items-center space-x-1 px-2 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-xs font-bold transition-all shadow-2xs active:scale-95 shrink-0"
                 title="삼성 비스포크 / LG 오브제컬렉션 냉장고 모델 및 선반 위치 선택"
               >
-                <span>❄️ 냉장고 모델</span>
-                <span className="text-[10px] bg-sky-600 text-white px-1.5 py-0.2 rounded font-bold">
-                  RM70F91R1A (901L)
+                <span>❄️ 냉장고</span>
+                <span className="hidden 2xl:inline text-[10px] bg-sky-600 text-white px-1.5 py-0.2 rounded font-bold">
+                  901L
                 </span>
               </button>
             )}
@@ -288,16 +289,16 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <button
                 type="button"
                 onClick={onOpenPurposeModal}
-                className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all shadow-2xs active:scale-95 ${
+                className={`flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold transition-all shadow-2xs active:scale-95 shrink-0 ${
                   activePurposeName
                     ? 'bg-purple-600 text-white border border-purple-700 shadow-sm ring-1 ring-purple-400'
                     : 'bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-indigo-800 border border-indigo-200'
                 }`}
                 title="서랍과 정리 용도를 지정하여 맞춤 제품 추천, 필터 및 3D 자동 피팅"
               >
-                <span>🎯 서랍 & 용도 맞춤</span>
+                <span>🎯 용도 맞춤</span>
                 {activePurposeName && (
-                  <span className="text-[10px] bg-white/20 text-white px-1.5 py-0.2 rounded font-bold">
+                  <span className="hidden 2xl:inline text-[10px] bg-white/20 text-white px-1.5 py-0.2 rounded font-bold">
                     {activePurposeName}
                   </span>
                 )}
@@ -309,137 +310,20 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <button
                 type="button"
                 onClick={onOpenPresetModal}
-                className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-gradient-to-r from-sky-50 to-blue-50 hover:from-sky-100 hover:to-blue-100 text-sky-800 border border-sky-200 text-xs font-bold transition-all shadow-2xs active:scale-95"
+                className="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-lg bg-gradient-to-r from-sky-50 to-blue-50 hover:from-sky-100 hover:to-blue-100 text-sky-800 border border-sky-200 text-xs font-bold transition-all shadow-2xs active:scale-95 shrink-0"
                 title="냉장고 모델별 맞춤 공간 프리셋 검색 및 탐색기 열기"
               >
                 <span>📐 공간 프리셋</span>
-                <span className="text-[10px] bg-sky-600 text-white px-1.5 py-0.2 rounded font-bold">
+                <span className="hidden 2xl:inline text-[10px] bg-sky-600 text-white px-1.5 py-0.2 rounded font-bold">
                   {SPACE_PRESETS.length + customPresets.length}개
                 </span>
-              </button>
-            )}
-
-            {/* Custom Preset Creation Direct Button */}
-            {onOpenCreateCustomPreset && (
-              <button
-                type="button"
-                onClick={onOpenCreateCustomPreset}
-                className="flex items-center space-x-1 px-2 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-2xs active:scale-95"
-                title="사람이 직접 크기(가로/세로/높이)를 정해서 내 프리셋으로 저장"
-              >
-                <span>➕ 직접 추가</span>
-              </button>
-            )}
-
-            <select
-              onChange={(e) => {
-                const val = e.target.value;
-                if (val.startsWith('saved-')) {
-                  const sId = val.replace('saved-', '');
-                  const found = savedDrawers.find(sd => sd.id === sId);
-                  if (found) onSelectSavedDrawer(found);
-                } else if (val.startsWith('sp-')) {
-                  const spId = val.replace('sp-', '');
-                  const sp = customPresets.find(p => p.id === spId) || SPACE_PRESETS.find(p => p.id === spId);
-                  if (sp) onChangeDrawer(sp.dimensions);
-                } else if (val.startsWith('preset-')) {
-                  const pName = val.replace('preset-', '');
-                  const preset = DRAWER_PRESETS.find(p => p.name === pName);
-                  if (preset) onChangeDrawer(preset.dimensions);
-                }
-                e.target.value = '';
-              }}
-              defaultValue=""
-              className="text-xs bg-transparent text-slate-700 font-medium focus:outline-none cursor-pointer max-w-[110px] xl:max-w-[140px] truncate"
-            >
-              <option value="" disabled>📐 빠른 공간 선택...</option>
-
-              {customPresets.length > 0 && (
-                <optgroup label="⭐ 내가 직접 추가한 맞춤 프리셋">
-                  {customPresets.map((cp) => (
-                    <option key={cp.id} value={`sp-${cp.id}`}>
-                      ⭐ {cp.name} ({cp.dimensions.width}×{cp.dimensions.depth}×{cp.dimensions.height}cm)
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-
-              {savedDrawers.length > 0 && (
-                <optgroup label="💾 저장된 서랍">
-                  {savedDrawers.map((sd) => (
-                    <option key={sd.id} value={`saved-${sd.id}`}>
-                      💾 {sd.name} ({sd.width}×{sd.depth}×{sd.height}cm)
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-
-              <optgroup label="🌟 냉장고 메인 선반 (1/2/3단)">
-                {SPACE_PRESETS.filter(p => p.zone === 'main_shelf').map((p) => (
-                  <option key={p.id} value={`sp-${p.id}`}>
-                    🌟 {p.name.split(' (')[0]} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
-                  </option>
-                ))}
-              </optgroup>
-
-              <optgroup label="🥬 신선 야채실 / 과일 서랍">
-                {SPACE_PRESETS.filter(p => p.zone === 'crisper').map((p) => (
-                  <option key={p.id} value={`sp-${p.id}`}>
-                    🥬 {p.name.split(' (')[0]} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
-                  </option>
-                ))}
-              </optgroup>
-
-              <optgroup label="🚪 도어 포켓 바스켓">
-                {SPACE_PRESETS.filter(p => p.zone === 'door_pocket').map((p) => (
-                  <option key={p.id} value={`sp-${p.id}`}>
-                    🚪 {p.name.split(' (')[0]} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
-                  </option>
-                ))}
-              </optgroup>
-
-              <optgroup label="🧊 냉동실 서랍/트레이">
-                {SPACE_PRESETS.filter(p => p.zone === 'freezer').map((p) => (
-                  <option key={p.id} value={`sp-${p.id}`}>
-                    🧊 {p.name.split(' (')[0]} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
-                  </option>
-                ))}
-              </optgroup>
-
-              <optgroup label="🍳 주방 싱크대 & 팬트리">
-                {SPACE_PRESETS.filter(p => p.category === 'kitchen').map((p) => (
-                  <option key={p.id} value={`sp-${p.id}`}>
-                    🍳 {p.name} ({p.dimensions.width}×{p.dimensions.depth}×{p.dimensions.height}cm)
-                  </option>
-                ))}
-              </optgroup>
-            </select>
-
-            {savedDrawers.length > 0 && (
-              <button
-                onClick={() => {
-                  const promptText = savedDrawers
-                    .map((d, i) => `${i + 1}. ${d.name} (${d.width}×${d.depth}×${d.height}cm)`)
-                    .join('\n');
-                  const selected = prompt(`삭제할 저장 서랍의 번호를 입력하세요:\n\n${promptText}`);
-                  if (selected) {
-                    const num = parseInt(selected, 10);
-                    if (!isNaN(num) && num >= 1 && num <= savedDrawers.length) {
-                      onDeleteSavedDrawer(savedDrawers[num - 1].id);
-                    }
-                  }
-                }}
-                className="p-1 text-slate-400 hover:text-rose-600 hover:bg-slate-200/80 rounded transition-colors"
-                title="저장된 서랍 목록 삭제"
-              >
-                <Trash2 size={12} />
               </button>
             )}
           </div>
         </div>
 
-        {/* Compact View (< 1280px): Sleek clickable dimension badge with popup */}
-        <div className="xl:hidden relative" ref={dimPopoverRef}>
+        {/* Compact View (< 1536px): Sleek clickable dimension badge with popup */}
+        <div className="2xl:hidden relative" ref={dimPopoverRef}>
           <button
             onClick={() => setIsDimPopoverOpen(!isDimPopoverOpen)}
             className="flex items-center space-x-1 px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-[10px] sm:text-xs font-mono font-bold text-slate-800 shadow-2xs hover:bg-slate-100 transition-all active:scale-95"
@@ -542,27 +426,29 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
       </div>
 
       {/* 3. Right: Action Buttons & Options Dropdown (Adaptive Layout) */}
-      <div className="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+      <div className="flex items-center space-x-1 shrink-0">
         {/* Step 1: Framework Container Fitting */}
         <button
           onClick={onAutoFit}
-          className="flex items-center space-x-1 px-1.5 py-1 sm:px-2.5 sm:py-1.5 xl:px-3 xl:py-2 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-500/20 active:scale-97 transition-all shrink-0"
+          className="flex items-center space-x-1 px-1.5 py-1 sm:px-2 sm:py-1.5 xl:px-2.5 xl:py-1.5 rounded-xl text-[10px] sm:text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-500/20 active:scale-97 transition-all shrink-0"
           title="1단계: 서랍 공간에 딱 맞는 수납함·트레이 골격을 먼저 배치합니다"
         >
           <LayoutGrid size={12} className="shrink-0" />
-          <span className="hidden xl:inline">1단계: 수납함 틀 배치</span>
-          <span className="xl:hidden">1단계</span>
+          <span className="hidden 2xl:inline">1단계: 수납함 틀 배치</span>
+          <span className="hidden sm:inline 2xl:hidden">1단계: 틀</span>
+          <span className="sm:hidden">1단계</span>
         </button>
 
         {/* Step 2: Fill Goods (Visible on Desktop >= 1280px) */}
         {onFillGoods && (
           <button
             onClick={onFillGoods}
-            className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-xl text-xs font-bold text-white bg-daiso-red hover:bg-daiso-redHover shadow-sm shadow-red-500/20 active:scale-97 transition-all shrink-0"
+            className="hidden xl:flex items-center space-x-1 px-2 py-1.5 xl:px-2.5 xl:py-1.5 rounded-xl text-xs font-bold text-white bg-daiso-red hover:bg-daiso-redHover shadow-sm shadow-red-500/20 active:scale-97 transition-all shrink-0"
             title="2단계: 수납함 안쪽 공간에 실제 문구, 화장품, 소품 등 일상 물건을 채워 넣습니다"
           >
             <Package size={12} className="shrink-0" />
-            <span>2단계: 물건 채우기</span>
+            <span className="hidden 2xl:inline">2단계: 물건 채우기</span>
+            <span className="2xl:hidden">2단계: 채우기</span>
           </button>
         )}
 
@@ -570,55 +456,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         {onOpenAiPurposeModal && (
           <button
             onClick={onOpenAiPurposeModal}
-            className="hidden xl:flex items-center space-x-1 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-indigo-500/20 active:scale-97 transition-all shrink-0"
+            className="hidden xl:flex items-center space-x-1 px-2 py-1.5 xl:px-2.5 xl:py-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm shadow-indigo-500/20 active:scale-97 transition-all shrink-0"
             title="AI에게 서랍의 용도를 입력하면, 딱 맞는 서로 다른 물건들을 추천하여 채워줍니다"
           >
             <Sparkles size={12} className="shrink-0 text-amber-300" />
-            <span>AI 맞춤 정리</span>
+            <span className="hidden 2xl:inline">AI 맞춤 정리</span>
+            <span className="2xl:hidden">AI 정리</span>
           </button>
         )}
-
-        {/* Rotation Toggle (Visible on Desktop >= 1440px) */}
-        {onToggleAllowRotation && (
-          <button
-            onClick={onToggleAllowRotation}
-            className={`hidden 2xl:flex items-center space-x-1 px-2.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
-              allowRotation
-                ? 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100 shadow-sm'
-                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-            }`}
-            title={allowRotation ? '회전 허용 활성화 중' : '회전 금지 (단정 정렬)'}
-          >
-            <RotateCw size={12} className={allowRotation ? 'text-amber-600' : 'text-slate-400'} />
-            <span>{allowRotation ? '90° 회전' : '회전 없음'}</span>
-          </button>
-        )}
-
-        {/* Height Exceed Toggle (Visible on Desktop >= 1440px) */}
-        {onToggleAllowHeightExceed && (
-          <button
-            onClick={onToggleAllowHeightExceed}
-            className={`hidden 2xl:flex items-center space-x-1 px-2.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
-              allowHeightExceed
-                ? 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100 shadow-sm'
-                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-            }`}
-            title={allowHeightExceed ? '높이 초과 허용 중' : '높이 제한 (닫힘)'}
-          >
-            <ArrowUpToLine size={12} className={allowHeightExceed ? 'text-purple-600' : 'text-slate-400'} />
-            <span>{allowHeightExceed ? '높이 초과' : '높이 제한'}</span>
-          </button>
-        )}
-
-        {/* Quick Reset Button (Visible on Desktop >= 1200px) */}
-        <button
-          onClick={onReset}
-          className="hidden lg:flex items-center px-2.5 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
-          title="서랍 전체 비우기"
-        >
-          <RotateCcw size={12} className="mr-1 text-slate-400" />
-          <span>비우기</span>
-        </button>
 
         {/* Mobile Inspector Drawer Button (Only on Desktop 1024px-1279px, mobile uses bottom tabs) */}
         {onToggleInspector && (
@@ -847,6 +692,59 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <Bookmark size={13} className="text-amber-500" />
                 <span>현재 서랍 크기 저장하기</span>
               </button>
+
+              {/* Direct Add Custom Preset */}
+              {onOpenCreateCustomPreset && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenCreateCustomPreset();
+                  }}
+                  className="w-full px-3.5 py-2 text-left text-xs font-semibold hover:bg-slate-50 flex items-center space-x-2 text-amber-800"
+                >
+                  <Plus size={13} className="text-amber-600" />
+                  <span>나만의 공간 프리셋 직접 추가</span>
+                </button>
+              )}
+
+              {/* Saved Drawers Sub-list */}
+              {savedDrawers && savedDrawers.length > 0 && (
+                <div className="border-t border-b border-slate-100 py-1 my-1 bg-slate-50/50">
+                  <div className="px-3.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    저장된 내 서랍 ({savedDrawers.length})
+                  </div>
+                  {savedDrawers.map((sd) => (
+                    <div
+                      key={sd.id}
+                      className="px-3.5 py-1.5 flex items-center justify-between hover:bg-slate-100 text-xs"
+                    >
+                      <button
+                        onClick={() => {
+                          setIsMoreMenuOpen(false);
+                          if (onSelectSavedDrawer) onSelectSavedDrawer(sd);
+                        }}
+                        className="truncate text-left font-medium text-slate-700 flex-1 hover:text-daiso-red"
+                      >
+                        💾 {sd.name} ({sd.width}×{sd.depth}×{sd.height}cm)
+                      </button>
+                      {onDeleteSavedDrawer && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (window.confirm(`"${sd.name}" 서랍을 삭제하시겠습니까?`)) {
+                              onDeleteSavedDrawer(sd.id);
+                            }
+                          }}
+                          className="p-1 text-slate-400 hover:text-rose-600 rounded"
+                          title="삭제"
+                        >
+                          <Trash2 size={11} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Print & Export */}
               {onOpenExportModal && (
