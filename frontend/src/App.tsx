@@ -8,6 +8,7 @@ import { AuthModal } from './components/AuthModal';
 import { SaveDrawerModal } from './components/SaveDrawerModal';
 import { ExportShoppingListModal } from './components/ExportShoppingListModal';
 import { KakaoShareModal } from './components/KakaoShareModal';
+import { MyDrawersModal } from './components/MyDrawersModal';
 import { AdminUsersModal } from './components/AdminUsersModal';
 import { StoreStockModal, StoreInfo } from './components/StoreStockModal';
 import {
@@ -37,7 +38,7 @@ import {
   getPostureInfo,
   getDistinct3DOrientations
 } from './utils/stacking';
-import { CheckCircle2, Layers, Printer, Loader2 } from 'lucide-react';
+import { CheckCircle2, Layers, Printer, Loader2, X } from 'lucide-react';
 import { FillGoodsModal } from './components/FillGoodsModal';
 import { AiPurposeModal } from './components/AiPurposeModal';
 import { FridgeSelectorModal } from './components/FridgeSelectorModal';
@@ -109,8 +110,10 @@ export const App: React.FC = () => {
   const [storeStockMap, setStoreStockMap] = useState<Record<string, { quantity: number; in_stock: boolean; status_label: string }>>({});
   const [isFilteringStoreStock, setIsFilteringStoreStock] = useState<boolean>(false);
   const [isSaveDrawerModalOpen, setIsSaveDrawerModalOpen] = useState<boolean>(false);
+  const [isMyDrawersModalOpen, setIsMyDrawersModalOpen] = useState<boolean>(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const [draftRecovery, setDraftRecovery] = useState<{ drawer: DrawerDimension; items: FittedItem[]; timestamp: number } | null>(null);
   const captureCanvasRef = useRef<() => string | null>(() => null);
 
   const triggerHaptic = () => {
@@ -210,6 +213,21 @@ export const App: React.FC = () => {
       } catch (e) {
         console.warn('Failed to decode share data:', e);
       }
+    } else {
+      // Check for auto-saved draft recovery
+      try {
+        const savedDraft = localStorage.getItem('daiso_draft_state');
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          if (draft && draft.drawer && draft.items && Array.isArray(draft.items) && draft.items.length > 0) {
+            if (Date.now() - (draft.timestamp || 0) < 7 * 24 * 60 * 60 * 1000) {
+              setDraftRecovery(draft);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to parse draft state:', e);
+      }
     }
   }, []);
 
@@ -246,6 +264,23 @@ export const App: React.FC = () => {
   });
 
   const [selectedItemInstanceId, setSelectedItemInstanceId] = useState<string | null>(null);
+
+  // Auto-save draft when drawer or items change (debounced 1s)
+  useEffect(() => {
+    if (items.length > 0) {
+      const timer = setTimeout(() => {
+        try {
+          const draft = {
+            drawer,
+            items,
+            timestamp: Date.now()
+          };
+          localStorage.setItem('daiso_draft_state', JSON.stringify(draft));
+        } catch {}
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [drawer, items]);
 
   // Catalog Width & Resizing
   const [catalogWidth, setCatalogWidth] = useState<number>(() => {
@@ -344,20 +379,84 @@ export const App: React.FC = () => {
     }
   };
 
+  const fetchUserCustomPresets = async (authToken: string) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/drawers/custom-presets`, {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.presets && Array.isArray(data.presets)) {
+          setCustomPresets(prev => {
+            const map = new Map<string, SpacePreset>();
+            prev.forEach(p => map.set(p.id, p));
+            data.presets.forEach((p: SpacePreset) => map.set(p.id, p));
+            const merged = Array.from(map.values());
+            localStorage.setItem('daiso_custom_space_presets', JSON.stringify(merged));
+            return merged;
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to fetch user custom presets:', err);
+    }
+  };
+
+  const migrateGuestDrawers = async (authToken: string): Promise<number> => {
+    try {
+      const localSavedStr = localStorage.getItem('daiso_saved_drawers') || '[]';
+      const localDrawers: SavedDrawer[] = JSON.parse(localSavedStr);
+      const guestDrawers = localDrawers.filter(d => d.id.startsWith('local-'));
+
+      if (guestDrawers.length > 0) {
+        const res = await fetch(`${BACKEND_URL}/api/drawers/migrate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ guest_drawers: guestDrawers })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.drawers) {
+            setSavedDrawers(data.drawers);
+            localStorage.setItem('daiso_saved_drawers', JSON.stringify(data.drawers));
+            return guestDrawers.length;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to migrate guest drawers:', e);
+    }
+    return 0;
+  };
+
   useEffect(() => {
     fetchProductsFromBackend();
     if (token) {
       fetchUserSavedDrawers(token);
+      fetchUserCustomPresets(token);
     }
   }, [token]);
 
-  const handleAuthSuccess = (authedUser: User, authToken: string) => {
+  const handleAuthSuccess = async (authedUser: User, authToken: string) => {
     setUser(authedUser);
     setToken(authToken);
     localStorage.setItem('daiso_user', JSON.stringify(authedUser));
     localStorage.setItem('daiso_auth_token', authToken);
-    fetchUserSavedDrawers(authToken);
-    showToast(`🎉 ${authedUser.username}님, 성공적으로 로그인되었습니다!`);
+
+    // 1. Migrate any guest drawers into user DB account
+    const migratedCount = await migrateGuestDrawers(authToken);
+    // 2. Fetch full user drawers and custom space presets from cloud
+    await fetchUserSavedDrawers(authToken);
+    await fetchUserCustomPresets(authToken);
+
+    if (migratedCount > 0) {
+      showToast(`🎉 ${authedUser.username}님, 로그인 완료! 게스트 상태 서랍 ${migratedCount}개가 계정으로 안전하게 연동되었습니다.`);
+    } else {
+      showToast(`🎉 ${authedUser.username}님, 성공적으로 로그인되었습니다!`);
+    }
   };
 
   const handleLogout = async () => {
@@ -416,6 +515,32 @@ export const App: React.FC = () => {
       return next;
     });
     showToast('저장된 서랍이 삭제되었습니다.');
+  };
+
+  const handleUpdateDrawerName = async (id: string, newName: string) => {
+    if (token && !id.startsWith('local-')) {
+      try {
+        await fetch(`${BACKEND_URL}/api/drawers/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ name: newName })
+        });
+      } catch (e) {
+        console.warn('Failed to update drawer name on server:', e);
+      }
+    }
+
+    setSavedDrawers(prev => {
+      const next = prev.map(d =>
+        d.id === id ? { ...d, name: newName, updatedAt: new Date().toISOString() } : d
+      );
+      localStorage.setItem('daiso_saved_drawers', JSON.stringify(next));
+      return next;
+    });
+    showToast(`✏️ 서랍 이름이 "${newName}"으로 변경되었습니다.`);
   };
 
   const handleSyncProducts = async () => {
@@ -677,7 +802,22 @@ export const App: React.FC = () => {
     showToast(`📐 [${preset.name}] 공간 규격(${finalDim.width}×${finalDim.depth}×${finalDim.height}cm)이 적용되었습니다.`);
   };
 
-  const handleSaveCustomPreset = (preset: SpacePreset) => {
+  const handleSaveCustomPreset = async (preset: SpacePreset) => {
+    if (token) {
+      try {
+        await fetch(`${BACKEND_URL}/api/drawers/custom-presets`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(preset)
+        });
+      } catch (e) {
+        console.warn('Failed to sync custom preset to cloud:', e);
+      }
+    }
+
     setCustomPresets(prev => {
       const updated = [preset, ...prev.filter(p => p.id !== preset.id)];
       localStorage.setItem('daiso_custom_space_presets', JSON.stringify(updated));
@@ -685,10 +825,23 @@ export const App: React.FC = () => {
     });
     setDrawer(preset.dimensions);
     setSelectedItemInstanceId(null);
-    showToast(`⭐ 새 맞춤 공간 "${preset.name}" (${preset.dimensions.width}×${preset.dimensions.depth}×${preset.dimensions.height}cm)이 저장 및 적용되었습니다.`);
+    showToast(
+      `⭐ 새 맞춤 공간 "${preset.name}" (${preset.dimensions.width}×${preset.dimensions.depth}×${preset.dimensions.height}cm)이 저장 및 적용되었습니다.${token ? ' (클라우드 연동)' : ''}`
+    );
   };
 
-  const handleDeleteCustomPreset = (id: string) => {
+  const handleDeleteCustomPreset = async (id: string) => {
+    if (token && !id.startsWith('custom-local-')) {
+      try {
+        await fetch(`${BACKEND_URL}/api/drawers/custom-presets/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      } catch (e) {
+        console.warn('Failed to delete custom preset from cloud:', e);
+      }
+    }
+
     setCustomPresets(prev => {
       const updated = prev.filter(p => p.id !== id);
       localStorage.setItem('daiso_custom_space_presets', JSON.stringify(updated));
@@ -1253,6 +1406,7 @@ export const App: React.FC = () => {
         onSelectSavedDrawer={handleSelectSavedDrawer}
         onDeleteSavedDrawer={handleDeleteSavedDrawer}
         onOpenSaveModal={() => setIsSaveDrawerModalOpen(true)}
+        onOpenMyDrawersModal={() => setIsMyDrawersModalOpen(true)}
         onOpenExportModal={() => setIsExportModalOpen(true)}
         onOpenShareModal={() => setIsShareModalOpen(true)}
         onOpenStoreStockModal={handleOpenStoreStockModal}
@@ -1274,6 +1428,46 @@ export const App: React.FC = () => {
         isCatalogOpen={isCatalogOpen}
         isInspectorOpen={isInspectorOpen}
       />
+
+      {/* Draft Auto-save Recovery Floating Banner */}
+      {draftRecovery && (
+        <div className="fixed top-14 sm:top-16 left-1/2 -translate-x-1/2 z-40 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur-md text-white px-4 py-2.5 rounded-2xl shadow-2xl border border-amber-500/50 flex items-center justify-between animate-in slide-in-from-top-4 gap-3">
+          <div className="flex items-center space-x-2.5 truncate">
+            <span className="text-xl shrink-0">💡</span>
+            <div className="truncate">
+              <span className="text-xs font-bold text-amber-300 block truncate">
+                이전에 작업 중이던 서랍이 남아있습니다!
+              </span>
+              <span className="text-[11px] text-slate-300 block truncate font-mono">
+                {draftRecovery.drawer.width}×{draftRecovery.drawer.depth}×{draftRecovery.drawer.height}cm (수납함 {draftRecovery.items.length}개)
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-1.5 shrink-0">
+            <button
+              onClick={() => {
+                setDrawer(draftRecovery.drawer);
+                setItems(draftRecovery.items);
+                setDraftRecovery(null);
+                showToast(`✨ 이전 작업 서랍(${draftRecovery.items.length}개 수납함)을 성공적으로 복구했습니다.`);
+              }}
+              className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black transition-colors active:scale-95 shadow-sm"
+            >
+              이어서 작업
+            </button>
+            <button
+              onClick={() => {
+                setDraftRecovery(null);
+                localStorage.removeItem('daiso_draft_state');
+              }}
+              className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+              title="새로 시작 (보관 취소)"
+            >
+              <X size={15} />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Main Workspace (Dynamic Layout: Desktop 3-Column vs Compact Dynamic Top/Bottom Split) */}
       <div className="flex flex-1 w-full h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] overflow-hidden select-none relative">
@@ -1590,6 +1784,25 @@ export const App: React.FC = () => {
         activeStore={activeStore}
         activePurpose={activePurpose}
         onCaptureCanvas={() => captureCanvasRef.current()}
+      />
+
+      {/* User Saved Drawers & History Dashboard Modal */}
+      <MyDrawersModal
+        isOpen={isMyDrawersModalOpen}
+        onClose={() => setIsMyDrawersModalOpen(false)}
+        savedDrawers={savedDrawers}
+        onSelectDrawer={handleSelectSavedDrawer}
+        onDeleteDrawer={handleDeleteSavedDrawer}
+        onUpdateDrawerName={handleUpdateDrawerName}
+        onOpenSaveModal={() => setIsSaveDrawerModalOpen(true)}
+        onOpenShareDrawer={(sd) => {
+          setDrawer({ width: sd.width, depth: sd.depth, height: sd.height });
+          if (sd.items && Array.isArray(sd.items)) setItems(sd.items);
+          setIsShareModalOpen(true);
+        }}
+        user={user}
+        onOpenAuth={() => setIsAuthModalOpen(true)}
+        currentDrawer={drawer}
       />
     </div>
   );

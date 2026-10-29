@@ -22,7 +22,8 @@ import {
   Shield,
   Store,
   Plus,
-  Share2
+  Share2,
+  FolderOpen
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
 import { StoreInfo } from './StoreStockModal';
@@ -47,6 +48,7 @@ interface HeaderNavProps {
   onSelectSavedDrawer: (drawer: SavedDrawer) => void;
   onDeleteSavedDrawer: (id: string) => void;
   onOpenSaveModal: () => void;
+  onOpenMyDrawersModal?: () => void;
   onOpenExportModal?: () => void;
   onOpenShareModal?: () => void;
   onOpenStoreStockModal?: (defaultTab?: 'all_in_stock' | 'search') => void;
@@ -90,6 +92,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onSelectSavedDrawer,
   onDeleteSavedDrawer,
   onOpenSaveModal,
+  onOpenMyDrawersModal,
   onOpenExportModal,
   onOpenShareModal,
   onOpenStoreStockModal,
@@ -517,6 +520,21 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </button>
         )}
 
+        {/* My Saved Drawers Dashboard Button */}
+        {onOpenMyDrawersModal && (
+          <button
+            onClick={onOpenMyDrawersModal}
+            className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all shadow-2xs border border-slate-200 active:scale-95 shrink-0"
+            title="내 서랍 보관함 & 히스토리 전체보기"
+          >
+            <FolderOpen size={13} className="text-amber-500" />
+            <span className="hidden sm:inline">내 서랍함</span>
+            <span className="px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 text-[10px] font-mono font-bold">
+              {savedDrawers.length}
+            </span>
+          </button>
+        )}
+
         {/* Direct Auth / User Profile Button (Prominent & immediately visible) */}
         {user ? (
           <div className="flex items-center space-x-1.5 px-2 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 shadow-2xs shrink-0">
@@ -711,6 +729,24 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               )}
 
               {/* Saved Drawers Sub-list */}
+              {onOpenMyDrawersModal && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenMyDrawersModal();
+                  }}
+                  className="w-full px-3.5 py-2 text-left text-xs font-bold hover:bg-amber-50 text-amber-900 flex items-center justify-between bg-amber-50/60 border-t border-amber-200/50"
+                >
+                  <div className="flex items-center space-x-2">
+                    <FolderOpen size={13} className="text-amber-600" />
+                    <span>📂 내 서랍 보관함 전체보기</span>
+                  </div>
+                  <span className="text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded font-mono font-bold">
+                    {savedDrawers.length}개
+                  </span>
+                </button>
+              )}
+
               {savedDrawers && savedDrawers.length > 0 && (
                 <div className="border-t border-b border-slate-100 py-1 my-1 bg-slate-50/50">
                   <div className="px-3.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">

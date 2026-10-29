@@ -91,6 +91,25 @@ def init_db():
     )
     """)
 
+    # 5. User Custom Space Presets table (Cloud Synced)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_custom_presets (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        name TEXT NOT NULL,
+        zone TEXT NOT NULL,
+        category_label TEXT DEFAULT '내 맞춤 공간',
+        width REAL NOT NULL,
+        depth REAL NOT NULL,
+        height REAL NOT NULL,
+        description TEXT DEFAULT '',
+        icon TEXT DEFAULT '🌟',
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+    """)
+
     conn.commit()
     conn.close()
 
@@ -417,6 +436,186 @@ def delete_user_drawer(user_id: str, drawer_id: str) -> bool:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM saved_drawers WHERE id = ? AND user_id = ?", (drawer_id, user_id))
+    affected = cursor.rowcount
+    conn.commit()
+    conn.close()
+    return affected > 0
+
+def update_user_drawer(
+    user_id: str,
+    drawer_id: str,
+    name: Optional[str] = None,
+    width: Optional[float] = None,
+    depth: Optional[float] = None,
+    height: Optional[float] = None,
+    items: Optional[List[Dict[str, Any]]] = None,
+    category: Optional[str] = None
+) -> Optional[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM saved_drawers WHERE id = ? AND user_id = ?", (drawer_id, user_id))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return None
+
+    now = datetime.now().isoformat()
+    new_name = name.strip() if name and name.strip() else row["name"]
+    new_w = width if width is not None else row["width"]
+    new_d = depth if depth is not None else row["depth"]
+    new_h = height if height is not None else row["height"]
+    new_items_json = json.dumps(items, ensure_ascii=False) if items is not None else row["items_json"]
+    new_category = category if category is not None else row["category"]
+
+    cursor.execute("""
+        UPDATE saved_drawers
+        SET name = ?, width = ?, depth = ?, height = ?, items_json = ?, category = ?, updated_at = ?
+        WHERE id = ? AND user_id = ?
+    """, (new_name, new_w, new_d, new_h, new_items_json, new_category, now, drawer_id, user_id))
+    conn.commit()
+    conn.close()
+
+    try:
+        parsed_items = json.loads(new_items_json)
+    except Exception:
+        parsed_items = []
+
+    return {
+        "id": drawer_id,
+        "userId": user_id,
+        "name": new_name,
+        "category": new_category,
+        "width": new_w,
+        "depth": new_d,
+        "height": new_h,
+        "items": parsed_items,
+        "updatedAt": now
+    }
+
+def migrate_guest_drawers(user_id: str, guest_drawers: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Imports guest/local drawers into user's DB account upon login."""
+    if not guest_drawers:
+        return get_user_drawers(user_id)
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    now = datetime.now().isoformat()
+
+    # Get existing drawer names to avoid exact duplicates
+    cursor.execute("SELECT name FROM saved_drawers WHERE user_id = ?", (user_id,))
+    existing_names = {r["name"] for r in cursor.fetchall()}
+
+    for d in guest_drawers:
+        name = (d.get("name") or "").strip()
+        if not name or name in existing_names:
+            continue
+
+        w = float(d.get("width", 32.0))
+        depth = float(d.get("depth", 40.0))
+        h = float(d.get("height", 7.0))
+        items = d.get("items") or []
+        items_json = json.dumps(items, ensure_ascii=False)
+        cat = d.get("category") or "개인 서랍"
+        new_id = str(uuid.uuid4())
+
+        cursor.execute("""
+            INSERT INTO saved_drawers (id, user_id, name, category, width, depth, height, items_json, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (new_id, user_id, name, cat, w, depth, h, items_json, now, now))
+        existing_names.add(name)
+
+    conn.commit()
+    conn.close()
+
+    return get_user_drawers(user_id)
+
+# ==========================================
+# User Custom Space Presets CRUD
+# ==========================================
+def save_user_custom_preset(user_id: str, preset: Dict[str, Any]) -> Dict[str, Any]:
+    preset_id = preset.get("id") or f"custom-{uuid.uuid4().hex[:8]}"
+    name = (preset.get("name") or "내 맞춤 공간").strip()
+    zone = preset.get("zone") or "main_shelf"
+    cat_label = preset.get("categoryLabel") or "내 맞춤 공간"
+    dims = preset.get("dimensions") or {}
+    width = float(dims.get("width") or preset.get("width") or 80.0)
+    depth = float(dims.get("depth") or preset.get("depth") or 45.0)
+    height = float(dims.get("height") or preset.get("height") or 22.0)
+    description = preset.get("description") or ""
+    icon = preset.get("icon") or "🌟"
+    now = datetime.now().isoformat()
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id FROM user_custom_presets WHERE id = ? AND user_id = ?", (preset_id, user_id))
+    exists = cursor.fetchone()
+
+    if exists:
+        cursor.execute("""
+            UPDATE user_custom_presets
+            SET name = ?, zone = ?, category_label = ?, width = ?, depth = ?, height = ?, description = ?, icon = ?, updated_at = ?
+            WHERE id = ? AND user_id = ?
+        """, (name, zone, cat_label, width, depth, height, description, icon, now, preset_id, user_id))
+    else:
+        cursor.execute("""
+            INSERT INTO user_custom_presets (id, user_id, name, zone, category_label, width, depth, height, description, icon, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (preset_id, user_id, name, zone, cat_label, width, depth, height, description, icon, now, now))
+
+    conn.commit()
+    conn.close()
+
+    return {
+        "id": preset_id,
+        "name": name,
+        "category": "custom",
+        "categoryLabel": cat_label,
+        "zone": zone,
+        "dimensions": { "width": width, "depth": depth, "height": height },
+        "description": description,
+        "icon": icon,
+        "createdAt": now,
+        "updatedAt": now
+    }
+
+def get_user_custom_presets(user_id: str) -> List[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT id, name, zone, category_label, width, depth, height, description, icon, created_at, updated_at
+        FROM user_custom_presets
+        WHERE user_id = ?
+        ORDER BY updated_at DESC
+    """, (user_id,))
+    rows = cursor.fetchall()
+    conn.close()
+
+    results = []
+    for r in rows:
+        results.append({
+            "id": r["id"],
+            "name": r["name"],
+            "category": "custom",
+            "categoryLabel": r["category_label"],
+            "zone": r["zone"],
+            "dimensions": {
+                "width": r["width"],
+                "depth": r["depth"],
+                "height": r["height"]
+            },
+            "description": r["description"],
+            "icon": r["icon"],
+            "createdAt": r["created_at"],
+            "updatedAt": r["updated_at"]
+        })
+    return results
+
+def delete_user_custom_preset(user_id: str, preset_id: str) -> bool:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM user_custom_presets WHERE id = ? AND user_id = ?", (preset_id, user_id))
     affected = cursor.rowcount
     conn.commit()
     conn.close()
