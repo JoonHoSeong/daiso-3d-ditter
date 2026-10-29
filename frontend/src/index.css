@@ -20,6 +20,18 @@
   }
 }
 
+/* W3C Dual Screen & Foldable Crease Segment Support (iPhone Duo, Galaxy Z Flip 8, Surface Duo) */
+@media (vertical-viewport-segments: 2) {
+  :root {
+    --fold-hinge-height: calc(env(viewport-segment-top 0 1, 0px) - env(viewport-segment-bottom 0 0, 0px));
+  }
+}
+@media (horizontal-viewport-segments: 2) {
+  :root {
+    --fold-hinge-width: calc(env(viewport-segment-left 1 0, 0px) - env(viewport-segment-right 0 0, 0px));
+  }
+}
+
 /* Custom subtle scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

@@ -142,6 +142,23 @@ export const App: React.FC = () => {
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
+
+    // W3C Device Posture API (Foldable Galaxy Z Flip 8, iPhone Duo, Flex Mode)
+    if (typeof navigator !== 'undefined' && 'devicePosture' in navigator) {
+      const posture = (navigator as any).devicePosture;
+      const onPostureChange = () => {
+        if (posture.type === 'folded') {
+          // Half-folded (Flex Mode): Snap split ratio to 50% for physical hinge alignment
+          setSplitRatio(50);
+        }
+      };
+      posture.addEventListener?.('change', onPostureChange);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        posture.removeEventListener?.('change', onPostureChange);
+      };
+    }
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
