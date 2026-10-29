@@ -1255,16 +1255,16 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
       )}
 
       {/* Drawer Size Indicator */}
-      <div className="absolute bottom-4 left-4 flex items-center space-x-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-200 shadow-sm text-xs font-mono">
-        <span className="text-slate-400">서랍 공간:</span>
+      <div className={`absolute bottom-2 left-2 sm:bottom-4 sm:left-4 ${selectedItem ? 'hidden sm:flex' : 'flex'} items-center space-x-2 sm:space-x-3 bg-white/95 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-xl border border-slate-200 shadow-sm text-[10px] sm:text-xs font-mono z-10`}>
+        <span className="text-slate-400">서랍:</span>
         <span className="text-slate-800 font-semibold">
-          가로 {drawer.width} × 세로 {drawer.depth} × 깊이 {drawer.height} cm
+          {drawer.width} × {drawer.depth} × {drawer.height} cm
         </span>
       </div>
 
       {/* Selected Item Floating Action Bar with Position Nudge & Controls */}
       {selectedItem && (
-        <div className="absolute bottom-4 right-4 flex flex-col items-end space-y-2 z-20">
+        <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 flex flex-col items-end space-y-1.5 sm:space-y-2 z-20 max-w-[calc(100vw-1rem)]">
           <div className="flex items-center space-x-2 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border-2 border-daiso-red shadow-xl animate-in fade-in slide-in-from-bottom-2">
             {/* Real Thumbnail */}
             {selectedItem.product.imageUrl ? (

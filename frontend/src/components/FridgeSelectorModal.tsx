@@ -213,8 +213,8 @@ export const FridgeSelectorModal: React.FC<FridgeSelectorModalProps> = ({
     sortBy !== 'recommended';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/65 backdrop-blur-xs select-none animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-5xl overflow-hidden flex flex-col max-h-[94vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-5 bg-slate-900/65 backdrop-blur-xs select-none animate-in fade-in duration-200">
+      <div className="bg-white rounded-none sm:rounded-3xl shadow-2xl border-0 sm:border border-slate-200 w-full sm:max-w-5xl h-full sm:h-[94vh] sm:max-h-[850px] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-sky-50/90 via-white to-blue-50/80">
           <div className="flex items-center space-x-3">
