@@ -430,7 +430,7 @@ export const App: React.FC = () => {
       '',
       ...reasons.map(r => `• ${r}`),
       '',
-      '→ Reduce the safety margin / allow 90° rotation / expand the drawer dimensions'
+      '→ 안전 여유(margin)를 줄이거나 / 90° 회전 배치를 허용하거나 / 서랍 치수를 키워보세요'
     ].join('\n');
   };
 

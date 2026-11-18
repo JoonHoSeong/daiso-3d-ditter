@@ -199,14 +199,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <span className="hidden md:inline">다이소 서랍 3D 피터</span>
                 <span className="hidden sm:inline md:hidden">다이소 3D</span>
               </h1>
-              <span className="hidden 2xl:inline-block text-[9px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded border border-slate-200">
+              <span className="hidden min-[1900px]:inline-block text-[9px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded border border-slate-200">
                 Unofficial
               </span>
-              <span className="hidden 2xl:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
+              <span className="hidden min-[1900px]:inline-flex items-center space-x-1 text-[10px] font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 text-white px-2 py-0.5 rounded-full shadow-xs">
                 <span>✨ Personal 3D Edition</span>
               </span>
             </div>
-            <p className="hidden 2xl:block text-[10px] text-slate-400">내 공간에 딱 맞는 다이소 수납 솔루션</p>
+            <p className="hidden min-[1900px]:block text-[10px] text-slate-400">내 공간에 딱 맞는 다이소 수납 솔루션</p>
           </div>
         </div>
       </div>
@@ -463,7 +463,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           title="1단계: 서랍 공간에 딱 맞는 수납함·트레이 골격을 먼저 배치합니다"
         >
           <LayoutGrid size={12} className="shrink-0" />
-          <span className="hidden 2xl:inline">1단계: 수납함 틀 배치</span>
+          <span className="hidden 2xl:inline">1단계: 틀 배치</span>
           <span className="hidden sm:inline 2xl:hidden">1단계: 틀</span>
           <span className="sm:hidden">1단계</span>
         </button>
@@ -476,8 +476,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             title="2단계: 수납함 안쪽 공간에 실제 문구, 화장품, 소품 등 일상 물건을 채워 넣습니다"
           >
             <Package size={12} className="shrink-0" />
-            <span className="hidden 2xl:inline">2단계: 물건 채우기</span>
-            <span className="2xl:hidden">2단계: 채우기</span>
+            <span className="hidden 2xl:inline">2단계: 채우기</span>
+            <span className="2xl:hidden">2단계: 물건 채우기</span>
           </button>
         )}
 
@@ -657,23 +657,25 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                     <span>✨ AI 맞춤 정리 추천</span>
                   </button>
                 )}
-                {onOpenLayoutReport && (
-                  <button
-                    onClick={() => {
-                      setIsMoreMenuOpen(false);
-                      onOpenLayoutReport();
-                    }}
-                    className="w-full px-3 py-2 rounded-xl text-left text-xs font-bold text-teal-700 hover:bg-teal-50 flex items-center space-x-2 transition-colors"
-                  >
-                    <Ruler size={13} className="text-teal-600" />
-                    <span>📋 레이아웃 판정 리포트</span>
-                  </button>
-                )}
               </div>
 
               <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
                 피팅 옵션 & 서랍 관리
               </div>
+
+              {/* Layout Validation Report (all widths) */}
+              {onOpenLayoutReport && (
+                <button
+                  onClick={() => {
+                    setIsMoreMenuOpen(false);
+                    onOpenLayoutReport();
+                  }}
+                  className="w-full px-3.5 py-2 text-left text-xs font-bold text-teal-700 hover:bg-teal-50 flex items-center space-x-2 transition-colors"
+                >
+                  <Ruler size={13} className="text-teal-600" />
+                  <span>📋 레이아웃 판정 리포트</span>
+                </button>
+              )}
 
               {/* Safety Margin Option */}
               {onToggleAllowRotation && (
