@@ -28,18 +28,24 @@ export function fitContainersOnly(
 ): FittedItem[] {
   const result: FittedItem[] = [];
   const allowRotation = options.allowRotation ?? false;
+  // Safety margin (cm): reserved clearance around every placed item
+  const margin = options.margin ?? 0.1;
+  const safeW = drawer.width - margin * 2;
+  const safeD = drawer.depth - margin * 2;
+  const safeH = drawer.height - margin;
+  if (safeW < 3 || safeD < 3 || safeH < 1) return result; // Guard: margin must not eliminate the whole floor
 
-  // 보관함(수납함/트레이/바구니) 기본 설정: 서랍 높이 초과 금지 (drawer.height 이하만 엄격 필터링)
-  const fittingProducts = availableProducts.filter(p => isDrawerOrganizer(p) && p.height <= drawer.height);
+  // 보관함(수납함/트레이/바구니) 기본 설정: 서랍 높이 초과 금지 (margin 적용)
+  const fittingProducts = availableProducts.filter(p => isDrawerOrganizer(p) && p.height <= safeH);
   if (fittingProducts.length === 0) return result;
 
   // Filter out any flat mats/liners for container foundation
   const solidProducts = fittingProducts.filter(p => !isMatOrLiner(p));
 
-  // Occupancy grid for the floor (0.5cm resolution)
+  // Occupancy grid for the floor (0.5cm resolution, margin-safe bounds)
   const scale = 2; // 1 unit = 0.5cm
-  const gridW = Math.floor(drawer.width * scale);
-  const gridD = Math.floor(drawer.depth * scale);
+  const gridW = Math.floor(safeW * scale);
+  const gridD = Math.floor(safeD * scale);
   const occupied: boolean[][] = Array.from({ length: gridW }, () => Array(gridD).fill(false));
 
   const isFree = (x: number, z: number, w: number, d: number) => {
@@ -85,9 +91,10 @@ export function fitContainersOnly(
 
     // Find best candidate for starting/filling this column
     // Prefer modular organizers whose unrotated width fits comfortably in remW
+    // (cell counts use Math.ceil so fractional-cm items can never overshoot the safe edge)
     const fittingColCandidates = modularCandidates.filter(p => {
-      const pw = Math.round(p.width * scale);
-      const pd = Math.round(p.depth * scale);
+      const pw = Math.ceil(p.width * scale);
+      const pd = Math.ceil(p.depth * scale);
       return pw <= remW && pd <= gridD;
     });
 
@@ -99,10 +106,10 @@ export function fitContainersOnly(
     // Pick a primary organizer for this lane
     // Prefer modular organizers with standard widths (e.g. 7cm ~ 20cm)
     const primaryProd = fittingColCandidates[0];
-    const colWidth = Math.round(primaryProd.width * scale);
+    const colWidth = Math.ceil(primaryProd.width * scale);
 
     // Filter products that share this exact column width (or can cleanly tile in this lane)
-    const laneProds = fittingColCandidates.filter(p => Math.round(p.width * scale) === colWidth);
+    const laneProds = fittingColCandidates.filter(p => Math.ceil(p.width * scale) === colWidth);
 
     let curZ = 0;
     let itemsInLane = 0;
@@ -112,10 +119,10 @@ export function fitContainersOnly(
       if (remD < 8) break; // Less than 4cm remaining
 
       // Find an organizer that fits in the remaining depth of this lane
-      const itemToPlace = laneProds.find(p => Math.round(p.depth * scale) <= remD && isFree(curX, curZ, colWidth, Math.round(p.depth * scale)));
+      const itemToPlace = laneProds.find(p => Math.ceil(p.depth * scale) <= remD && isFree(curX, curZ, colWidth, Math.ceil(p.depth * scale)));
 
       if (itemToPlace) {
-        const itemD = Math.round(itemToPlace.depth * scale);
+        const itemD = Math.ceil(itemToPlace.depth * scale);
         markOccupied(curX, curZ, colWidth, itemD);
 
         const fitted: FittedItem = {
@@ -151,8 +158,8 @@ export function fitContainersOnly(
       if (occupied[x][z]) continue;
 
       for (const prod of modularCandidates) {
-        const pw = Math.round(prod.width * scale);
-        const pd = Math.round(prod.depth * scale);
+        const pw = Math.ceil(prod.width * scale);
+        const pd = Math.ceil(prod.depth * scale);
 
         // Always try unrotated first (Strict 0 rotation)
         if (isFree(x, z, pw, pd)) {
@@ -191,25 +198,83 @@ export function fitContainersOnly(
     }
   }
 
-  // Pass 3: Vertical Stacking (Layer 2)
-  // For stackable organizers where drawer height allows stacking, stack a matching 2nd tier right on top!
-  for (const baseItem of floorItems) {
-    const stackTopY = baseItem.y + baseItem.product.height;
-    if (
-      isStackableProduct(baseItem.product) &&
-      stackTopY + baseItem.product.height <= drawer.height + 0.1
-    ) {
-      result.push({
-        instanceId: `${baseItem.product.id}-stack-${result.length + 1}`,
-        productId: baseItem.product.id,
-        product: baseItem.product,
-        x: baseItem.x,
-        y: Math.round(stackTopY * 10) / 10,
-        z: baseItem.z,
-        rotation: baseItem.rotation
+  // Pass 3: Vertical Stacking (Layer 2+) — smarter heterogeneous stacking
+  // Maintain a per-cell height map: the current top Y at each floor grid position.
+  // Place remaining un-placed products (height-wise, shortest first) on the lowest
+  // compatible spot, so mixed-height items combine toward drawer height.
+  const heightMap: number[][] = Array.from({ length: gridW }, () => Array(gridD).fill(0));
+
+  // Seed heightMap from everything placed on/near the floor so far
+  for (const item of result) {
+    if (item.y > 0.05) continue; // only floor-anchored items define base heights
+    const { width: w, depth: d, height: h } = getItemDimensions(item);
+    const gx1 = Math.max(0, Math.floor(item.x * scale));
+    const gz1 = Math.max(0, Math.floor(item.z * scale));
+    const gx2 = Math.min(gridW, Math.ceil((item.x + w) * scale));
+    const gz2 = Math.min(gridD, Math.ceil((item.z + d) * scale));
+    const topY = item.y + h;
+    for (let ix = gx1; ix < gx2; ix++) {
+      for (let iz = gz1; iz < gz2; iz++) {
+        heightMap[ix][iz] = topY;
+      }
+    }
+  }
+
+  // Candidates: every organizer not yet placed in this run, short-first for max count
+  const placedIds = new Set(result.map(r => r.productId));
+  const stackCandidates = solidProducts
+    .filter(p => !placedIds.has(p.id))
+    .sort((a, b) => a.height - b.height || b.width * b.depth - a.width * a.depth);
+  const placedThisRound: FittedItem[] = [];
+  for (const prod of stackCandidates) {
+    if (prod.height > safeH) break; // candidates are height-sorted: nothing shorter follows
+    // orientation 0° only, strict showroom alignment
+    const pw = Math.ceil(prod.width * scale);
+    const pd = Math.ceil(prod.depth * scale);
+    if (pw < 1 || pd < 1 || pw > gridW || pd > gridD) continue;
+
+    let bestX = -1;
+    let bestZ = -1;
+    let bestTop = Infinity;
+    for (let gx = 0; gx <= gridW - pw; gx++) {
+      for (let gz = 0; gz <= gridD - pd; gz++) {
+        let fits = true;
+        let baseTop = 0;
+        for (let ix = gx; ix < gx + pw && fits; ix++) {
+          for (let iz = gz; iz < gz + pd && fits; iz++) {
+            if (heightMap[ix][iz] + prod.height > safeH + 0.001) fits = false;
+            if (heightMap[ix][iz] > baseTop) baseTop = heightMap[ix][iz];
+          }
+        }
+        if (fits && baseTop < bestTop) {
+          bestTop = baseTop;
+          bestX = gx;
+          bestZ = gz;
+          if (bestTop === 0) break; // cannot do better than floor level
+        }
+      }
+      if (bestTop === 0) break;
+    }
+
+    if (bestX >= 0) {
+      const restY = Math.round(bestTop * 10) / 10;
+      for (let ix = bestX; ix < bestX + pw; ix++) {
+        for (let iz = bestZ; iz < bestZ + pd; iz++) {
+          heightMap[ix][iz] = restY + prod.height;
+        }
+      }
+      placedThisRound.push({
+        instanceId: `${prod.id}-smart-stack-${result.length + placedThisRound.length + 1}`,
+        productId: prod.id,
+        product: prod,
+        x: Math.round((bestX / scale) * 10) / 10,
+        y: restY,
+        z: Math.round((bestZ / scale) * 10) / 10,
+        rotation: 0
       });
     }
   }
+  result.push(...placedThisRound);
 
   return result;
 }
