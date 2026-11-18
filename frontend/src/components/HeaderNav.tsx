@@ -23,7 +23,10 @@ import {
   Store,
   Plus,
   Share2,
-  FolderOpen
+  FolderOpen,
+  Sun,
+  Moon,
+  Ruler
 } from 'lucide-react';
 import { User, SavedDrawer } from '../types/auth';
 import { StoreInfo } from './StoreStockModal';
@@ -40,7 +43,17 @@ interface HeaderNavProps {
   onToggleAllowRotation?: () => void;
   allowHeightExceed?: boolean;
   onToggleAllowHeightExceed?: () => void;
+  margin: number;
+  onMarginChange: (newMargin: number) => void;
   onReset: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
+  onOpenLayoutReport?: () => void;
+  historyCount?: number;
   onSyncProducts?: () => void;
   isSyncing?: boolean;
   totalProductsCount?: number;
@@ -84,7 +97,17 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onToggleAllowRotation,
   allowHeightExceed = false,
   onToggleAllowHeightExceed,
+  margin,
+  onMarginChange,
   onReset,
+  onUndo,
+  onRedo,
+  canUndo = false,
+  canRedo = false,
+  isDarkMode = false,
+  onToggleDarkMode,
+  onOpenLayoutReport,
+  historyCount = 0,
   onSyncProducts,
   isSyncing = false,
   totalProductsCount = 27506,
@@ -634,11 +657,52 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                     <span>✨ AI 맞춤 정리 추천</span>
                   </button>
                 )}
+                {onOpenLayoutReport && (
+                  <button
+                    onClick={() => {
+                      setIsMoreMenuOpen(false);
+                      onOpenLayoutReport();
+                    }}
+                    className="w-full px-3 py-2 rounded-xl text-left text-xs font-bold text-teal-700 hover:bg-teal-50 flex items-center space-x-2 transition-colors"
+                  >
+                    <Ruler size={13} className="text-teal-600" />
+                    <span>📋 레이아웃 판정 리포트</span>
+                  </button>
+                )}
               </div>
 
               <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
                 피팅 옵션 & 서랍 관리
               </div>
+
+              {/* Safety Margin Option */}
+              {onToggleAllowRotation && (
+                <div className="px-3.5 py-3 border-b border-slate-100 bg-slate-50/50">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2 text-xs font-semibold text-slate-700">
+                      <Shield size={13} className="text-blue-500" />
+                      <span>안전 마진 (Safety Margin)</span>
+                    </div>
+                    <span className="text-[10px] font-mono font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">
+                      {margin.toFixed(1)}cm
+                    </span>
+                    {/* 마진 가이드: 0.1cm=쇼룸처럼 정밀한 정렬 / 0.3cm=일반 수납 / 0.5cm=최대 여유 간격 */}
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="0.5" 
+                    step="0.1" 
+                    value={margin}
+                    onChange={(e) => onMarginChange(parseFloat(e.target.value))}
+                    className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                  />
+                  <div className="flex justify-between text-[9px] text-slate-400 mt-1 font-medium">
+                    <span>딱 맞게(0)</span>
+                    <span>여유있게(0.5)</span>
+                  </div>
+                </div>
+              )}
 
               {/* Rotation Option */}
               {onToggleAllowRotation && (
@@ -871,6 +935,53 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                   <span>수납함 속 물건만 비우기</span>
                 </button>
               )}
+
+              <div className="h-[1px] bg-slate-100 my-1" />
+
+              {/* Dark Mode Toggle */}
+              {onToggleDarkMode && (
+                <button
+                  onClick={() => onToggleDarkMode()}
+                  className="w-full px-3.5 py-2 text-left text-xs font-semibold hover:bg-slate-50 flex items-center space-x-2 text-slate-700"
+                >
+                  {isDarkMode ? <Sun size={13} className="text-amber-500" /> : <Moon size={13} className="text-slate-400" />}
+                  <span>{isDarkMode ? '밝은 모드로 전환' : '어두운 모드로 전환'}</span>
+                </button>
+              )}
+
+              {/* History: Undo/Redo */}
+              <div className="flex items-center justify-between px-3.5 pt-2 pb-1">
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">피팅 이력</span>
+                {historyCount > 0 && (
+                  <span className="text-[9px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                    {historyCount}단계 저장됨
+                  </span>
+                )}
+              </div>
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    onUndo?.();
+                  }}
+                  disabled={!canUndo}
+                  className="flex-1 px-3.5 py-2 text-left text-xs font-semibold hover:bg-amber-50 text-amber-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center space-x-2"
+                  title="Ctrl+Z"
+                >
+                  <RotateCcw size={13} />
+                  <span>한 단계 되돌리기</span>
+                </button>
+                <button
+                  onClick={() => {
+                    onRedo?.();
+                  }}
+                  disabled={!canRedo}
+                  className="flex-1 px-3.5 py-2 text-left text-xs font-semibold hover:bg-amber-50 text-amber-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center space-x-2"
+                  title="Ctrl+Shift+Z"
+                >
+                  <RotateCcw size={13} className="scale-x-[-1]" />
+                  <span>다시 실행</span>
+                </button>
+              </div>
 
               {/* Full Reset */}
               <button

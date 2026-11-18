@@ -14,12 +14,18 @@ class DrawerPacker:
         drawer: DrawerDimension,
         products: List[DaisoProduct],
         strategy: str = 'balanced',
-        allow_rotation: bool = False
+        allow_rotation: bool = False,
+        margin: float = 0.1
     ) -> Tuple[List[FittedItem], SpaceMetrics]:
-        # Filter products that do not exceed drawer height, and strictly exclude standalone drawer cabinets ("서랍장")
+        # Apply margin to drawer dimensions for safer fitting
+        safe_drawer_w = drawer.width - (margin * 2)
+        safe_drawer_d = drawer.depth - (margin * 2)
+        safe_drawer_h = drawer.height - margin
+
+        # Filter products that do not exceed safe drawer height, and strictly exclude standalone drawer cabinets ("서랍장")
         candidates = [
             p for p in products
-            if p.height <= drawer.height and not re.search(r'서랍장|미니\s*서랍|부착식\s*서랍|히든\s*서랍|\d+단\s*서랍|\d+칸\s*서랍|서랍형\s*수납', p.name)
+            if p.height <= safe_drawer_h and not re.search(r'서랍장|미니\s*서랍|부착식\s*서랍|히든\s*서랍|\d+단\s*서랍|\d+칸\s*서랍|서랍형\s*수납', p.name)
         ]
         if not candidates:
             metrics = SpaceMetrics(
@@ -33,8 +39,8 @@ class DrawerPacker:
             return [], metrics
 
         scale = 2  # 0.5cm grid scale
-        grid_w = int(math.floor(drawer.width * scale))
-        grid_d = int(math.floor(drawer.depth * scale))
+        grid_w = int(math.floor(safe_drawer_w * scale))
+        grid_d = int(math.floor(safe_drawer_d * scale))
         occupied = [[False for _ in range(grid_d)] for _ in range(grid_w)]
 
         def is_free(x: int, z: int, w: int, d: int) -> bool:

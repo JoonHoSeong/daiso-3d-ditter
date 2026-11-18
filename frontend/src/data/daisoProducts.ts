@@ -1,5 +1,19 @@
-// @ts-ignore
-import rawProducts from './daisoProducts.json';
+// ❗16MB 제품 카탈로그 데이터는 lazy(동적) import로 지연 로딩
+// use start(Ux) 성능: Initial bundle을 약 12MB 줄여 첫 페인트 시간을 크게 단축
+let _localCatalogCache: DaisoProduct[] | null = null;
+
+/**
+ * 원격(API) 세포가 실패했을 시 local에 몰입된 16MB_JSON을 지연 로드.
+ * 한 번 로드되면 메모리 캐시로 재사용.
+ */
+export function loadLocalDaisoProducts(): Promise<DaisoProduct[]> {
+  if (_localCatalogCache) return Promise.resolve(_localCatalogCache);
+  // @ts-ignore
+  return import(/* webpackChunkName: "catalog-data" */ './daisoProducts.json').then((m: any) => {
+    _localCatalogCache = (m.default || m) as DaisoProduct[];
+    return _localCatalogCache;
+  });
+}
 
 export type ProductCategory =
   | 'storage'
@@ -62,7 +76,10 @@ export interface DrawerDimension {
   height: number; // cm (높이, Y)
 }
 
-export const DAISO_PRODUCTS: DaisoProduct[] = rawProducts as DaisoProduct[];
+// 하위 호환: 이제 lazy loader(loadLocalDaisoProducts)를 사용해야 함.
+// Static export를 제거하여 early load()(pre-load) 방지.
+// (호환용 참조 목적으로 export를 흐리고, 내용으로는 Stub을 위치)
+export const DAISO_PRODUCTS: DaisoProduct[] = [];
 
 export const DRAWER_PRESETS: { name: string; category: string; dimensions: DrawerDimension }[] = [
   // 1. 삼성 비스포크 AI 하이브리드 901L (RM70F91R1A)

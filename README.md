@@ -147,3 +147,50 @@ Swagger API 문서는 `http://localhost:8000/docs`에서 확인하실 수 있습
 2. **자동 최적 피팅**: 상단의 **[✨ 자동 최적 피팅]** 버튼을 클릭하면 빈틈없이 꼭 맞는 수납함 조합이 자동으로 3D 서랍 안에 배치됩니다.
 3. **수동 커스텀 배치**: 좌측 카탈로그에서 원하는 트레이의 **[+ 서랍에 담기]**를 눌러 직접 추가하고, 3D 화면에서 트레이를 클릭하여 90도 회전하거나 삭제할 수 있습니다.
 4. **매장 방문용 품번 복사**: 우측 하단의 **[매장용 품번 목록 복사하기]**를 눌러 스마트폰 메모장에 붙여넣고 다이소 매장을 방문하세요!
+
+## ⏰ 자동 제품 업데이트 (CRON)
+
+다이소몰 상품 데이터를 주기적으로 재동기화하여 최신 라인업으로 유지하는 기능입니다.
+
+### 동작 방식
+
+```
+OS CRON (매일 06:00)
+        |
+        v
+cron_exec.sh   (중복 실행 방지 잠금, 30분 stale 체크)
+        |
+        v
+cron_update.py
+        |
+        +--- sync_to_frontend.py 실행
+        |       backend/data/daiso_organizers.json
+        |           -> frontend/src/data/daisoProducts.json
+        +--- sync_meta.json 최종 실행 결과 기록
+```
+
+### 설정 방법 (macOS / Linux)
+
+```bash
+cd daiso-3d-fitter
+
+# 1. CRON 등록 (매일 오전 6시 자동 실행)
+bash backend/install_cron.sh install
+
+# 2. 등록 상태 확인
+bash backend/install_cron.sh list
+
+# 3. 지금 바로 실행해 테스트
+bash backend/install_cron.sh run-now
+
+# 4. 등록 해제
+bash backend/install_cron.sh uninstall
+```
+
+### 실행 결과 확인
+
+- **실행 로그**: `backend/data/cron.log`
+- **동기화 상태**: `backend/data/sync_meta.json` (최종 실행 시각, 동기화 상품 수)
+
+> **TIP**: 크론 등록 전, 먼저 `run-now`로 1회 수동 실행하여
+> 정상 동기화가 되는지 확인하시는 것을 권장합니다.

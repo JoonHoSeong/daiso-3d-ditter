@@ -80,3 +80,21 @@
   }
 }
 
+
+/* ============ Dark Mode (filter-invert approach) ============
+   html.dark-mode의 경우: 전체 UI 색을 반전(invert)하고,
+   실제 이미지/3D 캔버스에는 다시 반전(re-invert)시켜 자연스러운 채도를 유지. */
+html.dark-mode {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: black;
+}
+
+/* 3D 캔버스, 제품 이미지, 아바타, 외부 콘텐츠는 다시 색을 되돌려
+   필터가 적용되지 않은 자연스러운 색상으로 표시 */
+html.dark-mode canvas,
+html.dark-mode img,
+html.dark-mode picture,
+html.dark-mode svg:not(.keep-invert),
+html.dark-mode video {
+  filter: invert(1) hue-rotate(180deg);
+}

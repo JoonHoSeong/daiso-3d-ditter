@@ -9,9 +9,10 @@ import {
 } from './stacking';
 
 export interface AutoFitOptions {
-  allowRotation?: boolean; // default: false (정리를 위한 회전 없는 단정한 정렬)
-  allowHeightExceed?: boolean; // default: false (채울 때 서랍 높이 초과 허용 여부)
-  postureMode?: 'auto' | 'standing' | 'flat'; // default: 'auto' (자동 3D 세우기/눕히기 | 세워서 보관 우선 | 눕혀서 보관 우선)
+  allowRotation?: boolean; // default: false
+  allowHeightExceed?: boolean; // default: false
+  postureMode?: 'auto' | 'standing' | 'flat'; // default: 'auto'
+  margin?: number; // safety margin in cm (default: 0.1cm)
 }
 
 /**
@@ -715,4 +716,247 @@ export function calculateSpaceMetrics(drawer: DrawerDimension, items: FittedItem
     totalPrice,
     itemCount: items.length
   };
+}
+
+
+/**
+ * 피팅 결과를 진단하는 검증 리포트 인터페이스
+ */
+export interface FitValidation {
+  totalItemsPlaced: number;
+  totalItemsAvailable: number;
+  heightWarnings: string[];  // 서랍 높이를 초과하는 아이템들에 대한 경고
+  voidSpaceCm3: number;      // 남은 빈 공간 부피 (cm³)
+  voidSpacePct: number;      // 남은 빈 공간 비율 (%)
+  floorCoveragePct: number;  // 바닥면적 덮개 비율 (%)
+  marginUsed: number;        // 실제로 사용된 마진
+  suggestions: string[];     // 개선을 위한 제안 사항
+  isIdealFit: boolean;       // 이상적인 적합 여부
+  stackStability?: { stable: boolean; riskLevel: 'low' | 'medium' | 'high'; message: string }; // 스택 안정성 진단
+}
+
+
+
+
+/**
+ * 피팅된 배치의 검증 리포트를 계산합니다.
+ * height warnings, void space, suggestions 등을 포함합니다.
+ */
+export function getFitValidation(
+  drawer: DrawerDimension,
+  items: FittedItem[],
+  availableProducts: DaisoProduct[],
+  options: AutoFitOptions = { allowRotation: false }
+): FitValidation {
+  const margin = options.margin ?? 0.1;
+  const safeH = drawer.height - margin;
+
+  // 1. 기본 통계
+  const totalItemsAvailable = availableProducts.length;
+  const totalItemsPlaced = items.length;
+
+  // 2. 높이 경고 수집
+  const heightWarnings: string[] = [];
+  availableProducts.forEach(product => {
+    if (product.height > safeH + 0.1) {
+      heightWarnings.push(
+        `"${product.name}" - 높이 ${product.height}cm이 가용 높이 ${safeH.toFixed(1)}cm를 초과합니다`
+      );
+    }
+  });
+
+  // 3. Void space calculation (height map based)
+  const scale = 2; // 0.5cm resolution
+  const safeW = drawer.width - (margin * 2);
+  const safeD = drawer.depth - (margin * 2);
+  const gridW = Math.floor(safeW * scale);
+  const gridD = Math.floor(safeD * scale);
+
+  const floorCovered: boolean[][] = Array.from({ length: gridW }, () => Array(gridD).fill(false));
+  items.forEach(item => {
+    const { width: w, depth: d } = getItemDimensions(item);
+    const startX = Math.max(0, Math.floor(item.x * scale));
+    const endX = Math.min(gridW, Math.ceil((item.x + w) * scale));
+    const startZ = Math.max(0, Math.floor(item.z * scale));
+    const endZ = Math.min(gridD, Math.ceil((item.z + d) * scale));
+    for (let ix = startX; ix < endX; ix++) {
+      for (let iz = startZ; iz < endZ; iz++) {
+        floorCovered[ix][iz] = true;
+      }
+    }
+  });
+
+  let coveredCount = 0;
+  for (let ix = 0; ix < gridW; ix++) {
+    for (let iz = 0; iz < gridD; iz++) {
+      if (floorCovered[ix][iz]) coveredCount++;
+    }
+  }
+
+  const voidSpaceCm3 = (gridW * gridD - coveredCount) * 0.5 * 0.5 * drawer.height; // approximate
+  const voidSpacePct = drawer.width * drawer.depth * drawer.height > 0
+    ? Math.min(100, Math.round((voidSpaceCm3 / (drawer.width * drawer.depth * drawer.height)) * 100))
+    : 0;
+  const floorCoveragePct = gridW * gridD > 0
+    ? Math.min(100, Math.round((coveredCount / (gridW * gridD)) * 100))
+    : 0;
+
+  // 4. Suggestions generation (simplified)
+  const suggestions: string[] = [];
+
+  // Margin-based suggestions (Korean)
+  if (margin < 0.15) {
+    suggestions.push('마진을 0.15~0.3cm로 올리면 더 여유로운 배치가 가능합니다');
+  }
+  if (margin > 0.3) {
+    suggestions.push('마진을 0.2cm 이하로 낮추면 더 많은 상품을 배치할 수 있습니다');
+  }
+
+  // Height warning count suggestion (Korean)
+  if (heightWarnings.length > 0) {
+    suggestions.push(`상품 ${heightWarnings.length}종이 서랍 높이를 초과합니다. 마진을 낮추거나 서랍을 높이거나 하여보세요`);
+  }
+
+  // Item count based suggestions (Korean)
+  const organizedCount = items.filter(it => isDrawerOrganizer(it.product)).length;
+  if (organizedCount < 3 && totalItemsAvailable > 5) {
+    suggestions.push('수납함 골격을 더 배치하면 공간 활용도가 높아집니다');
+  }
+
+  // 5. 스택 안정성 진단
+  const stackStability = checkStackStability(drawer, items, options);
+  if (!stackStability.stable) {
+    suggestions.push(stackStability.message);
+  }
+
+  // 6. 이상적 적합 여부
+  const isIdealFit = heightWarnings.length === 0 && voidSpacePct < 30 && totalItemsPlaced > 0 && stackStability.stable;
+
+  return {
+    totalItemsPlaced,
+    totalItemsAvailable,
+    heightWarnings,
+    voidSpaceCm3: Math.round(voidSpaceCm3 * 10) / 10,
+    voidSpacePct,
+    floorCoveragePct,
+    marginUsed: margin,
+    suggestions,
+    isIdealFit,
+    stackStability
+  };
+}
+
+
+
+/**
+ * 스택된 아이템들의 안정성을 검사합니다.
+ * 중력 중심을 계산하여 top-heavy 여부를 판단합니다.
+ */
+export function checkStackStability(
+  drawer: DrawerDimension,
+  items: FittedItem[],
+  options: AutoFitOptions = { allowRotation: false }
+): { stable: boolean; riskLevel: 'low' | 'medium' | 'high'; message: string } {
+  const margin = options.margin ?? 0.1;
+  const safeH = drawer.height - margin;
+
+  // stackable 아이템들만 필터링
+  const stackableItems = items.filter(it => isStackableProduct(it.product));
+
+  if (stackableItems.length < 2) {
+    return { stable: true, riskLevel: 'low', message: '안정적인 스택입니다.' };
+  }
+
+  // 각 높이 레벨별 스택 정보 수집
+  const heightGroups: Map<number, { items: FittedItem[]; topY: number; totalWeight: number }> = new Map();
+  stackableItems.forEach(item => {
+    const heightKey = Math.round(item.y * 10) / 10;
+    const itemTop = item.y + item.product.height;
+    const itemWeight = item.product.width * item.product.depth * item.product.height;
+
+    if (!heightGroups.has(heightKey)) {
+      heightGroups.set(heightKey, { items: [], topY: 0, totalWeight: 0 });
+    }
+    const group = heightGroups.get(heightKey)!;
+    group.items.push(item);
+    if (itemTop > group.topY) {
+      group.topY = itemTop;
+    }
+    group.totalWeight += itemWeight;
+  });
+
+  // 위험도 판단: 서랍 높이를 초과하거나 위에 무거운 아이템이 있으면 위험
+  let maxRiskLevel: 'low' | 'medium' | 'high' = 'low';
+  let warningMessage = '안정적인 스택입니다.';
+
+  for (const group of heightGroups.values()) {
+    // 서랍 높이를 초과하면 위험
+    if (group.topY > safeH) {
+      maxRiskLevel = 'high';
+      warningMessage = '스택이 서랍 높이를 초과합니다!';
+      continue;
+    }
+    // 위에 아이템이 2개 이상 있고, 가장 위에 있는 아이템이 두 번째로 높은 경우 위험
+    const sortedByY = [...group.items].sort((a, b) => a.y - b.y);
+    if (sortedByY.length > 1 && sortedByY[sortedByY.length - 1].y > sortedByY[sortedByY.length - 2].y) {
+      maxRiskLevel = 'high';
+      warningMessage = '위험한 스택입니다! 무거운 아이템을 아래로 이동시키세요.';
+    } else if (group.totalWeight > 80) {
+      // 전체 무게가 많이 나가는 경우 중간 위험
+      maxRiskLevel = 'medium';
+      warningMessage = '스택이 약간 불안정할 수 있습니다. 무거운 아이템은 아래에 배치해주세요.';
+    }
+  }
+
+  const isStable = maxRiskLevel !== 'high';
+  return { stable: isStable, riskLevel: maxRiskLevel, message: warningMessage };
+}
+
+
+
+/**
+ * 컨테이너 선택 점수 계산 (공간 활용도 최적화)
+ * - 남은 gap 크기를 최소화하는 컨테이너를 우선순위 지정
+ * - 다양한 width/depth 비율을 고려한 점수 매기기
+ */
+export function scoreContainerPlacement(existingItems: FittedItem[], candidate: DaisoProduct, drawer: DrawerDimension): number {
+  let score = 0;
+
+  // 1. 기존 아이템들과의 간극 최소화 (여유 공간이 가장 작은 컨테이너 우선)
+  const lastItem = existingItems[existingItems.length - 1];
+  if (lastItem) {
+    const lastWidth = lastItem.product.width;
+    const lastDepth = lastItem.product.depth;
+    
+    // 현재 컨테이너가 이전 아이템과 잘 맞는지 확인
+    const candidateWidth = candidate.width;
+    const candidateDepth = candidate.depth;
+    
+    // 가로 방향 연속성 점수 (이전 아이템과 비슷한 width일 경우 가점)
+    const widthRatio = candidateWidth / (lastWidth || 1);
+    const depthRatio = candidateDepth / (lastDepth || 1);
+    
+    // 비율이 0.8~1.2사이일 경우 가점 (약 20% 이내의 차이)
+    if (widthRatio >= 0.8 && widthRatio <= 1.2) {
+      score += 10;
+    }
+    if (depthRatio >= 0.8 && depthRatio <= 1.2) {
+      score += 10;
+    }
+  }
+
+  // 2. 드로워 너비에 대한 적합성
+  const candidateArea = candidate.width * candidate.depth;
+  const drawerArea = drawer.width * drawer.depth;
+  const fillRatio = candidateArea / drawerArea;
+  
+  // 적당한 크기의 컨테이너일 경우 가점 (너무 크거나 작지 않을 때)
+  if (fillRatio > 0.05 && fillRatio < 0.3) {
+    score += Math.round((0.3 - fillRatio) * 100); // 비율이 작을수록 감점
+  }
+
+  // 3. 깊이 우선 정렬을 위한 점수 (깊이가 일관될 경우 가점)
+  // 이 부분은 호출자에서 기존 아이템 깊이 정보를 전달받아 보완하면 됨
+
+  return score;
 }

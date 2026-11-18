@@ -15,7 +15,8 @@ import {
   CheckCircle2,
   Zap,
   Target,
-  Store
+  Store,
+  Loader2
 } from 'lucide-react';
 
 interface ProductCatalogProps {
@@ -36,6 +37,7 @@ interface ProductCatalogProps {
   onOpenStoreModal?: () => void;
   storeInStockCodes?: Set<string>;
   storeStockMap?: Record<string, { quantity: number; in_stock: boolean; status_label: string }>;
+  isLoading?: boolean;
 }
 
 const QUICK_TAGS = [
@@ -66,7 +68,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   onToggleOnlyStoreStock,
   onOpenStoreModal,
   storeInStockCodes,
-  storeStockMap
+  storeStockMap,
+  isLoading = false
 }) => {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -713,7 +716,17 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
       {/* Product List */}
       <div className="flex-1 overflow-y-auto p-3 space-y-2.5">
-        {filtered.length === 0 ? (
+        {isLoading && filtered.length === 0 ? (
+          <div className="py-16 text-center text-slate-400 space-y-3">
+            <Loader2 size={32} className="mx-auto text-daiso-red animate-spin stroke-[1.5]" />
+            <div>
+              <p className="text-xs font-semibold text-slate-600">상품 카탈로그를 불러오는 중…</p>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                공식 다이소몰 데이터 동기화 또는 로컬 카탈로그 로드
+              </p>
+            </div>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="py-16 text-center text-slate-400 space-y-3">
             <Search size={32} className="mx-auto text-slate-300 stroke-[1.5]" />
             <div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { DrawerCanvas3D } from './components/DrawerCanvas3D';
 import { ProductCatalog } from './components/ProductCatalog';
 import { FittedInspector } from './components/FittedInspector';
@@ -11,11 +11,12 @@ import { KakaoShareModal } from './components/KakaoShareModal';
 import { MyDrawersModal } from './components/MyDrawersModal';
 import { AdminUsersModal } from './components/AdminUsersModal';
 import { StoreStockModal, StoreInfo } from './components/StoreStockModal';
+import { LayoutReportModal } from './components/LayoutReportModal';
 import {
-  DAISO_PRODUCTS,
   DrawerDimension,
   FittedItem,
-  DaisoProduct
+  DaisoProduct,
+  loadLocalDaisoProducts
 } from './data/daisoProducts';
 import { User, SavedDrawer } from './types/auth';
 import {
@@ -24,7 +25,8 @@ import {
   isNestedGood,
   fillSelectedGoodIntoContainers,
   fillCategoryGoodsIntoContainers,
-  fillDiverseGoodsIntoContainers
+  fillDiverseGoodsIntoContainers,
+  getFitValidation
 } from './utils/fitterAlgorithm';
 import { checkItemCollision } from './utils/collision';
 import {
@@ -59,7 +61,8 @@ export const App: React.FC = () => {
     height: 7.0
   });
 
-  const [products, setProducts] = useState<DaisoProduct[]>(DAISO_PRODUCTS);
+  const [products, setProducts] = useState<DaisoProduct[]>([]);
+  const [isProductsLoading, setIsProductsLoading] = useState<boolean>(true);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [previewProduct, setPreviewProduct] = useState<DaisoProduct | null>(null);
 
@@ -141,9 +144,18 @@ export const App: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [allowRotation, setAllowRotation] = useState<boolean>(false);
   const [allowHeightExceed, setAllowHeightExceed] = useState<boolean>(false);
+  const [margin, setMargin] = useState<number>(0.1);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('daiso_dark_mode') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [postureMode, setPostureMode] = useState<'auto' | 'standing' | 'flat'>('auto');
   const [isCatalogOpen, setIsCatalogOpen] = useState<boolean>(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState<boolean>(false);
+  const [isLayoutReportOpen, setIsLayoutReportOpen] = useState<boolean>(false);
 
   // Dynamic Window Width & Layout Reflow
   const [windowWidth, setWindowWidth] = useState<number>(() =>
@@ -189,7 +201,7 @@ export const App: React.FC = () => {
         .then(data => {
           if (data && data.success && data.drawer && data.items) {
             setDrawer(data.drawer);
-            setItems(data.items);
+            commitItems(data.items);
             if (data.activeStore) setActiveStore(data.activeStore);
             if (data.activePurpose) setActivePurpose(data.activePurpose);
             setToastMessage(`✨ "${data.title || '공유받은 서랍'}" 피팅을 불러왔습니다! (${data.items.length}개 상품)`);
@@ -204,7 +216,7 @@ export const App: React.FC = () => {
         const parsed = JSON.parse(decodeURIComponent(escape(atob(shareData))));
         if (parsed && parsed.drawer && parsed.items) {
           setDrawer(parsed.drawer);
-          setItems(parsed.items);
+          commitItems(parsed.items);
           if (parsed.activeStore) setActiveStore(parsed.activeStore);
           if (parsed.activePurpose) setActivePurpose(parsed.activePurpose);
           setToastMessage(`✨ 공유받은 서랍 피팅을 성공적으로 불러왔습니다! (${parsed.items.length}개 상품)`);
@@ -257,13 +269,90 @@ export const App: React.FC = () => {
     };
   }, [isResizingSplit]);
 
+  // Dark Mode: html.dark-mode class 토글 + localStorage 지속 저장
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+    }
+    try {
+      localStorage.setItem('daiso_dark_mode', String(isDarkMode));
+    } catch {}
+  }, [isDarkMode]);
+
+  const handleToggleDarkMode = () => setIsDarkMode(prev => !prev);
+
   const isCompactLayout = windowWidth < 1024;
 
-  const [items, setItems] = useState<FittedItem[]>(() => {
-    return fitContainersOnly({ width: 32.0, depth: 40.0, height: 7.0 }, DAISO_PRODUCTS, { allowRotation: false });
-  });
+  const [items, setItems] = useState<FittedItem[]>([]);
+  const initialFitDoneRef = useRef<boolean>(false);
+
+  // 상품 카탈로그 지연 로딩 완료 후 첫 자동 배치 (16MB JSON 동적 로드)
+  // After: if user restores a draft or shared link, that layout intentionally overwrites the auto-fit
+  useEffect(() => {
+    if (initialFitDoneRef.current) return;
+    if (products.length === 0) return;
+    initialFitDoneRef.current = true;
+    commitItems(fitContainersOnly({ width: 32.0, depth: 40.0, height: 7.0 }, products, { allowRotation: false, margin: 0.1 }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products]);
 
   const [selectedItemInstanceId, setSelectedItemInstanceId] = useState<string | null>(null);
+
+  // ============ 피팅 이력 (Undo/Redo) 시스템 ============
+  const MAX_HISTORY = 50;
+  const itemsRef = useRef<FittedItem[]>(items);
+  const undoStackRef = useRef<FittedItem[][]>([]);
+  const redoStackRef = useRef<FittedItem[][]>([]);
+  const [canUndo, setCanUndo] = useState<boolean>(false);
+  const [canRedo, setCanRedo] = useState<boolean>(false);
+  const [historyCount, setHistoryCount] = useState<number>(0);
+
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
+
+  /**
+   * 이력을 자동 기록하는 items 커밋 함수.
+   * 기존 setItems를 대체해 모든 상태 변경이 undo/redo 스택에 저장됩니다.
+   */
+  const commitItems = useCallback((next: FittedItem[] | ((prev: FittedItem[]) => FittedItem[])) => {
+    const resolved = typeof next === 'function' ? (next as (prev: FittedItem[]) => FittedItem[])(itemsRef.current) : next;
+    if (resolved === itemsRef.current) return; // reference 동일 시 스킵
+    undoStackRef.current.push(itemsRef.current);
+    if (undoStackRef.current.length > MAX_HISTORY) undoStackRef.current.shift();
+    redoStackRef.current = []; // 새 변경 시 redo 스택 초기화
+    setCanUndo(true);
+    setCanRedo(false);
+    setHistoryCount(undoStackRef.current.length);
+    itemsRef.current = resolved;
+    commitItems(resolved);
+  }, []);
+
+  const handleUndo = useCallback(() => {
+    if (undoStackRef.current.length === 0) return;
+    redoStackRef.current.push(itemsRef.current);
+    const prev = undoStackRef.current.pop()!;
+    itemsRef.current = prev;
+    setItems(prev);
+    setCanUndo(undoStackRef.current.length > 0);
+    setCanRedo(true);
+    setHistoryCount(undoStackRef.current.length);
+    setSelectedItemInstanceId(null);
+  }, []);
+
+  const handleRedo = useCallback(() => {
+    if (redoStackRef.current.length === 0) return;
+    undoStackRef.current.push(itemsRef.current);
+    const next = redoStackRef.current.pop()!;
+    itemsRef.current = next;
+    setItems(next);
+    setCanUndo(true);
+    setCanRedo(redoStackRef.current.length > 0);
+    setHistoryCount(undoStackRef.current.length);
+    setSelectedItemInstanceId(null);
+  }, []);
 
   // Auto-save draft when drawer or items change (debounced 1s)
   useEffect(() => {
@@ -329,6 +418,7 @@ export const App: React.FC = () => {
   };
 
   const fetchProductsFromBackend = async () => {
+    let loaded = false;
     try {
       const res = await fetch(`${BACKEND_URL}/api/products`);
       if (res.ok) {
@@ -356,11 +446,22 @@ export const App: React.FC = () => {
             mallUrl: item.mall_url || item.mallUrl
           }));
           setProducts(mapped);
+          loaded = true;
         }
       }
     } catch {
-      // Fallback to local DAISO_PRODUCTS
+      // network error → local fallback below
     }
+    // backend에서 상품을 못 받았으면, 런타임 지연 로딩된 local 16MB 카탈로그로 fallback
+    if (!loaded) {
+      try {
+        const local = await loadLocalDaisoProducts();
+        setProducts(local);
+      } catch (err) {
+        console.error('Failed to load local catalog:', err);
+      }
+    }
+    setIsProductsLoading(false);
   };
 
   const fetchUserSavedDrawers = async (authToken: string) => {
@@ -490,7 +591,7 @@ export const App: React.FC = () => {
   const handleSelectSavedDrawer = (sd: SavedDrawer) => {
     setDrawer({ width: sd.width, depth: sd.depth, height: sd.height });
     if (sd.items && Array.isArray(sd.items) && sd.items.length > 0) {
-      setItems(sd.items);
+      commitItems(sd.items);
       showToast(`⭐ "${sd.name}" 서랍 크기 및 배치(${sd.items.length}개)를 불러왔습니다.`);
     } else {
       showToast(`⭐ "${sd.name}" 서랍 크기(${sd.width}×${sd.depth}×${sd.height}cm)를 적용했습니다.`);
@@ -644,7 +745,7 @@ export const App: React.FC = () => {
         if (inStockCandidates.length > 0) {
           const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation });
           if (fitted.length > 0) {
-            setItems(fitted);
+            commitItems(fitted);
             setSelectedItemInstanceId(null);
             showToast(`🎉 [${store.name}] 실시간 재고 수납함으로 피팅 완료! (${fitted.length}개)`);
           } else {
@@ -694,26 +795,32 @@ export const App: React.FC = () => {
           return;
         }
 
-        const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation });
+        const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation, margin });
         if (fitted.length === 0) {
           alert(`[${activeStore.name}]의 재고 수납함 중 현재 서랍 치수(${drawer.width}×${drawer.depth}×${drawer.height}cm)에 딱 맞는 조합이 없습니다.`);
           return;
         }
 
-        setItems(fitted);
+        commitItems(fitted);
         setSelectedItemInstanceId(null);
-        showToast(`🎉 [${activeStore.name}] 실시간 재고 보유 수납함으로 피팅 완료! (${fitted.length}개)`);
+        // placement validation included
+        const validation = getFitValidation(drawer, fitted, products, { allowRotation, margin });
+        const validationSummary = validation.isIdealFit ? '이상적 적합' : '일부 조정 권장';
+        const stabilityNote = validation.stackStability && !validation.stackStability.stable
+          ? ` ⚠️ ${validation.stackStability.message}`
+          : '';
+        showToast(`🎉 [${activeStore.name}] 피팅 완료! (${fitted.length}개) [${validationSummary}]${stabilityNote}`);
       } catch (e) {
         console.error('Error auto-fitting with store stock:', e);
         const fitted = fitContainersOnly(drawer, products, { allowRotation });
-        setItems(fitted);
+        commitItems(fitted);
         setSelectedItemInstanceId(null);
       } finally {
         setIsFilteringStoreStock(false);
       }
     } else {
-      const fitted = fitContainersOnly(drawer, products, { allowRotation });
-      setItems(fitted);
+      const fitted = fitContainersOnly(drawer, products, { allowRotation, margin });
+      commitItems(fitted);
       setSelectedItemInstanceId(null);
     }
   };
@@ -764,7 +871,7 @@ export const App: React.FC = () => {
           { allowRotation: true, allowHeightExceed: false, postureMode: 'standing' }
         );
         if (filledRes.countPlaced > 0) {
-          setItems(filledRes.updatedItems);
+          commitItems(filledRes.updatedItems);
           showToast(
             `❄️ [${model.brand} ${model.capacityLiters}L] "${compartment.name}" 맞춤 수납함 ${fitted.length}개 + 식료품/음료 ${filledRes.countPlaced}개를 풀세팅했습니다!`
           );
@@ -772,12 +879,12 @@ export const App: React.FC = () => {
         }
       }
 
-      setItems(fitted);
+      commitItems(fitted);
       showToast(
         `❄️ [${model.brand} ${model.capacityLiters}L] "${compartment.name}" 맞춤 수납함 ${fitted.length}개를 자동 배치했습니다!`
       );
     } else {
-      setItems(prev =>
+      commitItems(prev =>
         prev.filter(i => {
           const { width: w, depth: d } = getItemDimensions(i);
           return i.x + w <= finalDim.width + 0.1 && i.z + d <= finalDim.depth + 0.1;
@@ -793,7 +900,7 @@ export const App: React.FC = () => {
     const finalDim: DrawerDimension = customDim || preset.dimensions;
     setDrawer(finalDim);
     setSelectedItemInstanceId(null);
-    setItems(prev =>
+    commitItems(prev =>
       prev.filter(i => {
         const { width: w, depth: d } = getItemDimensions(i);
         return i.x + w <= finalDim.width + 0.1 && i.z + d <= finalDim.depth + 0.1;
@@ -856,7 +963,7 @@ export const App: React.FC = () => {
       allowHeightExceed,
       postureMode
     });
-    setItems(res.updatedItems);
+    commitItems(res.updatedItems);
     setSelectedItemInstanceId(null);
     if (res.countPlaced > 0) {
       showToast(`선택하신 테마의 서로 다른 소품 ${res.countPlaced}개를 수납함에 골고루 배치했습니다! (중복 없음)`);
@@ -872,7 +979,7 @@ export const App: React.FC = () => {
       allowHeightExceed,
       postureMode
     });
-    setItems(res.updatedItems);
+    commitItems(res.updatedItems);
     setSelectedItemInstanceId(null);
     if (res.countPlaced > 0) {
       showToast(`✨ AI 맞춤 추천: 서로 다른 소품 ${res.countPlaced}개를 수납함에 다양하게 채웠습니다!`);
@@ -887,7 +994,7 @@ export const App: React.FC = () => {
       allowHeightExceed,
       postureMode
     });
-    setItems(res.updatedItems);
+    commitItems(res.updatedItems);
     setSelectedItemInstanceId(null);
     if (res.countPlaced > 0) {
       showToast(`"${product.name}" ${res.countPlaced}개를 수납함에 최대한 채웠습니다!`);
@@ -898,7 +1005,7 @@ export const App: React.FC = () => {
 
   const handleClearGoodsOnly = () => {
     const cleared = clearGoodsOnly(items);
-    setItems(cleared);
+    commitItems(cleared);
     setSelectedItemInstanceId(null);
     showToast('수납함 구조는 남겨두고 내부 소품만 비웠습니다.');
   };
@@ -909,7 +1016,7 @@ export const App: React.FC = () => {
     fittedItems: FittedItem[]
   ) => {
     setDrawer(targetDrawer);
-    setItems(fittedItems);
+    commitItems(fittedItems);
     setActivePurpose(purpose);
     setSelectedItemInstanceId(null);
     showToast(
@@ -1015,7 +1122,7 @@ export const App: React.FC = () => {
                     rotation: ori.rotation,
                     posture: ori.posture
                   };
-                  setItems([...currentItems, newItem]);
+                  commitItems([...currentItems, newItem]);
                   setSelectedItemInstanceId(newItem.instanceId);
                   const postureNote = ori.posture !== 'flat' ? ` (${ori.label})` : '';
                   setToastMessage(`"${product.name}"${postureNote}을(를) "${container.product.name}" 안에 담았습니다.`);
@@ -1083,7 +1190,7 @@ export const App: React.FC = () => {
                 rotation: ori.rotation,
                 posture: ori.posture
               };
-              setItems([...currentItems, newItem]);
+              commitItems([...currentItems, newItem]);
               setSelectedItemInstanceId(newItem.instanceId);
               if (ori.posture !== 'flat' || ori.rotation === 90) {
                 showToast(`"${product.name}"을(를) 공간에 맞춰 ${ori.label}${ori.rotation === 90 ? '(90° 회전)' : ''} 형태로 배치했습니다.`);
@@ -1147,14 +1254,14 @@ export const App: React.FC = () => {
         posture: defaultOri.posture
       };
 
-      setItems([...currentItems, newItem]);
+      commitItems([...currentItems, newItem]);
       setSelectedItemInstanceId(newItem.instanceId);
       showToast(`⚠️ "${product.name}"을(를) 서랍에 담았습니다. 3D에서 [세우기/눕히기] 또는 [90° 회전]으로 조정해보세요.`);
     }
   };
 
   const handleRemoveItem = (instanceId: string) => {
-    setItems(prev => prev.filter(i => i.instanceId !== instanceId));
+    commitItems(prev => prev.filter(i => i.instanceId !== instanceId));
     triggerHaptic();
     if (selectedItemInstanceId === instanceId) {
       setSelectedItemInstanceId(null);
@@ -1204,7 +1311,7 @@ export const App: React.FC = () => {
       return false;
     }
 
-    setItems(prev =>
+    commitItems(prev =>
       prev.map(i => (i.instanceId === instanceId ? { ...i, x: newX, y: finalY, z: newZ } : i))
     );
     triggerHaptic();
@@ -1265,7 +1372,7 @@ export const App: React.FC = () => {
       }
     }
 
-    setItems(prev =>
+    commitItems(prev =>
       prev.map(i =>
         i.instanceId === instanceId
           ? { ...i, x: Math.round(clampedX * 10) / 10, z: Math.round(clampedZ * 10) / 10, rotation: nextRot, y: resting.y }
@@ -1332,7 +1439,7 @@ export const App: React.FC = () => {
       }
     }
 
-    setItems(prev =>
+    commitItems(prev =>
       prev.map(i =>
         i.instanceId === instanceId
           ? {
@@ -1352,13 +1459,13 @@ export const App: React.FC = () => {
   };
 
   const handleReset = () => {
-    setItems([]);
+    commitItems([]);
     setSelectedItemInstanceId(null);
   };
 
   const handleChangeDrawer = (newDim: DrawerDimension) => {
     setDrawer(newDim);
-    setItems(prev =>
+    commitItems(prev =>
       prev.filter(i => {
         const { width: w, depth: d } = getItemDimensions(i);
         // Height can extend above drawer, only check floor boundary (width & depth)
@@ -1366,6 +1473,72 @@ export const App: React.FC = () => {
       })
     );
   };
+
+  // ============ 키보드 단축키 ============
+  // Ctrl/Cmd+Z: 되돌리기 | Ctrl/Cmd+Shift+Z / Ctrl+Y: 재실행
+  // Delete/Backspace: 선택 아이템 삭제 | R: 선택 아이템 90° 회전
+  // 방향키: 선택 아이템 0.5cm 이동 | Esc: 선택 해제
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      // Input/textarea에 포커스가 있을 때 단축키 비활성화
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+      const isMod = e.metaKey || e.ctrlKey;
+
+      if (isMod && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) handleRedo(); else handleUndo();
+        return;
+      }
+      if (isMod && e.key.toLowerCase() === 'y') {
+        e.preventDefault();
+        handleRedo();
+        return;
+      }
+
+      // 선택 아이템 기반 단축키
+      if (selectedItemInstanceId) {
+        const selItem = items.find(i => i.instanceId === selectedItemInstanceId);
+        if (!selItem) return;
+
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+          e.preventDefault();
+          handleRemoveItem(selItem.instanceId);
+          return;
+        }
+        if (e.key.toLowerCase() === 'r' && !isMod) {
+          e.preventDefault();
+          handleRotateItem(selItem.instanceId);
+          return;
+        }
+
+        // 방향키로 0.5cm씩 미세 이동
+        const step = 0.5;
+        const { width: w, depth: d } = getItemDimensions(selItem);
+        let dx = 0, dz = 0;
+        if (e.key === 'ArrowLeft') dx = -step;
+        else if (e.key === 'ArrowRight') dx = step;
+        else if (e.key === 'ArrowUp') dz = -step;
+        else if (e.key === 'ArrowDown') dz = step;
+        else return;
+
+        e.preventDefault();
+        const newX = Math.max(0, Math.min(drawer.width - w, selItem.x + dx));
+        const newZ = Math.max(0, Math.min(drawer.depth - d, selItem.z + dz));
+        handleMoveItem(selItem.instanceId, newX, newZ);
+        return;
+      }
+
+      // 선택 해제
+      if (e.key === 'Escape') {
+        setSelectedItemInstanceId(null);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedItemInstanceId, items, drawer, handleUndo, handleRedo, handleRemoveItem, handleRotateItem, handleMoveItem]);
 
   return (
     <div className="flex flex-col w-screen h-screen overflow-hidden bg-daiso-canvas">
@@ -1398,7 +1571,17 @@ export const App: React.FC = () => {
         onToggleAllowRotation={() => setAllowRotation(prev => !prev)}
         allowHeightExceed={allowHeightExceed}
         onToggleAllowHeightExceed={() => setAllowHeightExceed(prev => !prev)}
+        margin={margin}
+        onMarginChange={setMargin}
         onReset={handleReset}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
+        canUndo={canUndo}
+        canRedo={canRedo}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={handleToggleDarkMode}
+        onOpenLayoutReport={() => setIsLayoutReportOpen(true)}
+        historyCount={historyCount}
         onSyncProducts={handleSyncProducts}
         isSyncing={isSyncing}
         totalProductsCount={products.length}
@@ -1447,7 +1630,7 @@ export const App: React.FC = () => {
             <button
               onClick={() => {
                 setDrawer(draftRecovery.drawer);
-                setItems(draftRecovery.items);
+                commitItems(draftRecovery.items);
                 setDraftRecovery(null);
                 showToast(`✨ 이전 작업 서랍(${draftRecovery.items.length}개 수납함)을 성공적으로 복구했습니다.`);
               }}
@@ -1487,6 +1670,7 @@ export const App: React.FC = () => {
                 onMoveItem={handleMoveItem}
                 onPreviewProduct={setPreviewProduct}
                 onRegisterCapture={(fn) => { captureCanvasRef.current = fn; }}
+                margin={margin}
               />
             </div>
 
@@ -1559,6 +1743,7 @@ export const App: React.FC = () => {
                   onOpenStoreModal={() => handleOpenStoreStockModal('search')}
                   storeInStockCodes={storeInStockCodes}
                   storeStockMap={storeStockMap}
+                  isLoading={isProductsLoading}
                 />
               ) : (
                 <FittedInspector
@@ -1605,6 +1790,7 @@ export const App: React.FC = () => {
               onOpenStoreModal={() => handleOpenStoreStockModal('search')}
               storeInStockCodes={storeInStockCodes}
               storeStockMap={storeStockMap}
+              isLoading={isProductsLoading}
             />
 
             {/* Draggable Divider for Catalog Width */}
@@ -1631,6 +1817,7 @@ export const App: React.FC = () => {
                 onMoveItem={handleMoveItem}
                 onPreviewProduct={setPreviewProduct}
                 onRegisterCapture={(fn) => { captureCanvasRef.current = fn; }}
+                margin={margin}
               />
             </main>
 
@@ -1797,12 +1984,22 @@ export const App: React.FC = () => {
         onOpenSaveModal={() => setIsSaveDrawerModalOpen(true)}
         onOpenShareDrawer={(sd) => {
           setDrawer({ width: sd.width, depth: sd.depth, height: sd.height });
-          if (sd.items && Array.isArray(sd.items)) setItems(sd.items);
+          if (sd.items && Array.isArray(sd.items)) commitItems(sd.items);
           setIsShareModalOpen(true);
         }}
         user={user}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         currentDrawer={drawer}
+      />
+
+      {/* Layout Validation Report Modal */}
+      <LayoutReportModal
+        isOpen={isLayoutReportOpen}
+        onClose={() => setIsLayoutReportOpen(false)}
+        drawer={drawer}
+        items={items}
+        products={products}
+        options={{ allowRotation, margin }}
       />
     </div>
   );

@@ -44,6 +44,7 @@ interface DrawerCanvas3DProps {
   onMoveItem: (instanceId: string, newX: number, newZ: number, newY?: number) => boolean;
   onPreviewProduct?: (product: DaisoProduct) => void;
   onRegisterCapture?: (captureFn: () => string | null) => void;
+  margin?: number; // safety margin in cm (default: 0.1cm)
 }
 
 export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
@@ -56,7 +57,8 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
   onTogglePosture,
   onMoveItem,
   onPreviewProduct,
-  onRegisterCapture
+  onRegisterCapture,
+  margin
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -776,8 +778,31 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     }
 
     scene.add(drawerGroup);
+
+    // ----- Margin Visualization Overlay (Safety Margin) -----
+    const effectiveMargin = margin ?? 0.1;
+    const safeW = drawer.width - effectiveMargin * 2;
+    const safeD = drawer.depth - effectiveMargin * 2;
+    const safeH = drawer.height - effectiveMargin;
+
+    const marginMat = new THREE.MeshStandardMaterial({
+      color: 0xBFDBFD,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide
+    });
+
+    const marginGeo = new THREE.BoxGeometry(safeW, safeH, safeD);
+    const marginMesh = new THREE.Mesh(marginGeo, marginMat);
+    marginMesh.position.set(
+      -drawer.width / 2 + effectiveMargin,
+      drawer.height / 2 - effectiveMargin / 2,
+      -drawer.depth / 2 + effectiveMargin
+    );
+    marginMesh.name = 'MARGIN_OVERLAY';
+    drawerGroup.add(marginMesh);
     requestRenderRef.current();
-  }, [drawer, renderMode]);
+  }, [drawer, renderMode, margin]);
 
   // Update Fitted Items Meshes
   useEffect(() => {
