@@ -26,7 +26,8 @@ import {
   fillSelectedGoodIntoContainers,
   fillCategoryGoodsIntoContainers,
   fillDiverseGoodsIntoContainers,
-  getFitValidation
+  getFitValidation,
+  explainAutoFitFailure
 } from './utils/fitterAlgorithm';
 import { checkItemCollision } from './utils/collision';
 import {
@@ -417,6 +418,22 @@ export const App: React.FC = () => {
     }, 3500);
   };
 
+  // Auto-fit failed with zero-result diagnosis: specific reason for the failure
+  const buildFitFailureMessage = (candidates: DaisoProduct[], contextLabel: string): string => {
+    const safeW = drawer.width - margin * 2;
+    const safeD = drawer.depth - margin * 2;
+    const safeH = drawer.height - margin;
+    const reasons = explainAutoFitFailure(drawer, candidates, { allowRotation, margin });
+    return [
+      `[${contextLabel}] No combinable container could be found`,
+      `  Drawer ${drawer.width}×${drawer.depth}×${drawer.height}cm → Available ${safeW.toFixed(1)}×${safeD.toFixed(1)}×${safeH.toFixed(1)}cm (margin ${margin.toFixed(1)}cm)`,
+      '',
+      ...reasons.map(r => `• ${r}`),
+      '',
+      '→ Reduce the safety margin / allow 90° rotation / expand the drawer dimensions'
+    ].join('\n');
+  };
+
   const fetchProductsFromBackend = async () => {
     let loaded = false;
     try {
@@ -749,7 +766,7 @@ export const App: React.FC = () => {
             setSelectedItemInstanceId(null);
             showToast(`🎉 [${store.name}] 실시간 재고 수납함으로 피팅 완료! (${fitted.length}개)`);
           } else {
-            showToast(`⚠️ [${store.name}]의 재고 수납함 중 현재 서랍 크기에 맞는 배치가 없습니다.`);
+            alert(buildFitFailureMessage(inStockCandidates, `${store.name} 재고 수납함`));
           }
         } else {
           showToast(`⚠️ [${store.name}]에 현재 확인된 수납함 재고가 없습니다.`);
@@ -797,7 +814,7 @@ export const App: React.FC = () => {
 
         const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation, margin });
         if (fitted.length === 0) {
-          alert(`[${activeStore.name}]의 재고 수납함 중 현재 서랍 치수(${drawer.width}×${drawer.depth}×${drawer.height}cm)에 딱 맞는 조합이 없습니다.`);
+          alert(buildFitFailureMessage(inStockCandidates, `${activeStore.name} 재고 수납함`));
           return;
         }
 
@@ -820,6 +837,10 @@ export const App: React.FC = () => {
       }
     } else {
       const fitted = fitContainersOnly(drawer, products, { allowRotation, margin });
+      if (fitted.length === 0) {
+        alert(buildFitFailureMessage(products, '전체 상품'));
+        return;
+      }
       commitItems(fitted);
       setSelectedItemInstanceId(null);
     }
@@ -868,7 +889,7 @@ export const App: React.FC = () => {
           fitted,
           'kitchen_food',
           products,
-          { allowRotation: true, allowHeightExceed: false, postureMode: 'standing' }
+          { allowRotation: true, allowHeightExceed: false, postureMode: 'standing', margin }
         );
         if (filledRes.countPlaced > 0) {
           commitItems(filledRes.updatedItems);
@@ -961,7 +982,8 @@ export const App: React.FC = () => {
     const res = fillCategoryGoodsIntoContainers(drawer, items, category, products, {
       allowRotation,
       allowHeightExceed,
-      postureMode
+      postureMode,
+      margin
     });
     commitItems(res.updatedItems);
     setSelectedItemInstanceId(null);
@@ -977,7 +999,8 @@ export const App: React.FC = () => {
     const res = fillDiverseGoodsIntoContainers(drawer, items, normalized, {
       allowRotation,
       allowHeightExceed,
-      postureMode
+      postureMode,
+      margin
     });
     commitItems(res.updatedItems);
     setSelectedItemInstanceId(null);
@@ -992,7 +1015,8 @@ export const App: React.FC = () => {
     const res = fillSelectedGoodIntoContainers(drawer, items, product, {
       allowRotation,
       allowHeightExceed,
-      postureMode
+      postureMode,
+      margin
     });
     commitItems(res.updatedItems);
     setSelectedItemInstanceId(null);

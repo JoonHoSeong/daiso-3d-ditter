@@ -310,7 +310,7 @@ export function fillSelectedGoodIntoContainers(
     if (!isOpenContainer(container.product)) continue;
 
     const { width: cW, depth: cD } = getItemDimensions(container);
-    const margin = 0.5;
+    const margin = 0.4 + (options.margin ?? 0.1); // wall clearance + user safety margin
     const cavityW = cW - margin * 2;
     const cavityD = cD - margin * 2;
     const cavityY = (container.y || 0) + 0.3;
@@ -322,7 +322,7 @@ export function fillSelectedGoodIntoContainers(
 
     // Filter orientations that satisfy height and container footprint
     const validOrientations = allOrientations.filter(ori => {
-      if (!options.allowHeightExceed && cavityY + ori.height > drawer.height + 0.1) {
+      if (!options.allowHeightExceed && cavityY + ori.height > drawer.height + (options.margin ?? 0.1)) {
         return false;
       }
       const pw = Math.round(ori.width * scale);
@@ -456,7 +456,7 @@ export function fillDiverseGoodsIntoContainers(
     if (!isOpenContainer(container.product)) continue;
 
     const { width: cW, depth: cD } = getItemDimensions(container);
-    const margin = 0.5;
+    const margin = 0.4 + (options.margin ?? 0.1); // wall clearance + user safety margin
     const cavityW = cW - margin * 2;
     const cavityD = cD - margin * 2;
     const cavityY = (container.y || 0) + 0.3;
@@ -498,7 +498,7 @@ export function fillDiverseGoodsIntoContainers(
 
       // Evaluate all 3D orientations (standing / lying / 90deg rotated) that fit height & footprint
       const candidateOrientations = getDistinct3DOrientations(prod, true).filter(ori => {
-        if (!options.allowHeightExceed && cavityY + ori.height > drawer.height + 0.1) {
+        if (!options.allowHeightExceed && cavityY + ori.height > drawer.height + (options.margin ?? 0.1)) {
           return false;
         }
         const pw = Math.round(ori.width * scale);
@@ -535,7 +535,7 @@ export function fillDiverseGoodsIntoContainers(
           const defaultFits =
             Math.round(prod.width * scale) <= gridW &&
             Math.round(prod.depth * scale) <= gridD &&
-            (options.allowHeightExceed || cavityY + prod.height <= drawer.height + 0.1);
+            (options.allowHeightExceed || cavityY + prod.height <= drawer.height + (options.margin ?? 0.1));
           if (defaultFits && foundSpot) continue;
         }
 
@@ -673,7 +673,7 @@ export function fillContainersWithGoods(
 
     const cW = container.rotation === 90 ? container.product.depth : container.product.width;
     const cD = container.rotation === 90 ? container.product.width : container.product.depth;
-    const margin = 0.6; // Inner wall clearance
+    const margin = 0.5 + (options.margin ?? 0.1); // Inner wall clearance + user safety margin
     const cavityW = cW - margin * 2;
     const cavityD = cD - margin * 2;
     const cavityY = (container.y || 0) + 0.3; // resting on container inside floor
@@ -975,6 +975,75 @@ export function checkStackStability(
 
   const isStable = maxRiskLevel !== 'high';
   return { stable: isStable, riskLevel: maxRiskLevel, message: warningMessage };
+}
+
+/**
+ * Explain why an auto-fit attempt produced zero containers, with specific
+ * reasons: organizer recognition, height/footprint exclusions vs the
+ * margin-safe drawer area.
+ */
+export function explainAutoFitFailure(
+  drawer: DrawerDimension,
+  candidates: DaisoProduct[],
+  options: AutoFitOptions = { allowRotation: false }
+): string[] {
+  const margin = options.margin ?? 0.1;
+  const allowRotation = options.allowRotation ?? false;
+  const safeW = drawer.width - margin * 2;
+  const safeD = drawer.depth - margin * 2;
+  const safeH = drawer.height - margin;
+
+  if (safeW < 2 || safeD < 2) {
+    return [
+      `가용 영역이 너무 작습니다 — 안전 여유(${margin.toFixed(1)}cm)가 사용할 수 있는 면적을 ${safeW.toFixed(1)}×${safeD.toFixed(1)}cm로 줄였습니다`,
+      '안전 여유를 줄이거나 서랍 치수를 키워주세요'
+    ];
+  }
+
+  if (candidates.length === 0) {
+    return ['기준 후보가 없습니다 - 상품 목록이 비어 있습니다'];
+  }
+
+  const organizers = candidates.filter(p => isDrawerOrganizer(p) && !isMatOrLiner(p));
+  if (organizers.length === 0) {
+    return [
+      `후보 ${candidates.length}개 중 서랍 오거나이저(정리함·트레이·바구니)로 인식된 상품이 0개입니다`,
+      '자동 배치는 오거나이저 성격의 상품 위주로 동작합니다'
+    ];
+  }
+
+  const reasons: string[] = [];
+
+  const tooTall = organizers.filter(p => p.height > safeH);
+  if (tooTall.length > 0) {
+    reasons.push(
+      `높이 ${safeH.toFixed(1)}cm를 초과하는 수납함 ${tooTall.length}종 (예: "${tooTall[0].name}" 높이 ${tooTall[0].height}cm)`
+    );
+  }
+
+  const fitsFootprint = (p: DaisoProduct) =>
+    (p.width <= safeW && p.depth <= safeD) ||
+    (allowRotation && p.depth <= safeW && p.width <= safeD);
+  const tooLarge = organizers.filter(p => !fitsFootprint(p));
+  if (tooLarge.length > 0) {
+    const half = organizers.length / 2;
+    reasons.push(
+      tooLarge.length > half
+        ? `가용 바닥면 ${safeW.toFixed(1)}×${safeD.toFixed(1)}cm보다 큰 수납함이 ${organizers.length}종 중 ${tooLarge.length}종으로, 배치가 아예 어려운 치수입니다`
+        : `가용 바닥면을 초과한 수납함 ${tooLarge.length}종은 배치되지 않습니다${allowRotation ? '' : ' (90° 회전 배치를 허용하면 일부가 들어갈 수 있습니다)'}`
+    );
+  }
+
+  const placeable = organizers.filter(p => p.height <= safeH && fitsFootprint(p));
+  if (placeable.length === 0) {
+    reasons.push('가용 높이 AND 가용 바닥면을 동시에 만족하는 수납함이 1종도 없습니다');
+  } else {
+    reasons.push(
+      `배치 가능한 수납함은 ${placeable.length}종인데 모양 조합상 전체 면적을 채우지 못했습니다`
+    );
+  }
+
+  return reasons;
 }
 
 
