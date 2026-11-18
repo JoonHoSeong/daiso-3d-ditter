@@ -3,8 +3,8 @@
 let _localCatalogCache: DaisoProduct[] | null = null;
 
 /**
- * 원격(API) 세포가 실패했을 시 local에 몰입된 16MB_JSON을 지연 로드.
- * 한 번 로드되면 메모리 캐시로 재사용.
+ * 백엔드 상품 API가 실패했을 때, 번들에 동결된 16MB 로컬 카탈로그(JSON)를 지연 로드합니다.
+ * API 연결 실패 시에만 사용되며, 한 번 로드되면 이후에는 메모리 캐시로 재사용합니다.
  */
 export function loadLocalDaisoProducts(): Promise<DaisoProduct[]> {
   if (_localCatalogCache) return Promise.resolve(_localCatalogCache);
@@ -75,11 +75,6 @@ export interface DrawerDimension {
   depth: number;  // cm (세로/안쪽깊이, Z)
   height: number; // cm (높이, Y)
 }
-
-// 하위 호환: 이제 lazy loader(loadLocalDaisoProducts)를 사용해야 함.
-// Static export를 제거하여 early load()(pre-load) 방지.
-// (호환용 참조 목적으로 export를 흐리고, 내용으로는 Stub을 위치)
-export const DAISO_PRODUCTS: DaisoProduct[] = [];
 
 export const DRAWER_PRESETS: { name: string; category: string; dimensions: DrawerDimension }[] = [
   // 1. 삼성 비스포크 AI 하이브리드 901L (RM70F91R1A)

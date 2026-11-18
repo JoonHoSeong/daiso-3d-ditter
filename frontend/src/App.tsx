@@ -327,7 +327,7 @@ export const App: React.FC = () => {
     setCanRedo(false);
     setHistoryCount(undoStackRef.current.length);
     itemsRef.current = resolved;
-    commitItems(resolved);
+    setItems(resolved);
   }, []);
 
   const handleUndo = useCallback(() => {
@@ -743,7 +743,7 @@ export const App: React.FC = () => {
 
         const inStockCandidates = products.filter(p => inCodes.has(p.itemCode));
         if (inStockCandidates.length > 0) {
-          const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation });
+          const fitted = fitContainersOnly(drawer, inStockCandidates, { allowRotation, margin });
           if (fitted.length > 0) {
             commitItems(fitted);
             setSelectedItemInstanceId(null);
@@ -812,7 +812,7 @@ export const App: React.FC = () => {
         showToast(`🎉 [${activeStore.name}] 피팅 완료! (${fitted.length}개) [${validationSummary}]${stabilityNote}`);
       } catch (e) {
         console.error('Error auto-fitting with store stock:', e);
-        const fitted = fitContainersOnly(drawer, products, { allowRotation });
+        const fitted = fitContainersOnly(drawer, products, { allowRotation, margin });
         commitItems(fitted);
         setSelectedItemInstanceId(null);
       } finally {
