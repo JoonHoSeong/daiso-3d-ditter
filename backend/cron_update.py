@@ -1,125 +1,162 @@
 """
-Daiso 3D Fitter - 자동 제품 업데이트 크론 스크립트
-시스템 크론(CRON)에 의해 정기적으로 실행되어 다이소 제품 카탈로그를 최신 상태로 유지합니다.
+Daiso 3D Fitter - periodic product fetch & sync (cron entry).
+
+Two-stage pipeline (launchd/cron -> cron_exec.sh -> this script):
+
+  Stage A (FETCH)  : run the Daiso Mall crawler (collect_all.py) with the
+                     backend virtualenv python so httpx et al. are available.
+                     This rewrites backend/data/daiso_organizers.json with the
+                     freshest catalog, dimensions, prices and stock flags.
+  Stage B (SYNC)   : run sync_to_frontend.py to mirror the refreshed backend
+                     JSON into frontend/src/data/daisoProducts.json.
+
+If Stage A fails (network down, rate-limited, backend lib missing) we log it
+and fall back to syncing whatever currently exists, so the pipeline never
+hard-fails the schedule. A 30-minute stale lock (in cron_exec.sh) guards
+against overlapping runs.
 """
 import json
 import re
 import subprocess
 import sys
 import time
-from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any
 
-# 절대 경로로 기본 디렉토리 설정 (이 스크립트는 /Users/joonhoseong/Desktop/workspace/Personal/daiso-3d-fitter/backend에서 실행됨)
-PROJECT_ROOT = Path("/Users/joonhoseong/Desktop/workspace/Personal/daiso-3d-fitter")
-BACKEND_DATA = PROJECT_ROOT / "backend" / "data" / "daiso_organizers.json"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+BACKEND_DIR = PROJECT_ROOT / "backend"
+BACKEND_DATA = BACKEND_DIR / "data" / "daiso_organizers.json"
 FRONTEND_DATA = PROJECT_ROOT / "frontend" / "src" / "data" / "daisoProducts.json"
 SYNC_SCRIPT = PROJECT_ROOT / "sync_to_frontend.py"
-META_PATH = PROJECT_ROOT / "backend" / "data" / "sync_meta.json"
+CRAWL_SCRIPT = BACKEND_DIR / "app" / "scraper" / "collect_all.py"
+META_PATH = BACKEND_DIR / "data" / "sync_meta.json"
+LOG = open(__file__.replace("cron_update.py", "cron_run.log"), "a", encoding="utf-8")
 
-
-def extract_synced_count(output: str) -> int:
-    """출력에서 업데이트된 상품 수 추출"""
-    # "Successfully synced 27,497 products" 패턴 처리
-    match = re.search(r'Successfully synced [\d,]+ products', output)
-    if match:
-        # 콤마가 있는 숫자 처리 (예: "27,497" -> 27497)
-        num_str = match.group(0).replace("Successfully synced ", "").replace(" products", "")
-        try:
-            return int(num_str.replace(",", ""))
-        except ValueError:
-            pass
-    
-    # 대안: 출력에서 가장 큰 숫자 찾기 (대부분의 경우 이것이 제품 수)
-    numbers = re.findall(r'\d+', output)
-    if numbers:
-        # 콤마가 있는 숫자 처리
-        for num_str in numbers:
-            try:
-                val = int(num_str.replace(",", ""))
-                if val > 100:  # 상품 수는 100 이상이어야 함
-                    return val
-            except ValueError:
-                continue
-    
-    return 0
-
-
-def run_cron_job() -> Dict[str, Any]:
-    """
-    크론 작업 메인 함수
-    - 동기화 스크립트 실행
-    - 프론트엔드 데이터 업데이트 확인
-    - 상태 메타 기록
-    """
-    result = {
-        "start_time": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "steps": []
-    }
-    
-    result["steps"].append({"step": "run_sync", "status": "running"})
-    
-    # 동기화 스크립트 실행 (절대 경로 사용)
+def log(msg):
+    line = f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}"
+    print(line, flush=True)
     try:
-        result_sub = subprocess.run(
-            [sys.executable, str(SYNC_SCRIPT)],
-            capture_output=True,
-            text=True,
-            timeout=300
-        )
-        
-        if result_sub.returncode == 0:
-            synced_count = extract_synced_count(result_sub.stdout)
-            result["steps"].append({"step": "run_sync", "status": "success", "detail": synced_count, "output": result_sub.stdout[-300:]})
-            result["synced_count"] = synced_count
-        else:
-            result["steps"].append({"step": "run_sync", "status": "failed", "detail": result_sub.stderr[-300:] if result_sub.stderr else "Unknown error"})
-            result["synced_count"] = 0
-    except subprocess.TimeoutExpired:
-        result["steps"].append({"step": "run_sync", "status": "timeout", "detail": "Sync took longer than 5 minutes"})
-        result["synced_count"] = 0
-    except Exception as e:
-        result["steps"].append({"step": "run_sync", "status": "error", "detail": str(e)})
-        result["synced_count"] = 0
-    
-    if result["synced_count"] > 0:
-        result["steps"].append({"step": "update_meta", "status": "running"})
-        try:
-            with open(META_PATH, "w", encoding="utf-8") as f:
-                json.dump({
-                    "last_cron": result["start_time"],
-                    "products_synced": result.get("synced_count", 0),
-                    "last_sync_script": "sync_to_frontend.py"
-                }, f, ensure_ascii=False, indent=2)
-            result["steps"].append({"step": "update_meta", "status": "success"})
-        except Exception as e:
-            result["steps"].append({"step": "update_meta", "status": "error", "detail": str(e)})
-    else:
-        result["steps"].append({"step": "update_meta", "status": "skipped", "detail": "No products synced"})
-    
-    result["end_time"] = time.strftime("%Y-%m-%d %H:%M:%S")
-    
-    step_statuses = [s.get("status", "unknown") for s in result["steps"] if "status" in s and s.get("status") != "running"]
-    if "error" in step_statuses or "failed" in step_statuses or "timeout" in step_statuses:
-        result["final_status"] = "partial_error"
-    elif "success" in step_statuses:
-        result["final_status"] = "success"
-    else:
-        result["final_status"] = "running"
-    
-    return result
+        LOG.write(line + "\n"); LOG.flush()
+    except Exception:
+        pass
 
+def pick_python():
+    """Prefer the backend venv python (has httpx), else system python3."""
+    venv = BACKEND_DIR / "venv" / "bin" / "python"
+    if venv.exists():
+        return str(venv)
+    return sys.executable or "python3"
+
+def count_products(path: Path) -> int:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return len(data) if isinstance(data, list) else 0
+    except Exception:
+        return 0
+
+def stage_a_crawl() -> dict:
+    py = pick_python()
+    log(f"Stage A: crawl via python={py}")
+    before = count_products(BACKEND_DATA)
+    start = time.time()
+    try:
+        proc = subprocess.run(
+            [py, "-m", "app.scraper.collect_all"],
+            cwd=str(BACKEND_DIR),
+            capture_output=True, text=True, timeout=1500,
+        )
+        dt = time.time() - start
+        after = count_products(BACKEND_DATA)
+        detail = (proc.stdout or "")[-400:]
+        err = (proc.stderr or "")[-400:]
+        ok = proc.returncode == 0 and after > 0
+        log(f"Stage A: rc={proc.returncode} before={before} after={after} "
+            f"delta={after - before} took={dt:.1f}s ok={ok}")
+        if err:
+            log("Stage A stderr(tail): " + err.replace("\n", " | "))
+        if detail:
+            log("Stage A stdout(tail): " + detail.replace("\n", " | "))
+        return {"status": "success" if ok else "failed",
+                "products": after, "delta": after - before,
+                "detail": err or detail}
+    except subprocess.TimeoutExpired:
+        after = count_products(BACKEND_DATA)
+        log(f"Stage A: TIMEOUT(1500s) after={after}")
+        return {"status": "timeout", "products": after, "delta": after - before,
+                "detail": "crawl timeout"}
+    except Exception as e:
+        log(f"Stage A: ERROR {e}")
+        return {"status": "error", "products": count_products(BACKEND_DATA),
+                "delta": 0, "detail": str(e)}
+
+def stage_b_sync() -> dict:
+    log("Stage B: sync backend -> frontend")
+    start = time.time()
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(SYNC_SCRIPT)],
+            capture_output=True, text=True, timeout=300,
+        )
+        dt = time.time() - start
+        detail = (proc.stdout or "")[-300:]
+        err = (proc.stderr or "")[-300:]
+        ok = proc.returncode == 0
+        synced = count_products(FRONTEND_DATA)
+        log(f"Stage B: rc={proc.returncode} frontend_products={synced} took={dt:.1f}s")
+        if detail:
+            log("Stage B stdout(tail): " + detail.replace("\n", " | "))
+        if err:
+            log("Stage B stderr(tail): " + err.replace("\n", " | "))
+        return {"status": "success" if ok else "failed",
+                "synced": synced, "detail": err or detail}
+    except subprocess.TimeoutExpired:
+        return {"status": "timeout", "synced": count_products(FRONTEND_DATA),
+                "detail": "sync timeout"}
+    except Exception as e:
+        return {"status": "error", "synced": count_products(FRONTEND_DATA),
+                "detail": str(e)}
+
+def update_meta(fetched, synced):
+    try:
+        META_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(META_PATH, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+    except Exception:
+        meta = {}
+    meta["last_cron"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    meta["crawl_status"] = fetched.get("status")
+    meta["crawl_products"] = fetched.get("products")
+    meta["crawl_delta"] = fetched.get("delta")
+    meta["sync_status"] = (synced or {}).get("status")
+    meta["frontend_products"] = (synced or {}).get("synced")
+    try:
+        with open(META_PATH, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        log(f"meta write failed: {e}")
+
+def run_cron_job():
+    start = time.strftime("%Y-%m-%d %H:%M:%S")
+    log(f"=== CRON START {start} ===")
+    fetched = stage_a_crawl()
+    # Always mirror backend->frontend (best effort), even if the crawl
+    # step failed this run, so the frontend never falls behind the backend.
+    synced = stage_b_sync()
+    update_meta(fetched, synced)
+    crawl_ok = fetched.get("status") == "success"
+    sync_ok = (synced or {}).get("status") == "success"
+    final = "success" if (crawl_ok and sync_ok) else \
+            "partial" if (sync_ok or fetched.get("products", 0) > 0) else "failed"
+    log(f"=== CRON END crawl={fetched.get('status')} "
+        f"sync={(synced or {}).get('status')} final={final} ===")
+    return {"final_status": final, "crawl": fetched, "sync": synced}
 
 if __name__ == "__main__":
     result = run_cron_job()
-    print(f"\n=== 크론 작업 결과 ===")
-    print(f"시작: {result.get('start_time')}")
-    print(f"종료: {result.get('end_time')}")
-    print(f"최종 상태: {result.get('final_status')}")
-    print(f"업데이트된 상품 수: {result.get('synced_count', 0)}")
-    print(f"\n단계별 진행 상황:")
-    for step in result.get("steps", []):
-        step_name = list(step.keys())[0] if step else "unknown"
-        step_status = step.get("status", "unknown") if "status" in step else "unknown"
-        print(f"  - {step_name}: {step_status}")
+    print("\n=== 크론 작업 결과 ===")
+    print(f"final_status : {result['final_status']}")
+    print(f"crawl (FETCH): {result['crawl'].get('status')}  "
+          f"products={result['crawl'].get('products')}  "
+          f"delta={result['crawl'].get('delta')}")
+    print(f"sync  (MIRROR):{result['sync'].get('status')}  "
+          f"frontend_products={result['sync'].get('synced')}")
