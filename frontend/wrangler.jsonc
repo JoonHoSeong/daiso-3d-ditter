@@ -3,6 +3,11 @@
   // Deploy: npx wrangler deploy   (from this directory, `npm run build` first)
   "name": "daiso-3d-fitter",
   "compatibility_date": "2024-11-01",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "slothprogrammer.cloud", "zone_name": "slothprogrammer.cloud" },
+    { "pattern": "www.slothprogrammer.cloud", "zone_name": "slothprogrammer.cloud" }
+  ],
   "assets": {
     "directory": "./dist",
     // 서로 다른 라우트 경로 0(Vite SPA, query 파라미터 인덱스) →
