@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers Static Assets — pure static SPA deploy
+  // Deploy: npx wrangler deploy   (from this directory, `npm run build` first)
+  "name": "daiso-3d-fitter",
+  "compatibility_date": "2024-11-01",
+  "assets": {
+    "directory": "./dist",
+    // 서로 다른 라우트 경로 0(Vite SPA, query 파라미터 인덱스) →
+    // unknown path를 index.html에 떨어뜨리는 표준 SPA 폴백
+    "not_found_handling": "single-page-application"
+  }
+}

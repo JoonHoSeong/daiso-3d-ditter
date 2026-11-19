@@ -86,7 +86,7 @@ case "$cmd" in
   </dict>
   <key>StandardOutPath</key><string>$PROJECT_ROOT/backend/data/launchd.out.log</string>
   <key>StandardErrorPath</key><string>$PROJECT_ROOT/backend/data/launchd.err.log</string>
-  <key>RunAtLoad</key><false/>
+  <key>RunAtLoad</key><true/>
 </dict>
 </plist>
 PLISTEOF
