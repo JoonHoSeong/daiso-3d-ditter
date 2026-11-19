@@ -5,8 +5,7 @@
   "compatibility_date": "2024-11-01",
   "workers_dev": true,
   "routes": [
-    { "pattern": "slothprogrammer.cloud", "zone_name": "slothprogrammer.cloud" },
-    { "pattern": "www.slothprogrammer.cloud", "zone_name": "slothprogrammer.cloud" }
+    { "pattern": "daiso-3d-fitter.slothprogrammer.cloud", "zone_name": "slothprogrammer.cloud" }
   ],
   "assets": {
     "directory": "./dist",
