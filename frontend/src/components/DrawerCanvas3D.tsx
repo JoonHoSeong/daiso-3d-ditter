@@ -788,16 +788,16 @@ export const DrawerCanvas3D: React.FC<DrawerCanvas3DProps> = ({
     const marginMat = new THREE.MeshStandardMaterial({
       color: 0xBFDBFD,
       transparent: true,
-      opacity: 0.15,
-      side: THREE.DoubleSide
+      opacity: 0.12,
+      depthWrite: false
     });
 
     const marginGeo = new THREE.BoxGeometry(safeW, safeH, safeD);
     const marginMesh = new THREE.Mesh(marginGeo, marginMat);
     marginMesh.position.set(
-      -drawer.width / 2 + effectiveMargin,
+      0,
       drawer.height / 2 - effectiveMargin / 2,
-      -drawer.depth / 2 + effectiveMargin
+      0
     );
     marginMesh.name = 'MARGIN_OVERLAY';
     drawerGroup.add(marginMesh);
