@@ -155,7 +155,8 @@ Swagger API 문서는 `http://localhost:8000/docs`에서 확인하실 수 있습
 ### 동작 방식
 
 ```
-OS CRON (매일 06:00)
+OS 스케줄러 (매일 06:00)
+[macOS launchd / Linux crontab]
         |
         v
 cron_exec.sh   (중복 실행 방지 잠금, 30분 stale 체크)
@@ -169,7 +170,10 @@ cron_update.py
         +--- sync_meta.json 최종 실행 결과 기록
 ```
 
-### 설정 방법 (macOS / Linux)
+### 설정 방법
+
+macOS 최신 버전은 crontab이 비활성이므로 launchd(LaunchAgents)로 자동 등록합니다.
+Linux는 기존 crontab 로직을 사용합니다.
 
 ```bash
 cd daiso-3d-fitter

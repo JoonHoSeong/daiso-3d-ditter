@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 set -euo pipefail
 LOCK="/Users/joonhoseong/Desktop/workspace/Personal/daiso-3d-fitter/backend/data/cron.lock"
 STALE_SECONDS=1800  # 30분

@@ -27,7 +27,6 @@ EXEC_SCRIPT="$PROJECT_ROOT/backend/cron_exec.sh"
 ensure_exec_script() {
   cat > "$EXEC_SCRIPT" <<EOF
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 set -euo pipefail
 LOCK="$LOCK_FILE"
 STALE_SECONDS=1800  # 30분
@@ -70,15 +69,44 @@ cmd="${1:-}"
 case "$cmd" in
   install)
     ensure_exec_script
-    EXPR="$CRON_TAG $EXEC_SCRIPT"
-    # 06:00 daily
-    ( crontab -l 2>/dev/null | grep -v "$CRON_TAG" ; echo "0 6 * * * $EXPR" ) | crontab -
-    echo "✅ 크론 등록 완료: 매일 06:00 자동 실행"
-    crontab -l | grep "$CRON_TAG" || true
+    # macOS launchd (crontab is disabled on recent macOS)
+    PLIST="$HOME/Library/LaunchAgents/com.daiso3dfitter.catalogsync.plist"
+    cat > "$PLIST" <<PLISTEOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.daiso3dfitter.catalogsync</string>
+  <key>ProgramArguments</key>
+  <array><string>$EXEC_SCRIPT</string></array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>6</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key><string>$PROJECT_ROOT/backend/data/launchd.out.log</string>
+  <key>StandardErrorPath</key><string>$PROJECT_ROOT/backend/data/launchd.err.log</string>
+  <key>RunAtLoad</key><false/>
+</dict>
+</plist>
+PLISTEOF
+    mkdir -p "$HOME/Library/LaunchAgents" "$PROJECT_ROOT/backend/data"
+    launchctl bootout gui/$(id -u)/com.daiso3dfitter.catalogsync 2>/dev/null || launchctl unload "$PLIST" 2>/dev/null || true
+    launchctl bootstrap gui/$(id -u) "$PLIST" 2>/dev/null || launchctl load "$PLIST"
+    if launchctl list | grep -q "daiso3dfitter.catalogsync"; then
+      echo "✅ launchd 등록 완료: 매일 06:00 자동 실행 (plist: $PLIST)"
+      launchctl list | grep daiso3dfitter
+    else
+      echo "⚠️ launchd 로드 실패 — plist는 작성됨. launchctl load ${PLIST}을 수동 실행하세요."
+    fi
     ;;
   uninstall)
-    crontab -l 2>/dev/null | grep -v "$CRON_TAG" | crontab -
-    echo "✅ 크론 등록 해제"
+    PLIST="$HOME/Library/LaunchAgents/com.daiso3dfitter.catalogsync.plist"
+    launchctl bootout gui/$(id -u)/com.daiso3dfitter.catalogsync 2>/dev/null || launchctl unload "$PLIST" 2>/dev/null || true
+    [ -f "$PLIST" ] && rm "$PLIST"
+    # legacy crontab cleanup if ever used
+    crontab -l 2>/dev/null | grep -v "$CRON_TAG" | crontab - 2>/dev/null || true
+    echo "✅ 스케줄 등록 해제"
     ;;
   run-now)
     ensure_exec_script
@@ -87,7 +115,8 @@ case "$cmd" in
     tail -20 "$LOG_FILE" 2>/dev/null || true
     ;;
   list)
-    crontab -l 2>/dev/null | grep "$CRON_TAG" || echo "(등록된 크론 없음)"
+    launchctl list 2>/dev/null | grep -i daiso3dfitter || echo "(launchd에 등록된 작업 없음)"
+    crontab -l 2>/dev/null | grep "$CRON_TAG" || true
     ;;
   *)
     echo "사용법: bash install_cron.sh {install|uninstall|run-now|list}"
